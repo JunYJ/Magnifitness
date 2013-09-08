@@ -13,8 +13,8 @@ import com.madmonkey.magnifitnessClass.User;
 
 public class SetupUserDetails extends Activity
 {
-	EditText name, email, gender;
-	NumberPicker agePicker, weightPicker, heightPicker;
+	EditText name, email, gender, age;
+	NumberPicker  weightPicker, heightPicker;
 	Spinner bmrSpinner;
 	Button okBtn;
 	User user;
@@ -23,7 +23,7 @@ public class SetupUserDetails extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.setup_user_detail);
+		setContentView(R.layout.user_detail_setup);
 		getView();	
 		user = new User();
 		//get data from SelectionFragment
@@ -54,11 +54,13 @@ public class SetupUserDetails extends Activity
 				System.out.println("name " + name.getText().toString());
 				System.out.println("email " + email.getText().toString());
 				System.out.println("gender " + gender.getText().toString());
-				System.out.println("age " + agePicker.getValue());
+				System.out.println("age " + age.getText().toString());
 				System.out.println("weight " + weightPicker.getValue());
 				System.out.println("height " + heightPicker.getValue());
+				
+				int ageInt = Integer.parseInt(age.getText().toString());
 				//setResult(RESULT_OK, returnIntent);
-				user.setUser(name.getText().toString(), agePicker.getValue() , email.getText().toString()
+				user.setUser(name.getText().toString(), ageInt , email.getText().toString()
 						, gender.getText().toString(), weightPicker.getValue(), heightPicker.getValue());
 				finish();
 			}
@@ -71,16 +73,14 @@ public class SetupUserDetails extends Activity
 		name = (EditText) findViewById(R.id.username);
 		email = (EditText) findViewById(R.id.email);
 		gender = (EditText) findViewById(R.id.gender);
-		agePicker = (NumberPicker) findViewById(R.id.agePicker);
+		//stopped here
+		age = (EditText) findViewById(R.id.agePicker);
 		weightPicker = (NumberPicker) findViewById(R.id.weightPicker);
 		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
 		bmrSpinner = (Spinner) findViewById(R.id.bmrSpinner);
 		okBtn = (Button) findViewById(R.id.okBtn);
 		
 		
-		agePicker.setMaxValue(100);
-		agePicker.setMinValue(0);
-		agePicker.setWrapSelectorWheel(true);
 		weightPicker.setMaxValue(250);
 		weightPicker.setMinValue(30);
 		heightPicker.setMaxValue(250);

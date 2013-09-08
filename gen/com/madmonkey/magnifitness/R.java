@@ -227,8 +227,8 @@ containing a value of this type.
         public static final int TVCaloriePlan=0x7f050021;
         public static final int TVcalorieValue=0x7f050022;
         public static final int TheSplashLayout=0x7f050036;
-        public static final int action_settings=0x7f050038;
-        public static final int action_settings2=0x7f050039;
+        public static final int action_settings=0x7f05003c;
+        public static final int action_settings2=0x7f05003d;
         public static final int agePicker=0x7f05002a;
         public static final int bmrSpinner=0x7f050030;
         public static final int com_facebook_login_activity_progress_bar=0x7f050005;
@@ -250,6 +250,8 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_login_button=0x7f050017;
         public static final int com_facebook_usersettingsfragment_logo_image=0x7f050015;
         public static final int com_facebook_usersettingsfragment_profile_name=0x7f050016;
+        public static final int editText1=0x7f050038;
+        public static final int editText2=0x7f050039;
         public static final int email=0x7f05002c;
         public static final int gender=0x7f05002e;
         public static final int heightPicker=0x7f050034;
@@ -264,6 +266,8 @@ containing a value of this type.
         public static final int picker_subtitle=0x7f050014;
         public static final int profile_name=0x7f05001f;
         public static final int progressBar1=0x7f050023;
+        public static final int rbFemale=0x7f05003b;
+        public static final int rbMale=0x7f05003a;
         public static final int search_box=0x7f050013;
         public static final int section_label=0x7f05001b;
         public static final int selectionFragment=0x7f050018;
@@ -304,6 +308,7 @@ containing a value of this type.
         public static final int selection=0x7f030012;
         public static final int setup_user_detail=0x7f030013;
         public static final int splash=0x7f030014;
+        public static final int user_detail_setup=0x7f030015;
     }
     public static final class menu {
         public static final int home=0x7f0b0000;

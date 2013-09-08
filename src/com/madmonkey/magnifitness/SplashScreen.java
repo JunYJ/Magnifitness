@@ -49,6 +49,7 @@ public class SplashScreen extends Activity
 				// Run next activity
 				Intent intent = new Intent();
 				intent.setClass(splashScreen, FacebookLogin.class);
+				//intent.setClass(splashScreen, SetupUserDetails.class);
 				startActivity(intent);
 				
 			}
