@@ -48,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
+        android:entries="@array/meal_entries_list"
         tools:listitem="@android:layout/simple_list_item_2" >
     </ListView>
 

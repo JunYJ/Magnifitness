@@ -13,7 +13,8 @@ public final class R {
         public static final int disappear=0x7f040001;
     }
     public static final class array {
-        public static final int BMR=0x7f0a0000;
+        public static final int BMR=0x7f0a0001;
+        public static final int meal_entries_list=0x7f0a0000;
     }
     public static final class attr {
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".

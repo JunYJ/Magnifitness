@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="meal_entries_list">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Tea-Break</item>
+        <item>Dinner</item>
+    </string-array>
+    
+    
+    
+</resources>
