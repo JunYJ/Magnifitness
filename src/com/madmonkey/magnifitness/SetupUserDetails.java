@@ -36,7 +36,10 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		getView();	
 		user = new User();
 		userSP = getSharedPreferences(filename, 0);
-		loadFromPreferences();
+		//ERROR HERE
+		//loadFromPreferences();
+		
+		
 		//get data from SelectionFragment
 		/*Bundle bundle = getIntent().getExtras();
 		int value = bundle.getInt("myData");
@@ -84,11 +87,11 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	private void getView()
 	{
 		name = (EditText) findViewById(R.id.username);
-		email = (EditText) findViewById(R.id.email);
+		email = (EditText) findViewById(R.id.emailET);
 		genderRG = (RadioGroup) findViewById(R.id.genderRG);
 		maleRB = (RadioButton) findViewById(R.id.rbMale);
 		femaleRB = (RadioButton) findViewById(R.id.rbFemale);
-		age = (EditText) findViewById(R.id.agePicker);
+		age = (EditText) findViewById(R.id.ageET);
 		weightPicker = (NumberPicker) findViewById(R.id.weightPicker);
 		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
 		bmrSpinner = (Spinner) findViewById(R.id.bmrSpinner);
