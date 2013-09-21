@@ -100,8 +100,10 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		
 		weightPicker.setMaxValue(250);
 		weightPicker.setMinValue(30);
+		weightPicker.setValue(50);
 		heightPicker.setMaxValue(250);
 		heightPicker.setMinValue(130);
+		heightPicker.setValue(150);
 		
 		genderRG.setOnCheckedChangeListener(this);
 	}
@@ -137,16 +139,17 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
     }
 	
 	private void loadFromPreferences() {
-		SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-		name.setText(sharedPref.getString("name", ""));
-		email.setText(sharedPref.getString("email", ""));
-		if(sharedPref.getString("gender", "").equalsIgnoreCase("male")) 
+		SharedPreferences shared = getSharedPreferences(filename, MODE_PRIVATE);
+		name.setText(shared.getString("name", ""));
+		email.setText(shared.getString("email", ""));
+		if(shared.getString("gender", "").equalsIgnoreCase("male")) 
 			maleRB.setChecked(true);
 		else
 			femaleRB.setChecked(true);
-		age.setText(sharedPref.getInt("age", 0));
-		weightPicker.setValue(sharedPref.getInt("weight", 50));
-		heightPicker.setValue(sharedPref.getInt("height", 150));
+		age.setText(shared.getInt("age", 0));
+		
+		weightPicker.setValue(shared.getInt("weight", 50));
+		heightPicker.setValue(shared.getInt("height", 150));
 	}
 	
 	
