@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     android:padding="20dp" >
 
     <LinearLayout
@@ -108,9 +109,9 @@
             android:id="@+id/weightPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp" />
+            android:paddingRight="30dp"
+            android:paddingTop="10dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -123,16 +124,16 @@
             android:id="@+id/heightPicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp" />
+            android:paddingRight="30dp"
+            android:paddingTop="10dp" />
 
         <Button
             android:id="@+id/okBtn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Submit" />
-
     </LinearLayout>
 
 </ScrollView>
