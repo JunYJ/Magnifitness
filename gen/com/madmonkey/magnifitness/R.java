@@ -229,8 +229,8 @@ containing a value of this type.
         public static final int TVCaloriePlan=0x7f050021;
         public static final int TVcalorieValue=0x7f050022;
         public static final int TheSplashLayout=0x7f050036;
-        public static final int action_settings=0x7f05003c;
-        public static final int action_settings2=0x7f05003d;
+        public static final int action_settings=0x7f05003d;
+        public static final int action_settings2=0x7f05003e;
         public static final int agePicker=0x7f05002a;
         public static final int bmrSpinner=0x7f050030;
         public static final int com_facebook_login_activity_progress_bar=0x7f050005;
@@ -256,6 +256,7 @@ containing a value of this type.
         public static final int editText2=0x7f050039;
         public static final int email=0x7f05002c;
         public static final int gender=0x7f05002e;
+        public static final int genderRG=0x7f05003a;
         public static final int heightPicker=0x7f050034;
         public static final int large=0x7f050002;
         public static final int listView1=0x7f050025;
@@ -268,8 +269,8 @@ containing a value of this type.
         public static final int picker_subtitle=0x7f050014;
         public static final int profile_name=0x7f05001f;
         public static final int progressBar1=0x7f050023;
-        public static final int rbFemale=0x7f05003b;
-        public static final int rbMale=0x7f05003a;
+        public static final int rbFemale=0x7f05003c;
+        public static final int rbMale=0x7f05003b;
         public static final int search_box=0x7f050013;
         public static final int section_label=0x7f05001b;
         public static final int selectionFragment=0x7f050018;

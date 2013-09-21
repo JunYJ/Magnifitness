@@ -69,18 +69,25 @@
             android:layout_height="wrap_content"
             android:gravity="center" >
 
-            <RadioButton
-                android:id="@+id/rbMale"
+            <RadioGroup
+                android:id="@+id/genderRG"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Male" />
+                android:orientation="horizontal"
+                android:layout_height="wrap_content" >
 
-            <RadioButton
-                android:id="@+id/rbFemale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:text="Female" />
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:text="Female" />
+            </RadioGroup>
         </LinearLayout>
 
         <TextView
@@ -107,8 +114,9 @@
 
         <NumberPicker
             android:id="@+id/weightPicker"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp" />
@@ -122,8 +130,9 @@
 
         <NumberPicker
             android:id="@+id/heightPicker"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp" />
