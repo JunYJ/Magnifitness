@@ -15,7 +15,7 @@
     <string name="user_email">Email</string>
     <string name="user_gender">Gender (M/F)</string>
     <string name="user_bmr">BMR</string>
-    <string name="user_current_weight">Weight (Kg)</string>
+    <string name="user_current_weight">Weight (kg)</string>
     <string name="user_height">Height (cm)</string>
     
     <string-array name="BMR">
@@ -25,5 +25,9 @@
         <item>Heavy			(hard exercise 6–7 days a week)</item>
         <item>Intensive		(intensive physical job or 2x training)</item>
     </string-array>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="LOA">Level of Activeness</string>
+    <string name="submitBtn">Submit</string>
 
 </resources>

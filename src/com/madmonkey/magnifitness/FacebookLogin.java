@@ -233,6 +233,18 @@ public class FacebookLogin extends FragmentActivity
 							}
 						}
 					});
+			
+			setupUserBtn.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					
+					startActivity(new Intent(FacebookLogin.this, SetupUserDetails.class));
+					
+				}
+			});
 		}
 		else
 		{
