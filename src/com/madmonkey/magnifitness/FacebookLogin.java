@@ -40,6 +40,7 @@ public class FacebookLogin extends FragmentActivity
 	// Session.StatusCallback() overrides call() & invokes
 	// onSessionStateChange()
 	private Session.StatusCallback callBack = new Session.StatusCallback() {
+		@Override
 		public void call(Session session, SessionState state,
 				Exception exception)
 		{
@@ -54,6 +55,7 @@ public class FacebookLogin extends FragmentActivity
 	Button setupUserBtn;
 
 	// hide fragments initially in onCreate
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -100,6 +102,7 @@ public class FacebookLogin extends FragmentActivity
 		transaction.commit();
 	}
 
+	@Override
 	public void onResume()
 	{
 		super.onResume();
@@ -107,6 +110,7 @@ public class FacebookLogin extends FragmentActivity
 		isResumed = true;
 	}
 
+	@Override
 	public void onPause()
 	{
 		super.onPause();
@@ -114,18 +118,21 @@ public class FacebookLogin extends FragmentActivity
 		isResumed = false;
 	}
 
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 		uiHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@Override
 	public void onDestroy()
 	{
 		super.onDestroy();
 		uiHelper.onDestroy();
 	}
 
+	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
@@ -208,6 +215,7 @@ public class FacebookLogin extends FragmentActivity
 	}
 
 	// handle the case where fragments are newly instantiated
+	@Override
 	protected void onResumeFragments()
 	{
 		super.onResumeFragments();
@@ -254,6 +262,7 @@ public class FacebookLogin extends FragmentActivity
 	}
 
 	// prepare option menu display
+	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
 		// only add the menu when the selection fragment is showing
@@ -271,6 +280,7 @@ public class FacebookLogin extends FragmentActivity
 		return false;
 	}
 
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		if (item.equals(settings))
