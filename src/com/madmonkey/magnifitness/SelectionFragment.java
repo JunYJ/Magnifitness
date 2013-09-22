@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +29,6 @@ public class SelectionFragment extends Fragment
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.selection, container, false);
 		Log.i(TAG, "SELECTION FRAGMENT");
-		final int x = 100;
 		userInfo = (TextView) view.findViewById(R.id.txt);
 		setupUserBtn = (Button) view.findViewById(R.id.setupUserBtn);
 		/*userInfo.setOnClickListener(new OnClickListener()

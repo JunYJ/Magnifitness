@@ -27,6 +27,8 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	SharedPreferences userSP;
 	public static String filename = "com.madmonkey.magnifitness.SharedPref";
 	String gender;
+	String ageString;
+	int ageInt; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -37,7 +39,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		user = new User();
 		userSP = getSharedPreferences(filename, 0);
 		//ERROR HERE
-		//loadFromPreferences();
+		loadFromPreferences();
 		
 		
 		//get data from SelectionFragment
@@ -73,7 +75,19 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				System.out.println("weight " + weightPicker.getValue());
 				System.out.println("height " + heightPicker.getValue());
 				
-				int ageInt = Integer.parseInt(age.getText().toString());
+				ageString = age.getText().toString();
+ 
+				if(ageString.equalsIgnoreCase(""))
+				{
+					ageInt = 0;
+					age.setText("0");
+				}
+				else
+				{
+					ageInt = Integer.parseInt(ageString);
+				}
+				
+				
 				//setResult(RESULT_OK, returnIntent);
 				user.setUser(name.getText().toString(), ageInt , email.getText().toString()
 						, gender, weightPicker.getValue(), heightPicker.getValue());
@@ -144,9 +158,10 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		email.setText(shared.getString("email", ""));
 		if(shared.getString("gender", "").equalsIgnoreCase("male")) 
 			maleRB.setChecked(true);
-		else
+		else if(shared.getString("gender", "").equalsIgnoreCase("female"))
 			femaleRB.setChecked(true);
-		age.setText(shared.getInt("age", 0));
+		
+		age.setText(shared.getInt("age", 0) + "");
 		
 		weightPicker.setValue(shared.getInt("weight", 50));
 		heightPicker.setValue(shared.getInt("height", 150));
