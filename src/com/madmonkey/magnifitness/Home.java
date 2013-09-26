@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitness;
 
 import java.util.Locale;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -210,7 +211,7 @@ public class Home extends FragmentActivity
 					container, false);
 			TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
+			dummyTextView.setText("I am page " + Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
 			return rootView;
 		}
