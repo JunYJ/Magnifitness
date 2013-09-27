@@ -226,12 +226,13 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020023;
         public static final int magnifitness=0x7f020024;
         public static final int magnifitness_32=0x7f020025;
-        public static final int voidblue_gradient=0x7f020026;
+        public static final int rating_important=0x7f020026;
+        public static final int voidblue_gradient=0x7f020027;
     }
     public static final class id {
         public static final int SplashImageView=0x7f050029;
-        public static final int TVCaloriePlan=0x7f050022;
-        public static final int TVcalorieValue=0x7f050023;
+        public static final int TVCaloriePlan=0x7f050024;
+        public static final int TVcalorieValue=0x7f050025;
         public static final int TheSplashLayout=0x7f050028;
         public static final int action_settings=0x7f05003b;
         public static final int action_settings2=0x7f05003c;
@@ -266,21 +267,21 @@ containing a value of this type.
         public static final int imageView1=0x7f05001b;
         public static final int large=0x7f050002;
         public static final int levelOfActive=0x7f050034;
-        public static final int listView1=0x7f050025;
+        public static final int listView1=0x7f05001e;
         public static final int loginFragment=0x7f050019;
-        public static final int login_button=0x7f050021;
+        public static final int login_button=0x7f050023;
         public static final int nameTV=0x7f05002a;
         public static final int normal=0x7f050001;
         public static final int okBtn=0x7f05003a;
-        public static final int pager=0x7f05001e;
-        public static final int pager_title_strip=0x7f05001f;
+        public static final int pager=0x7f050020;
+        public static final int pager_title_strip=0x7f050021;
         public static final int picker_subtitle=0x7f050014;
-        public static final int profile_name=0x7f050020;
-        public static final int progressBar1=0x7f050024;
+        public static final int profile_name=0x7f050022;
+        public static final int progressBar1=0x7f05001d;
         public static final int rbFemale=0x7f050033;
         public static final int rbMale=0x7f050032;
         public static final int search_box=0x7f050013;
-        public static final int section_label=0x7f05001d;
+        public static final int section_label=0x7f05001f;
         public static final int selectionFragment=0x7f050018;
         public static final int setupUserBtn=0x7f050027;
         public static final int small=0x7f050000;
