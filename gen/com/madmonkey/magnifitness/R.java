@@ -306,13 +306,14 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment=0x7f03000c;
         public static final int facebook_login=0x7f03000d;
         public static final int fragment_home_dummy=0x7f03000e;
-        public static final int home=0x7f03000f;
-        public static final int login=0x7f030010;
-        public static final int meal_entry=0x7f030011;
-        public static final int meal_time_setup=0x7f030012;
-        public static final int selection=0x7f030013;
-        public static final int splash=0x7f030014;
-        public static final int user_detail_setup=0x7f030015;
+        public static final int fragment_homepage=0x7f03000f;
+        public static final int home=0x7f030010;
+        public static final int login=0x7f030011;
+        public static final int meal_logbook=0x7f030012;
+        public static final int meal_time_setup=0x7f030013;
+        public static final int selection=0x7f030014;
+        public static final int splash=0x7f030015;
+        public static final int user_detail_setup=0x7f030016;
     }
     public static final class menu {
         public static final int home=0x7f0b0000;
