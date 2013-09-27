@@ -27,6 +27,7 @@ public class Login extends Activity
 	// Session.StatusCallback() overrides call() & invokes
 	// onSessionStateChange()
 	private Session.StatusCallback callBack = new Session.StatusCallback() {
+		@Override
 		public void call(Session session, SessionState state,
 				Exception exception)
 		{
@@ -40,6 +41,7 @@ public class Login extends Activity
 
 	private MenuItem settings;
 	// hide fragments initially in onCreate
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -51,6 +53,9 @@ public class Login extends Activity
 		setupUserBtn = (Button) findViewById (R.id.setupUserBtn);
 	}
 
+	
+	
+	@Override
 	public void onResume()
 	{
 		super.onResume();
@@ -58,6 +63,7 @@ public class Login extends Activity
 		isResumed = true;
 	}
 
+	@Override
 	public void onPause()
 	{
 		super.onPause();
@@ -65,18 +71,21 @@ public class Login extends Activity
 		isResumed = false;
 	}
 
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
 		uiHelper.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@Override
 	public void onDestroy()
 	{
 		super.onDestroy();
 		uiHelper.onDestroy();
 	}
 
+	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
