@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.madmonkey.magnifitness.Selection"
+            android:name="com.madmonkey.magnifitness.SelectionFragment"
             android:label="Selection"
              >
             <intent-filter>
@@ -55,7 +55,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".FacebookLogin"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

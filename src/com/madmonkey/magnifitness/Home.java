@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitness;
 
 import java.util.Locale;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,18 +36,14 @@ public class Home extends FragmentActivity
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
-	/*private static final int SETTINGS = 0;
-	private static final int FRAGMENT_COUNT = SETTINGS + 1;
-	private MenuItem settings;
-	private Fragment [] fragments = new Fragment[FRAGMENT_COUNT];
-	boolean on = false;*/
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
 		
+		//Enable Home Button
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -57,40 +55,8 @@ public class Home extends FragmentActivity
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		//FragmentManager fm = getSupportFragmentManager();
-		//fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
-		/*FragmentTransaction transaction = fm.beginTransaction();
-		for(int i = 0; i < fragments.length; i++)
-		{
-			transaction.hide(fragments[i]);
-		}
-		transaction.commit(); 
-		on = true;*/
 	}
 	
-	/*private void showFragment(int fragmentIndex, boolean addToBackStack)
-	{
-		FragmentManager fm = getSupportFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		
-		for(int i = 0; i < fragments.length; i++)
-		{
-			if(i == fragmentIndex)
-			{
-				transaction.show(fragments[i]);
-			}
-			else
-			{
-				transaction.hide(fragments[i]);
-			}
-		}
-		if(addToBackStack)
-		{
-			transaction.addToBackStack(null);
-		}
-		transaction.commit();
-	}*/
-
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -100,26 +66,26 @@ public class Home extends FragmentActivity
 		return true;
 	}*/
 	
-	/*public boolean onPrepareOptionsMenu(Menu menu)
-	{
-		if(on == true)
-		{
-			settings = menu.add(R.string.settings);return true;
-		}
-		
-		return false;
-	}*/
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{		
+		menu.clear();
+		getMenuInflater().inflate(R.menu.home, menu);
+		return true;
+	}
 	
 	@SuppressWarnings("deprecation")
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item) 
+	{
+        switch (item.getItemId()) 
+        {
             case android.R.id.home:
                 // This is called when the Home (Up) button is pressed in the action bar.
                 // Create a simple intent that starts the hierarchical parent activity and
                 // use NavUtils in the Support Package to ensure proper handling of Up.
                 Intent upIntent = new Intent(this, FacebookLogin.class);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) 
+                {
                     // This activity is not part of the application's task, so create a new task
                     // with a synthesized back stack.
                     TaskStackBuilder.from(this)
@@ -127,13 +93,18 @@ public class Home extends FragmentActivity
                             .addNextIntent(upIntent)
                             .startActivities();
                     finish();
-                } else {
+                } 
+                else
+                {
                     // This activity is part of the application's task, so simply
                     // navigate up to the hierarchical parent activity.
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
+            case com.madmonkey.magnifitness.R.id.LogOut:
+            	
         }
+		
         return super.onOptionsItemSelected(item);
     }
 

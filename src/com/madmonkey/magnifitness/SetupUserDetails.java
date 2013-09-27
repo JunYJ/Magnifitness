@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitness;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +26,6 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	Button okBtn;
 	User user;
 	SharedPreferences userSP;
-	public static String filename = "com.madmonkey.magnifitness.SharedPref";
 	String gender;
 	String ageString;
 	int ageInt; 
@@ -37,7 +37,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		setContentView(R.layout.user_detail_setup);
 		getView();	
 		user = new User();
-		userSP = getSharedPreferences(filename, 0);
+		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 		//ERROR HERE
 		loadFromPreferences();
 		
@@ -77,22 +77,14 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				
 				ageString = age.getText().toString();
  
-				if(ageString.equalsIgnoreCase(""))
-				{
-					ageInt = 0;
-					age.setText("0");
-				}
-				else
-				{
-					ageInt = Integer.parseInt(ageString);
-				}
-				
+				ageInt = Integer.parseInt(ageString);				
 				
 				//setResult(RESULT_OK, returnIntent);
 				user.setUser(name.getText().toString(), ageInt , email.getText().toString()
 						, gender, weightPicker.getValue(), heightPicker.getValue());
 				saveInformation();
 				finish();
+				startActivity(new Intent(SetupUserDetails.this, Home.class));
 			}
 			
 		});
@@ -110,7 +102,6 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
 		bmrSpinner = (Spinner) findViewById(R.id.bmrSpinner);
 		okBtn = (Button) findViewById(R.id.okBtn);
-		
 		
 		weightPicker.setMaxValue(250);
 		weightPicker.setMinValue(30);
@@ -139,7 +130,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	}
 	
 	public void saveInformation() {
-        SharedPreferences shared = getSharedPreferences(filename, MODE_PRIVATE);
+        SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
         SharedPreferences.Editor editor = shared.edit();
         //Insert value below
         editor.putString("name", name.getText().toString());
@@ -153,7 +144,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
     }
 	
 	private void loadFromPreferences() {
-		SharedPreferences shared = getSharedPreferences(filename, MODE_PRIVATE);
+		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 		name.setText(shared.getString("name", ""));
 		email.setText(shared.getString("email", ""));
 		if(shared.getString("gender", "").equalsIgnoreCase("male")) 

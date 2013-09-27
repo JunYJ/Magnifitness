@@ -2,6 +2,7 @@ package com.madmonkey.magnifitness;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,12 +17,16 @@ public class SelectionFragment extends Fragment
 	private static final String TAG = "SelectionFragment";
 	protected static TextView userInfo;
 	protected static Button setupUserBtn;
+	SharedPreferences userSP;
+	
 	//Set-up the view from the layout
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		userSP = this.getActivity().getSharedPreferences(FacebookLogin.filename, 0);
+		
 	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -31,20 +36,6 @@ public class SelectionFragment extends Fragment
 		Log.i(TAG, "SELECTION FRAGMENT");
 		userInfo = (TextView) view.findViewById(R.id.txt);
 		setupUserBtn = (Button) view.findViewById(R.id.setupUserBtn);
-		/*userInfo.setOnClickListener(new OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				Bundle bundle = new Bundle();
-				bundle.putInt("myData", x);
-				Intent nextScreen = new Intent(getActivity(), SetupUserDetails.class);
-				nextScreen.putExtras(bundle);
-				startActivityForResult(nextScreen, 1);
-				
-			}
-		});*/
-		//String name = getArguments().getString("name");
-		//System.out.println("NAME: " + name);
 		
 		return view;
 	}

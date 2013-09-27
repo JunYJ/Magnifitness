@@ -1,14 +1,20 @@
 package com.madmonkey.magnifitness;
 
+import java.util.Calendar;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,11 +53,13 @@ public class FacebookLogin extends FragmentActivity
 		}
 	};
 
-	private MenuItem settings;
+	private MenuItem logOut;
 
 	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 	private static final String TAG = "Facebook Login";
 	Button setupUserBtn;
+	SharedPreferences userSP;
+	public static String filename = "com.madmonkey.magnifitness.SharedPref";
 
 	// hide fragments initially in onCreate
 	public void onCreate(Bundle savedInstanceState)
@@ -74,6 +82,10 @@ public class FacebookLogin extends FragmentActivity
 		}
 		transaction.commit();
 		setupUserBtn = SelectionFragment.setupUserBtn;
+		userSP = getSharedPreferences(FacebookLogin.filename, 0);
+		
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	// responsible for showing a given fragment & hiding all other fragments
@@ -138,13 +150,6 @@ public class FacebookLogin extends FragmentActivity
 	private void onSessionStateChange(Session session, SessionState state,
 			Exception exception)
 	{
-		// String[] PERMISSION_ARRAY_READ = {"email","user_birthday"};
-		// List<String> PERMISSION_LIST = Arrays.asList(PERMISSION_ARRAY_READ);
-		/*
-		 * Session.NewPermissionsRequest request = new
-		 * Session.NewPermissionsRequest(FacebookLogin.this, PERMISSION_LIST);
-		 * session.requestNewReadPermissions(request);
-		 */
 		// Only make changes if the activity is visible
 		if (isResumed)
 		{
@@ -158,9 +163,6 @@ public class FacebookLogin extends FragmentActivity
 			{
 				manager.popBackStack();
 			}
-
-			// session.openForRead(new
-			// Session.OpenRequest(getParent()).setPermissions(PERMISSION_LIST).setCallback(callBack));
 
 			if (state.isOpened())
 			{
@@ -181,6 +183,19 @@ public class FacebookLogin extends FragmentActivity
 									// Display the parsed user info
 									SelectionFragment.userInfo
 											.setText(buildUserInfoDisplay(user));
+									
+									SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
+							        SharedPreferences.Editor editor = shared.edit();
+							        //Insert value below
+							        editor.putString("name", user.getName().toString());
+							        editor.putString("email", getEmail(getBaseContext()));
+							        //editor.putString("gender", gender);
+							        
+							        Calendar c = Calendar.getInstance();
+							        
+							        editor.putInt("age", c.get(Calendar.YEAR) - Integer.parseInt(user.getBirthday().substring(user.getBirthday().length()-4)));
+							        //commit changes to the SharedPref
+							        editor.commit();
 								}
 							}
 						});
@@ -196,6 +211,7 @@ public class FacebookLogin extends FragmentActivity
 						
 					}
 				});
+
 			}
 
 			else if (state.isClosed())
@@ -245,6 +261,7 @@ public class FacebookLogin extends FragmentActivity
 					
 				}
 			});
+			
 		}
 		else
 		{
@@ -257,28 +274,32 @@ public class FacebookLogin extends FragmentActivity
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
 		// only add the menu when the selection fragment is showing
-		if (fragments[SELECTION].isVisible() || fragments[LOGIN].isVisible())
-		{
-			if (menu.size() == 0)
-			{
-				settings = menu.add(R.string.settings);
-			}
+		//if (fragments[SELECTION].isVisible() || fragments[LOGIN].isVisible())
+		//{
+			//if (menu.size() == 0)
+			//{
+				menu.clear();
+				logOut = menu.add(R.string.logOut);
+
+			//}
 			return true;
-		}
+		//}
 		/*
 		 * else { menu.clear(); settings = null; }
 		 */
-		return false;
+		//return false;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		if (item.equals(settings))
+		if (item.equals(logOut))
 		{
 			showFragment(SETTINGS, false);
+			
 			return true;
 		}
-		return false;
+		
+		return super.onOptionsItemSelected(item);
 	}
 
 	private String buildUserInfoDisplay(GraphUser user)
@@ -292,6 +313,10 @@ public class FacebookLogin extends FragmentActivity
 		// Example: typed access (birthday)
 		// - requires user_birthday permission
 		userInfo.append(String.format("Birthday: %s\n\n", user.getBirthday()));
+		
+		Calendar c = Calendar.getInstance();
+
+		userInfo.append(String.format("Age: %s\n\n", c.get(Calendar.YEAR) - Integer.parseInt(user.getBirthday().substring(user.getBirthday().length()-4))));
 
 		String email = getEmail(this);
 		System.out.println("Android registered Email " + email);
@@ -303,7 +328,7 @@ public class FacebookLogin extends FragmentActivity
 				.get("email")));
 
 		userInfo.append(String.format("Android registered Email: %s\n\n", email));
-
+		
 		return userInfo.toString();
 	}
 

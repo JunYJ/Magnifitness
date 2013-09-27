@@ -7,8 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
-
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -35,7 +36,9 @@ public class Login extends Activity
 
 	private static final String TAG = "Facebook Login";
 	Button setupUserBtn;
+	public static String filename = "com.madmonkey.magnifitness.SharedPref";
 
+	private MenuItem settings;
 	// hide fragments initially in onCreate
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -45,7 +48,7 @@ public class Login extends Activity
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
-		setupUserBtn = (Button) findViewById (R.id.setupUserBtn);//Selection.setupUserBtn;
+		setupUserBtn = (Button) findViewById (R.id.setupUserBtn);
 	}
 
 	public void onResume()
@@ -80,19 +83,12 @@ public class Login extends Activity
 		uiHelper.onSaveInstanceState(outState);
 	}
 
-	// called due to state changes
-	// shows relevant fragment based on user's authenticated state
-	// fragment back stack is 1st cleared before the showFragment() is called
 	private void onSessionStateChange(Session session, SessionState state,
 			Exception exception)
 	{
-		// String[] PERMISSION_ARRAY_READ = {"email","user_birthday"};
-		// List<String> PERMISSION_LIST = Arrays.asList(PERMISSION_ARRAY_READ);
-		/*
-		 * Session.NewPermissionsRequest request = new
-		 * Session.NewPermissionsRequest(FacebookLogin.this, PERMISSION_LIST);
-		 * session.requestNewReadPermissions(request);
-		 */
+		/*SharedPreferences shared  = getSharedPreferences(filename, MODE_PRIVATE);
+		boolean isFirstRun = shared.getBoolean("isFirstRun", true);
+		*/
 		// Only make changes if the activity is visible
 		if (isResumed)
 		{
@@ -103,6 +99,7 @@ public class Login extends Activity
 				Log.i(TAG, "Logged in...");
 				//showFragment(SELECTION, false);
 				startActivity(new Intent(login, Selection.class));
+				
 				// Request user data and show the results
 				Request.executeMeRequestAsync(session,
 						new Request.GraphUserCallback() {
@@ -113,33 +110,46 @@ public class Login extends Activity
 								if (user != null)
 								{
 									// Display the parsed user info
-									/*Selection.userInfo
-											.setText(buildUserInfoDisplay(user));*/
+									Selection.userInfo
+											.setText(buildUserInfoDisplay(user));
 								}
 							}
 						});
-				
-				/*setupUserBtn.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-						startActivity(new Intent(login, SetupUserDetails.class));
-						
-					}
-				});*/
 			}
 
 			else if (state.isClosed())
 			{
 				Log.i(TAG, "Logged out...");
 				// If the session state is close --> show the login fragment
-				startActivity(new Intent(login, Login.class));
+				//startActivity(new Intent(login, Login.class));
+			}
+		}
+		
+		if(!isResumed)
+		{
+			if(session != null && session.isOpened())
+			{
+				startActivity(new Intent(login, Selection.class));
+				
+				// Request user data and show the results
+				Request.executeMeRequestAsync(session,
+						new Request.GraphUserCallback() {
+							@Override
+							public void onCompleted(GraphUser user,
+									Response response)
+							{
+								if (user != null)
+								{
+									// Display the parsed user info
+									Selection.userInfo
+											.setText(buildUserInfoDisplay(user));
+								}
+							}
+						});
 			}
 		}
 	}
-
+	
 	private String buildUserInfoDisplay(GraphUser user)
 	{
 		StringBuilder userInfo = new StringBuilder("");
@@ -155,8 +165,8 @@ public class Login extends Activity
 		String email = getEmail(this);
 		System.out.println("Android registered Email " + email);
 	
-		String test = user.getProperty("email").toString();
-		System.out.println("TESTING " + test);
+		/*String test = user.getProperty("email").toString();
+		System.out.println("TESTING " + test);*/
 
 		userInfo.append(String.format("Facebook primary Email: %s\n\n", user.asMap()
 				.get("email")));
@@ -194,5 +204,38 @@ public class Login extends Activity
 			account = null;
 		}
 		return account;
+	}	
+	
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		// only add the menu when the selection fragment is showing
+		//if (fragments[SELECTION].isVisible() || fragments[LOGIN].isVisible())
+		//{
+			/*if (menu.size() == 0)
+			{
+				settings = menu.add(R.string.settings);
+			}
+			return true;
+		//}
+		/*
+		 * else { menu.clear(); settings = null; }
+		 */
+		//return false;
+		menu.clear();
+		getMenuInflater().inflate(R.menu.home, menu);
+		return true;
 	}
+	
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if (item.equals(settings))
+		{
+			//showFragment(SETTINGS, false);
+			//startActivityFromFragment(com.facebook.widget.UserSettingsFragment, null, 0);
+			System.out.println("SETTINGS PRESSED!");
+			return true;
+		}
+		return false;
+	}
+	
 }

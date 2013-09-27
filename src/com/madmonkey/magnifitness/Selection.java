@@ -68,4 +68,28 @@ public class Selection extends Activity
 		}
 	}
 	
+	/*@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		//super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.home, menu);
+	    //menu.add(Menu.NONE, R.id.userSettingsFragment, Menu.NONE, "Log Out");
+	    //menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, "Delete");
+	    return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+        {
+            case R.id.Settings:
+            	//startActivity(selection,com.facebook.LoginActivity.class);
+            	return true;
+            case R.id.LogOut:
+
+            	return true;
+            default:
+            	return super.onOptionsItemSelected(item);
+        }
+	}*/
 }
