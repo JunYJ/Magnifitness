@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -29,6 +30,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	String gender;
 	String ageString;
 	int ageInt; 
+	int levelOfActiveness;
 	
 	boolean userCreated = false;
 	
@@ -91,6 +93,23 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				finish();
 				startActivity(new Intent(SetupUserDetails.this, Home.class));
 			}
+			
+		});
+		
+		bmrSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				levelOfActiveness = pos;
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				
+			}
+			
 			
 		});
 	}
