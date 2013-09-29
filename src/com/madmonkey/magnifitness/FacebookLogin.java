@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,13 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.facebook.Request;
@@ -301,29 +296,46 @@ public class FacebookLogin extends FragmentActivity
 	private String buildUserInfoDisplay(GraphUser user)
 	{
 		StringBuilder userInfo = new StringBuilder("");
-
+		SelectionFragment.profilePictureView.setProfileId(user.getProperty("id").toString());
+		//USER NAME
 		// Example: typed access (name)
 		// - no special permissions required
 		userInfo.append(String.format("Name: %s\n\n", user.getName()));
 
 		// Example: typed access (birthday)
 		// - requires user_birthday permission
-		userInfo.append(String.format("Birthday: %s\n\n", user.getBirthday()));
+		//userInfo.append(String.format("Birthday: %s\n\n", user.getBirthday()));
 		
+		//GENDER
+		userInfo.append(String.format("Gender: %s\n\n", userSP.getString("gender", "Not mention")));
+		
+		
+		//AGE
 		Calendar c = Calendar.getInstance();
 
 		userInfo.append(String.format("Age: %s\n\n", c.get(Calendar.YEAR) - Integer.parseInt(user.getBirthday().substring(user.getBirthday().length()-4))));
 
-		String email = getEmail(this);
-		System.out.println("Android registered Email " + email);
+		//WEIGHT
+		userInfo.append(String.format("Weight: %s kg \n\n", userSP.getInt("weight", 0)));
+		//HEIGHT
+		userInfo.append(String.format("Height: %s cm \n\n", userSP.getInt("height", 0)));
+		
+		userInfo.append(String.format("BMI: %s\n\n", user.getName()));
+		
+		//EMAIL (sharedPreference)
+		userInfo.append(String.format("Email: %s\n\n", userSP.getString("email", "")));
+		//EMAIL (through facebook sdk)
+		//String email = getEmail(this);
+		//System.out.println("Android registered Email " + email);
 	
-		String test = user.getProperty("email").toString();
-		System.out.println("TESTING " + test);
+		/*String test = user.getProperty("email").toString();
+		System.out.println("TESTING " + test);*/
 
-		userInfo.append(String.format("Facebook primary Email: %s\n\n", user.asMap()
+		/*userInfo.append(String.format("Facebook primary Email: %s\n\n", user.asMap()
 				.get("email")));
 
-		userInfo.append(String.format("Android registered Email: %s\n\n", email));
+		userInfo.append(String.format("Android registered Email: %s\n\n", email));*/
+
 		
 		return userInfo.toString();
 	}

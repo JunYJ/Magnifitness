@@ -87,7 +87,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				userCreated = true;
 				saveInformation();
 				
-				SelectionFragment.setupUserBtn.setVisibility(View.GONE);
+				//SelectionFragment.setupUserBtn.setVisibility(View.GONE);
 				finish();
 				startActivity(new Intent(SetupUserDetails.this, Home.class));
 			}

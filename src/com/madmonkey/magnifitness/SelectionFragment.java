@@ -1,5 +1,7 @@
 package com.madmonkey.magnifitness;
 
+import com.facebook.widget.ProfilePictureView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SelectionFragment extends Fragment 
@@ -18,6 +21,8 @@ public class SelectionFragment extends Fragment
 	private static final String TAG = "SelectionFragment";
 	protected static TextView userInfo;
 	protected static Button setupUserBtn;
+	protected static ImageView profilePic;
+	protected static ProfilePictureView profilePictureView;
 	SharedPreferences userSP;
 	
 	//Set-up the view from the layout
@@ -35,8 +40,10 @@ public class SelectionFragment extends Fragment
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.selection, container, false);
+		
 		Log.i(TAG, "SELECTION FRAGMENT");
 		userInfo = (TextView) view.findViewById(R.id.txt);
+		
 		setupUserBtn = (Button) view.findViewById(R.id.setupUserBtn);
 		setupUserBtn.setOnClickListener(new OnClickListener(){
 
@@ -48,6 +55,9 @@ public class SelectionFragment extends Fragment
 			}
 		});
 		
+		profilePictureView = (ProfilePictureView) view.findViewById(R.id.friendProfilePicture);
+		//profilePictureView.setProfileId(userId);
+	
 		return view;
 	}
 	
