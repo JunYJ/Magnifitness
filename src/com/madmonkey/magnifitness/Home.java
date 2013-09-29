@@ -151,6 +151,11 @@ public class Home extends FragmentActivity
 				fragment = new Task();
 			}
 			
+			else if(position == 1)
+			{
+				fragment = new MealLogBook();
+			}
+			
 			else
 			{
 				fragment = new DummySectionFragment();
