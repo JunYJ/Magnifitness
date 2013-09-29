@@ -94,8 +94,10 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				userCreated = true;
 				saveInformation();
 				//SelectionFragment.setupUserBtn.setVisibility(View.GONE);
+			
 				finish();
 				startActivity(new Intent(SetupUserDetails.this, Home.class));
+				
 			}
 			
 		});
@@ -157,6 +159,9 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 			break;
 		case R.id.rbFemale:
 			gender = "Female";
+			break;
+		default:
+			gender = "";
 			break;
 		}
 	}

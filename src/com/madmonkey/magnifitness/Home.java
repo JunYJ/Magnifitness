@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import com.facebook.Session;
 
-import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -21,9 +21,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
-
+import name.bagi.levente.pedometer.Pedometer;
+import name.bagi.levente.pedometer.preferences.*;
 public class Home extends FragmentActivity
 {
 
@@ -43,7 +43,7 @@ public class Home extends FragmentActivity
 	ViewPager mViewPager;
 	MenuItem logOut;
 	Session s;
-	
+	PackageManager manager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -63,6 +63,7 @@ public class Home extends FragmentActivity
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		s = Session.getActiveSession();
+		manager = getPackageManager();
 	}
 
 	@Override
@@ -228,9 +229,25 @@ public class Home extends FragmentActivity
 				public void onClick(View v)
 				{
 					// TODO Auto-generated method stub
-					Intent i = new Intent();
+					/*Intent i = new Intent();
 					i.setComponent(new ComponentName("name.bagi", "name.bagi.levente.pedometer"));
-					startActivity(i);
+					startActivity(i);*/
+					
+					/*Intent i = new Intent(Intent.ACTION_MAIN,null);
+					i.addCategory(Intent.CATEGORY_LAUNCHER);
+					final ComponentName cn = new ComponentName("name.bagi.levente.pedometer","name.bagi.levente.pedometer.Pedometer");
+					i.setComponent(cn);
+					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					//Intent i = new Intent(getApplicationContext(), ShowMapActivity.class);
+					startActivity(i);*/
+					
+					/*Intent i = new Intent(Intent.ACTION_MAIN);
+					i = getActivity().getPackageManager().getLaunchIntentForPackage("name.bagi.levente.pedometer");
+					i.addCategory(Intent.CATEGORY_LAUNCHER);
+					startActivity(i);*/
+					getActivity().finish();
+					startActivity(new Intent(getActivity(), Pedometer.class));
+					
 				}
 				
 			});

@@ -101,9 +101,10 @@ public class User {
 		
 		if(gender.equalsIgnoreCase("male"))
 			bmr = 66 + ( 13.7 * getIdealWeight()) + (5 * getHeight()) - (6.8 * getAge());
-		else
+		else if(gender.equalsIgnoreCase("female"))
 			bmr = 655 + (9.6 * getIdealWeight()) + (1.8 * getHeight()) - (4.7 * getAge());
-		
+		else if(gender.equalsIgnoreCase(""))
+			bmr = 0.0;
 		return bmr;
 	}
 
