@@ -30,6 +30,8 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	String ageString;
 	int ageInt; 
 	
+	boolean userCreated = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -82,7 +84,10 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				//setResult(RESULT_OK, returnIntent);
 				user.setUser(name.getText().toString(), ageInt , email.getText().toString()
 						, gender, weightPicker.getValue(), heightPicker.getValue());
+				userCreated = true;
 				saveInformation();
+				
+				SelectionFragment.setupUserBtn.setVisibility(View.GONE);
 				finish();
 				startActivity(new Intent(SetupUserDetails.this, Home.class));
 			}
@@ -139,6 +144,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
         editor.putInt("age", Integer.parseInt(age.getText().toString()));
         editor.putInt("weight", weightPicker.getValue());
         editor.putInt("height", heightPicker.getValue());
+        editor.putBoolean("userCreated", userCreated);
         //commit changes to the SharedPref
         editor.commit();
     }

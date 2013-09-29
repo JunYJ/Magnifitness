@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,6 +38,15 @@ public class SelectionFragment extends Fragment
 		Log.i(TAG, "SELECTION FRAGMENT");
 		userInfo = (TextView) view.findViewById(R.id.txt);
 		setupUserBtn = (Button) view.findViewById(R.id.setupUserBtn);
+		setupUserBtn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v)
+			{
+				// TODO Auto-generated method stub
+				startActivity(new Intent(getActivity(), SetupUserDetails.class));
+			}
+		});
 		
 		return view;
 	}

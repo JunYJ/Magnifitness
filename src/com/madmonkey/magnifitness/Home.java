@@ -44,8 +44,8 @@ public class Home extends FragmentActivity
 		setContentView(R.layout.home);
 		
 		//Enable Home Button
-		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		/*final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);*/
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -55,24 +55,27 @@ public class Home extends FragmentActivity
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		
 	}
-	
-	/*@Override
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.home, menu);
-		showFragment(SETTINGS, false);
-		return true;
-	}*/
-	
-	public boolean onPrepareOptionsMenu(Menu menu)
-	{		
-		menu.clear();
-		getMenuInflater().inflate(R.menu.home, menu);
-		return true;
+		// TODO Auto-generated method stub
+		return super.onCreateOptionsMenu(menu);
 	}
-	
+
+
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		// TODO Auto-generated method stub
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+
+
 	@SuppressWarnings("deprecation")
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) 
@@ -126,10 +129,21 @@ public class Home extends FragmentActivity
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
+			Fragment fragment;
+			if(position == 0)
+			{
+				fragment = new Task();
+			}
+			
+			else
+			{
+				fragment = new DummySectionFragment();
+				Bundle args = new Bundle();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				fragment.setArguments(args);
+			}
+			
+			
 			return fragment;
 		}
 
@@ -183,6 +197,10 @@ public class Home extends FragmentActivity
 					.findViewById(R.id.section_label);
 			dummyTextView.setText("I am page " + Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
+			
+			/*View rootView = inflater.inflate(R.layout.fragment_home, container, false);*/
+			
+					
 			return rootView;
 		}
 	}

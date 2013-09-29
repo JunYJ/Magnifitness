@@ -61,7 +61,8 @@ public class FacebookLogin extends FragmentActivity
 	Button setupUserBtn;
 	SharedPreferences userSP;
 	public static String filename = "com.madmonkey.magnifitness.SharedPref";
-
+	boolean userCreated;
+	
 	// hide fragments initially in onCreate
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -83,11 +84,11 @@ public class FacebookLogin extends FragmentActivity
 			transaction.hide(fragments[i]);
 		}
 		transaction.commit();
-		setupUserBtn = SelectionFragment.setupUserBtn;
 		userSP = getSharedPreferences(FacebookLogin.filename, 0);
+		userCreated = userSP.getBoolean("userCreated", false);
 		
-		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		//final ActionBar actionBar = getActionBar();
+		//actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	// responsible for showing a given fragment & hiding all other fragments
@@ -206,19 +207,6 @@ public class FacebookLogin extends FragmentActivity
 								}
 							}
 						});
-				
-				setupUserBtn.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-						
-						startActivity(new Intent(FacebookLogin.this, SetupUserDetails.class));
-						
-					}
-				});
-
 			}
 
 			else if (state.isClosed())
@@ -236,39 +224,37 @@ public class FacebookLogin extends FragmentActivity
 	{
 		super.onResumeFragments();
 		Session session = Session.getActiveSession();
-
+		//userCreated = userSP.getBoolean("userCreated", false);
 		if (session != null && session.isOpened())
 		{
 			// if the session is already open --> try to show the selection
 			// fragment
-			showFragment(SELECTION, false);
-			Request.executeMeRequestAsync(session,
-					new Request.GraphUserCallback() {
-
-						@Override
-						public void onCompleted(GraphUser user,
-								Response response)
-						{
-							if (user != null)
-							{
-								// Display the parsed user info
-								SelectionFragment.userInfo
-										.setText(buildUserInfoDisplay(user));
-							}
-						}
-					});
 			
-			setupUserBtn.setOnClickListener(new OnClickListener()
+			if(userCreated == true)
 			{
+				//userCreated = false;
+				startActivity(new Intent(this, Home.class));
+				finish();
+			}
+			else
+			{
+				showFragment(SELECTION, false);
+				Request.executeMeRequestAsync(session,
+						new Request.GraphUserCallback() {
 
-				@Override
-				public void onClick(View v)
-				{
-					
-					startActivity(new Intent(FacebookLogin.this, SetupUserDetails.class));
-					
-				}
-			});
+							@Override
+							public void onCompleted(GraphUser user,
+									Response response)
+							{
+								if (user != null)
+								{
+									// Display the parsed user info
+									SelectionFragment.userInfo
+											.setText(buildUserInfoDisplay(user));
+								}
+							}
+						});
+			}
 			
 		}
 		else
