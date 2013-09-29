@@ -11,13 +11,13 @@
         android:layout_height="wrap_content" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/profilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/com_facebook_profile_default_icon" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/taskToComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -32,7 +32,7 @@
         android:paddingTop="15dp" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/rating_important" />
@@ -45,7 +45,7 @@
             android:paddingLeft="15dp" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/achievementText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -61,9 +61,9 @@
 
     <ListView
         android:id="@+id/listView1"
-        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
         tools:listitem="@android:layout/simple_list_item_2" >
     </ListView>
 

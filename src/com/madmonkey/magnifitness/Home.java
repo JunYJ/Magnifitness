@@ -2,6 +2,8 @@ package com.madmonkey.magnifitness;
 
 import java.util.Locale;
 
+import com.facebook.widget.UserSettingsFragment;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
@@ -18,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Home extends FragmentActivity
 {
@@ -36,16 +40,17 @@ public class Home extends FragmentActivity
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	MenuItem logOut;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-		
+
 		//Enable Home Button
-		/*final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);*/
+		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -62,17 +67,19 @@ public class Home extends FragmentActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub
+		logOut = menu.add(R.string.logOut).setIcon(R.drawable.com_facebook_icon);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 
 
-	@Override
+	/*@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub
+		 logOut = menu.add(R.string.logOut);
 		return super.onPrepareOptionsMenu(menu);
-	}
+	}*/
 
 
 
@@ -104,9 +111,18 @@ public class Home extends FragmentActivity
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
-            case com.madmonkey.magnifitness.R.id.LogOut:
-            	
         }
+        
+        if (item.equals(logOut))
+		{
+        	Fragment settings = new Settings();
+        	Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG).show();
+        	System.out.println("LOGOUT");
+        	
+        	//Fragment settings = findFragmentById(R.id.userSettingsFragment);
+        	
+			return true;
+		}
 		
         return super.onOptionsItemSelected(item);
     }
@@ -202,6 +218,21 @@ public class Home extends FragmentActivity
 			
 					
 			return rootView;
+		}
+	}
+	
+	public static class Settings extends Fragment
+	{
+		
+		public Settings()
+		{
+			
+		}
+		
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			View settings = inflater.inflate(R.layout.com_facebook_usersettingsfragment, container, false);
+			return settings;
 		}
 	}
 

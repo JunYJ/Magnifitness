@@ -20,18 +20,9 @@ public class Task extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		/*View rootView = inflater.inflate(R.layout.fragment_home_dummy,
-				container, false);
-		TextView dummyTextView = (TextView) rootView
-				.findViewById(R.id.section_label);
-		dummyTextView.setText("I am page " + Integer.toString(getArguments().getInt(
-				ARG_SECTION_NUMBER)));*/
-		//if(ARG_SECTION_NUMBER == "1")
-		
 		View rootView = inflater.inflate(R.layout.fragment_home,
 						container, false);
-		
-				
+
 		return rootView;
 	}
 
