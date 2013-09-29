@@ -72,8 +72,8 @@
             <RadioGroup
                 android:id="@+id/genderRG"
                 android:layout_width="wrap_content"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
                 <RadioButton
                     android:id="@+id/rbMale"
@@ -137,12 +137,28 @@
             android:paddingRight="30dp"
             android:paddingTop="10dp" />
 
+        <TextView
+            android:id="@+id/idealWeightTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ideal_weight"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <NumberPicker
+            android:id="@+id/idealWeightPicker"
+            android:layout_width="204dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp" />
+
         <Button
             android:id="@+id/okBtn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/submitBtn" />
+            android:text="@string/okBtn" />
     </LinearLayout>
 
 </ScrollView>

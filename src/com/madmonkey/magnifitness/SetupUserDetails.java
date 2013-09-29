@@ -1,5 +1,6 @@
 package com.madmonkey.magnifitness;
 
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +26,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 {
 	EditText name, email, age;
 	RadioGroup genderRG;
-	NumberPicker  weightPicker, heightPicker;
+	NumberPicker  weightPicker, heightPicker, idealWeightPicker;
 	Spinner bmrSpinner;
 	RadioButton maleRB, femaleRB;
 	Button okBtn;
@@ -89,10 +90,9 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 				
 				//setResult(RESULT_OK, returnIntent);
 				user.setUser(name.getText().toString(), ageInt , email.getText().toString()
-						, gender, weightPicker.getValue(), heightPicker.getValue());
+						, gender, weightPicker.getValue(), heightPicker.getValue(), idealWeightPicker.getValue());
 				userCreated = true;
 				saveInformation();
-				
 				//SelectionFragment.setupUserBtn.setVisibility(View.GONE);
 				finish();
 				startActivity(new Intent(SetupUserDetails.this, Home.class));
@@ -128,6 +128,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		age = (EditText) findViewById(R.id.ageET);
 		weightPicker = (NumberPicker) findViewById(R.id.weightPicker);
 		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
+		idealWeightPicker = (NumberPicker) findViewById(R.id.idealWeightPicker);
 		bmrSpinner = (Spinner) findViewById(R.id.bmrSpinner);
 		okBtn = (Button) findViewById(R.id.okBtn);
 		
@@ -137,6 +138,9 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		heightPicker.setMaxValue(250);
 		heightPicker.setMinValue(130);
 		heightPicker.setValue(150);
+		idealWeightPicker.setMaxValue(250);
+		idealWeightPicker.setMinValue(30);
+		idealWeightPicker.setValue(50);
 		
 		genderRG.setOnCheckedChangeListener(this);
 	}
@@ -180,7 +184,13 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
         editor.putInt("age", Integer.parseInt(age.getText().toString()));
         editor.putInt("weight", weightPicker.getValue());
         editor.putInt("height", heightPicker.getValue());
+        editor.putInt("idealWeight", idealWeightPicker.getValue());
         editor.putBoolean("userCreated", userCreated);
+        
+        DecimalFormat df = new DecimalFormat("#.##");
+        editor.putString("bmi", df.format(user.getBmi()) + "");
+        editor.putString("bmr", df.format(user.getBmr()) + "");
+       
         //commit changes to the SharedPref
         editor.commit();
     }
@@ -198,6 +208,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		
 		weightPicker.setValue(shared.getInt("weight", 50));
 		heightPicker.setValue(shared.getInt("height", 150));
+		idealWeightPicker.setValue(shared.getInt("idealWeight", 50));
 	}
 	
 	

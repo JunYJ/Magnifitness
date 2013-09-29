@@ -320,8 +320,10 @@ public class FacebookLogin extends FragmentActivity
 		userInfo.append(String.format("Weight: %s kg \n\n", userSP.getInt("weight", 0)));
 		//HEIGHT
 		userInfo.append(String.format("Height: %s cm \n\n", userSP.getInt("height", 0)));
-		
-		userInfo.append(String.format("BMI: %s\n\n", user.getName()));
+		//BMI
+		userInfo.append(String.format("BMI: %s\n\n", userSP.getString("bmi", "")));
+		//BMR
+		userInfo.append(String.format("BMR: %s\n\n", userSP.getString("bmr", "")));
 		
 		//EMAIL (sharedPreference)
 		userInfo.append(String.format("Email: %s\n\n", userSP.getString("email", "")));

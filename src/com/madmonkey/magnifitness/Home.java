@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import com.facebook.Session;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -213,10 +216,24 @@ public class Home extends FragmentActivity
 		{
 			View rootView = inflater.inflate(R.layout.fragment_home_dummy,
 					container, false);
-			TextView dummyTextView = (TextView) rootView
+			/*TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
 			dummyTextView.setText("I am page " + Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+					ARG_SECTION_NUMBER)));*/
+			Button pedometerBtn = (Button) rootView.findViewById(R.id.activatePedometerBtn);
+			pedometerBtn.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					// TODO Auto-generated method stub
+					Intent i = new Intent();
+					i.setComponent(new ComponentName("name.bagi", "name.bagi.levente.pedometer"));
+					startActivity(i);
+				}
+				
+			});
 			
 			/*View rootView = inflater.inflate(R.layout.fragment_home, container, false);*/
 			
@@ -225,7 +242,7 @@ public class Home extends FragmentActivity
 		}
 	}
 	
-	public static class Settings extends Fragment
+	/*public static class Settings extends Fragment
 	{
 		
 		public Settings()
@@ -238,6 +255,6 @@ public class Home extends FragmentActivity
 			View settings = inflater.inflate(R.layout.com_facebook_usersettingsfragment, container, false);
 			return settings;
 		}
-	}
+	}*/
 
 }

@@ -26,13 +26,14 @@ public class User {
 	}
 
 	public User(String nameIn, int ageIn, String emailIn, String genderIn,
-			int currentWeightIn, int heightIn) {
+			int currentWeightIn, int heightIn, int idealWeightIn) {
 		name = nameIn;
 		age = ageIn;
 		gender = genderIn;
 		email = emailIn;
 		currentWeight = currentWeightIn;
 		height = heightIn;
+		idealWeight = idealWeightIn;
 	}
 
 	public void setName(String nameIn) {
@@ -81,9 +82,11 @@ public class User {
 
 	public double getBmi() {
 
-		double heightInMeter = getHeight() * 100;
-		bmi = getCurrentWeight() / (heightInMeter * heightInMeter);
-
+		double heightInMeter = (double) getHeight() / 100;
+		
+		double heightSquare = heightInMeter * heightInMeter;
+		bmi = getCurrentWeight() / heightSquare;
+		
 		return bmi;
 	}
 
@@ -97,9 +100,9 @@ public class User {
 	public double getBmr() {
 		
 		if(gender.equalsIgnoreCase("male"))
-			bmr = 66 + ( 13.7 * getCurrentWeight()) + (5 * getHeight()) - (6.8 * getAge());
+			bmr = 66 + ( 13.7 * getIdealWeight()) + (5 * getHeight()) - (6.8 * getAge());
 		else
-			bmr = 655 + (9.6 * getCurrentWeight()) + (1.8 * getHeight()) - (4.7 * getAge());
+			bmr = 655 + (9.6 * getIdealWeight()) + (1.8 * getHeight()) - (4.7 * getAge());
 		
 		return bmr;
 	}
@@ -142,12 +145,13 @@ public class User {
 	}
 
 	public void setUser(String nameIn, int ageIn, String emailIn,
-			String genderIn, int currentWeightIn, int heightIn) {
+			String genderIn, int currentWeightIn, int heightIn, int idealWeightIn) {
 		name = nameIn;
 		age = ageIn;
 		gender = genderIn;
 		email = emailIn;
 		currentWeight = currentWeightIn;
 		height = heightIn;
+		idealWeight = idealWeightIn;
 	}
 }

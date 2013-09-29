@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_section1">Task</string>
     <string name="title_section2">Meal Logbook</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section3">Pedometer</string>
     <string name="hello_world">Hello world!</string>
     <string name="app_id">413484095438995</string>
     <string name="get_started">To get started, log in using Facebook</string>
@@ -17,6 +17,7 @@
     <string name="user_bmr">BMR</string>
     <string name="user_current_weight">Weight (kg)</string>
     <string name="user_height">Height (cm)</string>
+    <string name="ideal_weight">Ideal Weight (kg)</string>
 
     <string-array name="BMR">
         <item>Sedentary		(little or no exercise)</item>
@@ -29,6 +30,6 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="LOA">Level of Activeness</string>
-    <string name="submitBtn">Submit</string>
+    <string name="okBtn">OK</string>
 
 </resources>
