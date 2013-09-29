@@ -1,5 +1,8 @@
 package com.madmonkey.magnifitness;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.madmonkey.magnifitnessClass.User;
 
@@ -158,7 +162,20 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
         SharedPreferences.Editor editor = shared.edit();
         //Insert value below
         editor.putString("name", name.getText().toString());
-        editor.putString("email", email.getText().toString());
+        
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email.getText().toString());
+        
+        if (matcher.matches()) 
+        {
+        	editor.putString("email", email.getText().toString());
+        }
+        else
+        {
+        	Toast.makeText(getApplication(), "Invalid email", Toast.LENGTH_LONG).show();
+        }
+        
         editor.putString("gender", gender);
         editor.putInt("age", Integer.parseInt(age.getText().toString()));
         editor.putInt("weight", weightPicker.getValue());

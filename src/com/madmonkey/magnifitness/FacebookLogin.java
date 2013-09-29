@@ -296,19 +296,20 @@ public class FacebookLogin extends FragmentActivity
 	private String buildUserInfoDisplay(GraphUser user)
 	{
 		StringBuilder userInfo = new StringBuilder("");
-		SelectionFragment.profilePictureView.setProfileId(user.getProperty("id").toString());
+		SelectionFragment.profilePictureView.setProfileId(user.getId());
+		
+		//Task.getProfilePic().setProfileId(user.getId());
 		//USER NAME
 		// Example: typed access (name)
 		// - no special permissions required
-		userInfo.append(String.format("Name: %s\n\n", user.getName()));
-
+		//userInfo.append(String.format("Name: %s\n\n", user.getName()));
+		userInfo.append(String.format("Name: %s\n\n", userSP.getString("name", user.getName())));
 		// Example: typed access (birthday)
 		// - requires user_birthday permission
 		//userInfo.append(String.format("Birthday: %s\n\n", user.getBirthday()));
 		
 		//GENDER
 		userInfo.append(String.format("Gender: %s\n\n", userSP.getString("gender", "Not mention")));
-		
 		
 		//AGE
 		Calendar c = Calendar.getInstance();

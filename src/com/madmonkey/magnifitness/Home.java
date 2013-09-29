@@ -2,16 +2,14 @@ package com.madmonkey.magnifitness;
 
 import java.util.Locale;
 
-import com.facebook.widget.UserSettingsFragment;
+import com.facebook.Session;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
@@ -41,6 +39,7 @@ public class Home extends FragmentActivity
 	 */
 	ViewPager mViewPager;
 	MenuItem logOut;
+	Session s;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -49,8 +48,8 @@ public class Home extends FragmentActivity
 		setContentView(R.layout.home);
 
 		//Enable Home Button
-		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		/*final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);*/
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -60,7 +59,7 @@ public class Home extends FragmentActivity
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
+		s = Session.getActiveSession();
 	}
 
 	@Override
@@ -115,12 +114,12 @@ public class Home extends FragmentActivity
         
         if (item.equals(logOut))
 		{
-        	Fragment settings = new Settings();
+        	//Fragment settings = new Settings();
         	Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG).show();
         	System.out.println("LOGOUT");
-        	
+        	finishAffinity();
         	//Fragment settings = findFragmentById(R.id.userSettingsFragment);
-        	
+        	s.closeAndClearTokenInformation();
 			return true;
 		}
 		

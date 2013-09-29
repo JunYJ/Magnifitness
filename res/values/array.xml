@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string-array name="meal_entries_list">
         <item>Breakfast</item>
         <item>Lunch</item>
         <item>Tea-Break</item>
         <item>Dinner</item>
-    </string-array>  
-    
-    
+    </string-array>
+    <string-array name="task_list">
+        <item>Login into Magnifitness</item>
+        <item>Log your first meal</item>
+        <item>Activate Pedometer</item>
+        <item>Challenge: No Deep Fried Food today!</item>
+        <item>Challenge: Water is life! 8 glasses</item>
+        <item>Challenge: Fill your plate with Greens!</item>
+    </string-array>
+
 </resources>

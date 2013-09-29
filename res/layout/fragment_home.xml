@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg"
     android:orientation="vertical"
     android:padding="15dp" >
 
@@ -10,11 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/profilePicture"
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/userProfilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/com_facebook_profile_default_icon" />
+            android:gravity="center_horizontal"
+            android:padding="5sp"
+            facebook:preset_size="normal" />
 
         <TextView
             android:id="@+id/taskToComplete"
@@ -63,6 +67,7 @@
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:entries="@array/task_list"
         android:paddingTop="10dp"
         tools:listitem="@android:layout/simple_list_item_2" >
     </ListView>

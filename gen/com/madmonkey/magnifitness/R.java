@@ -13,8 +13,9 @@ public final class R {
         public static final int disappear=0x7f040001;
     }
     public static final class array {
-        public static final int BMR=0x7f0a0001;
+        public static final int BMR=0x7f0a0002;
         public static final int meal_entries_list=0x7f0a0000;
+        public static final int task_list=0x7f0a0001;
     }
     public static final class attr {
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
@@ -276,7 +277,6 @@ containing a value of this type.
         public static final int pager=0x7f050022;
         public static final int pager_title_strip=0x7f050023;
         public static final int picker_subtitle=0x7f050014;
-        public static final int profilePicture=0x7f05001b;
         public static final int profile_name=0x7f050024;
         public static final int progressBar1=0x7f05001f;
         public static final int rbFemale=0x7f050037;
@@ -290,6 +290,7 @@ containing a value of this type.
         public static final int taskToComplete=0x7f05001c;
         public static final int textView1=0x7f050028;
         public static final int txt=0x7f05002a;
+        public static final int userProfilePicture=0x7f05001b;
         public static final int userSettingsFragment=0x7f05001a;
         public static final int username=0x7f05002f;
         public static final int weight=0x7f05003a;
