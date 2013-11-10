@@ -33,6 +33,7 @@ public class Task extends Fragment
 		taskToComplete.setText("Hi " + userSP.getString("name", "") + ", task to complete today!");
 		
 		profilePictureView = (ProfilePictureView) view.findViewById(R.id.userProfilePicture);
+		profilePictureView.setProfileId(userSP.getString("userid", ""));
 		return view;
 	}
 	

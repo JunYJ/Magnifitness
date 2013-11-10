@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitnessClass;
 
-public class User {
+public class User
+{
 	String name;
 	int age;
 	String email;
@@ -13,20 +14,23 @@ public class User {
 	int height;
 	int idealWeight;
 
-	public User() {
+	public User()
+	{
 		name = "";
 		age = 0;
 		email = "";
 		gender = "";
 		levelOfActiveness = 0;
 		bmr = 0.0;
+		bmi = 0.0;
 		currentWeight = 0;
 		height = 0;
 		idealWeight = 0;
 	}
 
 	public User(String nameIn, int ageIn, String emailIn, String genderIn,
-			int currentWeightIn, int heightIn, int idealWeightIn) {
+			int currentWeightIn, int heightIn, int idealWeightIn)
+	{
 		name = nameIn;
 		age = ageIn;
 		gender = genderIn;
@@ -36,117 +40,145 @@ public class User {
 		idealWeight = idealWeightIn;
 	}
 
-	public void setName(String nameIn) {
+	public void setName(String nameIn)
+	{
 		name = nameIn;
 	}
 
-	public void setAge(int ageIn) {
+	public void setAge(int ageIn)
+	{
 		age = ageIn;
 	}
 
-	public void setEmail(String emailIn) {
+	public void setEmail(String emailIn)
+	{
 		email = emailIn;
 	}
 
-	public void setBmr(double bmrIn) {
+	public void setBmr(double bmrIn)
+	{
 		bmr = bmrIn;
 	}
 
-	public void setCurrentWeight(int currentWeightIn) {
+	public void setBmi(double bmiIn)
+	{
+		bmi = bmiIn;
+	}
+
+	public void setCurrentWeight(int currentWeightIn)
+	{
 		currentWeight = currentWeightIn;
 	}
 
-	public void setHeight(int heightIn) {
+	public void setHeight(int heightIn)
+	{
 		height = heightIn;
 	}
 
-	public void setIdealWeight(int idealWeightIn) {
+	public void setIdealWeight(int idealWeightIn)
+	{
 		idealWeight = idealWeightIn;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public int getAge() {
+	public int getAge()
+	{
 		return age;
 	}
 
-	public String getEmail() {
+	public String getEmail()
+	{
 		return email;
 	}
 
-	public String getGender() {
+	public String getGender()
+	{
 		return gender;
 	}
 
-	public double getBmi() {
+	public double getBmi()
+	{
 
 		double heightInMeter = (double) getHeight() / 100;
-		
+
 		double heightSquare = heightInMeter * heightInMeter;
 		bmi = getCurrentWeight() / heightSquare;
-		
+
 		return bmi;
 	}
 
 	/**
-	 * Metric BMR Formula
-	 * Women: BMR = 655 + ( 9.6 x weight in kilos ) + ( 1.8 x height in cm ) - ( 4.7 x age in years )
-	 * Men: BMR = 66 + ( 13.7 x weight in kilos ) + ( 5 x height in cm ) - ( 6.8 x age in years )
+	 * Metric BMR Formula Women: BMR = 655 + ( 9.6 x weight in kilos ) + ( 1.8 x
+	 * height in cm ) - ( 4.7 x age in years ) Men: BMR = 66 + ( 13.7 x weight
+	 * in kilos ) + ( 5 x height in cm ) - ( 6.8 x age in years )
+	 * 
 	 * @return
 	 */
-	
-	public double getBmr() {
-		
-		if(gender.equalsIgnoreCase("male"))
-			bmr = 66 + ( 13.7 * getIdealWeight()) + (5 * getHeight()) - (6.8 * getAge());
-		else if(gender.equalsIgnoreCase("female"))
-			bmr = 655 + (9.6 * getIdealWeight()) + (1.8 * getHeight()) - (4.7 * getAge());
-		else if(gender.equalsIgnoreCase(""))
+
+	public double getBmr()
+	{
+
+		if (gender.equalsIgnoreCase("male"))
+			bmr = 66 + (13.7 * getIdealWeight()) + (5 * getHeight())
+					- (6.8 * getAge());
+		else if (gender.equalsIgnoreCase("female"))
+			bmr = 655 + (9.6 * getIdealWeight()) + (1.8 * getHeight())
+					- (4.7 * getAge());
+		else
 			bmr = 0.0;
 		return bmr;
 	}
 
-	public int getCurrentWeight() {
+	public int getCurrentWeight()
+	{
 		return currentWeight;
 	}
 
-	public int getHeight() {
+	public int getHeight()
+	{
 		return height;
 	}
-	
-	public int getTotalDailyCalorieNeeds() {
+
+	public int getTotalDailyCalorieNeeds()
+	{
 		double bmrFactor = 0;
-		switch (levelOfActiveness) {
-		case 0:
-			bmrFactor = 1.2; //sedentary
-			break;
-		case 1:
-			bmrFactor = 1.375;//lightly
-			break;
-		case 2:
-			bmrFactor = 1.55;//moderately
-			break;
-		case 3:
-			bmrFactor = 1.725;//very active
-			break;
-		case 4:
-			bmrFactor = 1.9;//extra active
-			break;
+		switch (levelOfActiveness)
+		{
+			case 0:
+				bmrFactor = 1.2; // sedentary
+				break;
+			case 1:
+				bmrFactor = 1.375;// lightly
+				break;
+			case 2:
+				bmrFactor = 1.55;// moderately
+				break;
+			case 3:
+				bmrFactor = 1.725;// very active
+				break;
+			case 4:
+				bmrFactor = 1.9;// extra active
+				break;
 		}
-		
-		totalDailyCalorieNeeds = (int)(getBmr() * bmrFactor);
-		
+
+		totalDailyCalorieNeeds = (int) (getBmr() * bmrFactor);
+
 		return totalDailyCalorieNeeds;
 	}
 
-	public int getIdealWeight() {
+	public int getIdealWeight()
+	{
 		return idealWeight;
 	}
 
 	public void setUser(String nameIn, int ageIn, String emailIn,
-			String genderIn, int currentWeightIn, int heightIn, int idealWeightIn) {
+			String genderIn, int currentWeightIn, int heightIn,
+			int idealWeightIn)
+	{
 		name = nameIn;
 		age = ageIn;
 		gender = genderIn;

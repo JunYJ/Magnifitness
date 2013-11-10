@@ -74,18 +74,6 @@ public class Home extends FragmentActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
-
-
-	/*@Override
-	public boolean onPrepareOptionsMenu(Menu menu)
-	{
-		// TODO Auto-generated method stub
-		 logOut = menu.add(R.string.logOut);
-		return super.onPrepareOptionsMenu(menu);
-	}*/
-
-
-
 	@SuppressWarnings("deprecation")
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) 

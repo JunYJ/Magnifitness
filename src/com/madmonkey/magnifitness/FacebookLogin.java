@@ -295,6 +295,7 @@ public class FacebookLogin extends FragmentActivity
 
 	private String buildUserInfoDisplay(GraphUser user)
 	{
+		userSP.edit().putString("userid", user.getId()).commit();
 		StringBuilder userInfo = new StringBuilder("");
 		SelectionFragment.profilePictureView.setProfileId(user.getId());
 		
