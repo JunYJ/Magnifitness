@@ -27,3 +27,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+gen/com/madmonkey/magnifitness/R.java
+
+gen/com/madmonkey/magnifitness/R.java
