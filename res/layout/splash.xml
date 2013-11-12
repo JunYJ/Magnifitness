@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/TheSplashLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center" >
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splashSwitcher"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <ImageView
-        android:id="@+id/SplashImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/magnifitness_logo_no_shadow_512x512" >
-    </ImageView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-</LinearLayout>
+        <RelativeLayout
+            android:id="@+id/TheSplashLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:id="@+id/green_ring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/magnifitness_logo_green_ring" />
+
+            <ImageView
+                android:id="@+id/yellow_ring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/magnifitness_logo_yellow_ring" />
+
+            <ImageView
+                android:id="@+id/red_ring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/magnifitness_logo_red_ring" />
+
+            <ImageView
+                android:id="@+id/m_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/magnifitness_logo_m_text" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ViewSwitcher>
