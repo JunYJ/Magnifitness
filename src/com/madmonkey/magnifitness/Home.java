@@ -1,8 +1,11 @@
 package com.madmonkey.magnifitness;
 
 import java.util.Locale;
-import android.app.ActionBar;
+
+import com.facebook.Session;
+
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,11 +15,15 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
+import android.widget.Button;
+import android.widget.Toast;
+import name.bagi.levente.pedometer.Pedometer;
+import name.bagi.levente.pedometer.preferences.*;
 public class Home extends FragmentActivity
 {
 
@@ -34,20 +41,18 @@ public class Home extends FragmentActivity
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
-	/*private static final int SETTINGS = 0;
-	private static final int FRAGMENT_COUNT = SETTINGS + 1;
-	private MenuItem settings;
-	private Fragment [] fragments = new Fragment[FRAGMENT_COUNT];
-	boolean on = false;*/
+	MenuItem logOut;
+	Session s;
+	PackageManager manager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-		
-		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		//Enable Home Button
+		/*final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);*/
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -57,69 +62,31 @@ public class Home extends FragmentActivity
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-		//FragmentManager fm = getSupportFragmentManager();
-		//fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
-		/*FragmentTransaction transaction = fm.beginTransaction();
-		for(int i = 0; i < fragments.length; i++)
-		{
-			transaction.hide(fragments[i]);
-		}
-		transaction.commit(); 
-		on = true;*/
+		s = Session.getActiveSession();
+		manager = getPackageManager();
 	}
-	
-	/*private void showFragment(int fragmentIndex, boolean addToBackStack)
-	{
-		FragmentManager fm = getSupportFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		
-		for(int i = 0; i < fragments.length; i++)
-		{
-			if(i == fragmentIndex)
-			{
-				transaction.show(fragments[i]);
-			}
-			else
-			{
-				transaction.hide(fragments[i]);
-			}
-		}
-		if(addToBackStack)
-		{
-			transaction.addToBackStack(null);
-		}
-		transaction.commit();
-	}*/
 
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.home, menu);
-		showFragment(SETTINGS, false);
-		return true;
-	}*/
-	
-	/*public boolean onPrepareOptionsMenu(Menu menu)
-	{
-		if(on == true)
-		{
-			settings = menu.add(R.string.settings);return true;
-		}
-		
-		return false;
-	}*/
-	
+		// TODO Auto-generated method stub
+		logOut = menu.add(R.string.logOut).setIcon(R.drawable.com_facebook_icon);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item) 
+	{
+        switch (item.getItemId()) 
+        {
             case android.R.id.home:
                 // This is called when the Home (Up) button is pressed in the action bar.
                 // Create a simple intent that starts the hierarchical parent activity and
                 // use NavUtils in the Support Package to ensure proper handling of Up.
                 Intent upIntent = new Intent(this, FacebookLogin.class);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)) 
+                {
                     // This activity is not part of the application's task, so create a new task
                     // with a synthesized back stack.
                     TaskStackBuilder.from(this)
@@ -127,13 +94,27 @@ public class Home extends FragmentActivity
                             .addNextIntent(upIntent)
                             .startActivities();
                     finish();
-                } else {
+                } 
+                else
+                {
                     // This activity is part of the application's task, so simply
                     // navigate up to the hierarchical parent activity.
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
         }
+        
+        if (item.equals(logOut))
+		{
+        	//Fragment settings = new Settings();
+        	Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG).show();
+        	System.out.println("LOGOUT");
+        	finishAffinity();
+        	//Fragment settings = findFragmentById(R.id.userSettingsFragment);
+        	s.closeAndClearTokenInformation();
+			return true;
+		}
+		
         return super.onOptionsItemSelected(item);
     }
 
@@ -155,10 +136,26 @@ public class Home extends FragmentActivity
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
+			Fragment fragment;
+			if(position == 0)
+			{
+				fragment = new Task();
+			}
+			
+			else if(position == 1)
+			{
+				fragment = new MealLogBook();
+			}
+			
+			else
+			{
+				fragment = new DummySectionFragment();
+				Bundle args = new Bundle();
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+				fragment.setArguments(args);
+			}
+			
+			
 			return fragment;
 		}
 
@@ -208,12 +205,61 @@ public class Home extends FragmentActivity
 		{
 			View rootView = inflater.inflate(R.layout.fragment_home_dummy,
 					container, false);
-			TextView dummyTextView = (TextView) rootView
+			/*TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
+			dummyTextView.setText("I am page " + Integer.toString(getArguments().getInt(
+					ARG_SECTION_NUMBER)));*/
+			Button pedometerBtn = (Button) rootView.findViewById(R.id.activatePedometerBtn);
+			pedometerBtn.setOnClickListener(new OnClickListener()
+			{
+
+				@Override
+				public void onClick(View v)
+				{
+					// TODO Auto-generated method stub
+					/*Intent i = new Intent();
+					i.setComponent(new ComponentName("name.bagi", "name.bagi.levente.pedometer"));
+					startActivity(i);*/
+					
+					/*Intent i = new Intent(Intent.ACTION_MAIN,null);
+					i.addCategory(Intent.CATEGORY_LAUNCHER);
+					final ComponentName cn = new ComponentName("name.bagi.levente.pedometer","name.bagi.levente.pedometer.Pedometer");
+					i.setComponent(cn);
+					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					//Intent i = new Intent(getApplicationContext(), ShowMapActivity.class);
+					startActivity(i);*/
+					
+					/*Intent i = new Intent(Intent.ACTION_MAIN);
+					i = getActivity().getPackageManager().getLaunchIntentForPackage("name.bagi.levente.pedometer");
+					i.addCategory(Intent.CATEGORY_LAUNCHER);
+					startActivity(i);*/
+					getActivity().finish();
+					startActivity(new Intent(getActivity(), Pedometer.class));
+					
+				}
+				
+			});
+			
+			/*View rootView = inflater.inflate(R.layout.fragment_home, container, false);*/
+			
+					
 			return rootView;
 		}
 	}
+	
+	/*public static class Settings extends Fragment
+	{
+		
+		public Settings()
+		{
+			
+		}
+		
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			View settings = inflater.inflate(R.layout.com_facebook_usersettingsfragment, container, false);
+			return settings;
+		}
+	}*/
 
 }

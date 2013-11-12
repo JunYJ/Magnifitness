@@ -13,6 +13,7 @@ public class SplashScreen extends Activity
 	 * The thread to process splash screen events
 	 */
 	private Thread mSplashThread;
+	private boolean mIsBackButtonPressed;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -22,8 +23,6 @@ public class SplashScreen extends Activity
 
 		// Splash screen view
 		setContentView(R.layout.splash);
-
-		final SplashScreen splashScreen = this;
 
 		// The thread to wait for splash screen events
 		mSplashThread = new Thread() 
@@ -45,17 +44,27 @@ public class SplashScreen extends Activity
 					
 				}
 
-				finish();
-
 				// Run next activity
-				Intent intent = new Intent();
-				intent.setClass(splashScreen, FacebookLogin.class);
-				startActivity(intent);
-				
+				if (!mIsBackButtonPressed) 
+				{
+					startActivity(new Intent(SplashScreen.this, FacebookLogin.class));
+					
+					
+				}
+				finish();
+				overridePendingTransition(R.anim.appear, R.anim.disappear);
 			}
 		};
 
 		mSplashThread.start();
+	}
+	
+	@Override
+	public void onBackPressed() 
+	{
+		// set the flag to true so the next activity won't start up
+	    mIsBackButtonPressed = true;
+	    super.onBackPressed();
 	}
 
 	/**

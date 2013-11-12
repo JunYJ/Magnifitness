@@ -1,7 +1,10 @@
 package com.madmonkey.magnifitness;
 
+import com.facebook.widget.ProfilePictureView;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,37 +20,43 @@ public class SelectionFragment extends Fragment
 	private static final String TAG = "SelectionFragment";
 	protected static TextView userInfo;
 	protected static Button setupUserBtn;
+	protected static ProfilePictureView profilePictureView;
+	SharedPreferences userSP;
+	
 	//Set-up the view from the layout
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		userSP = this.getActivity().getSharedPreferences(FacebookLogin.filename, 0);
+		
 	}
 	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.selection, container, false);
+		
 		Log.i(TAG, "SELECTION FRAGMENT");
-		final int x = 100;
 		userInfo = (TextView) view.findViewById(R.id.txt);
+		
 		setupUserBtn = (Button) view.findViewById(R.id.setupUserBtn);
-		/*userInfo.setOnClickListener(new OnClickListener()
+		setupUserBtn.setOnClickListener(new OnClickListener()
 		{
+
+			@Override
 			public void onClick(View v)
 			{
-				Bundle bundle = new Bundle();
-				bundle.putInt("myData", x);
-				Intent nextScreen = new Intent(getActivity(), SetupUserDetails.class);
-				nextScreen.putExtras(bundle);
-				startActivityForResult(nextScreen, 1);
-				
+				// TODO Auto-generated method stub
+				startActivity(new Intent(getActivity(), SetupUserDetails.class));
 			}
-		});*/
-		//String name = getArguments().getString("name");
-		//System.out.println("NAME: " + name);
+		});
 		
+		profilePictureView = (ProfilePictureView) view.findViewById(R.id.friendProfilePicture);
+		
+	
 		return view;
 	}
 	
