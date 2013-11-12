@@ -1,4 +1,9 @@
-package com.madmonkey.magnifitness;
+package com.madmonkey.magnifitnessClassActivityOnly;
+
+import com.madmonkey.magnifitness.R;
+import com.madmonkey.magnifitness.SetupUserDetails;
+import com.madmonkey.magnifitness.R.id;
+import com.madmonkey.magnifitness.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.madmonkey.magnifitness;
+package com.madmonkey.magnifitnessClassActivityOnly;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -16,6 +16,10 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.madmonkey.magnifitness.R;
+import com.madmonkey.magnifitness.R.id;
+import com.madmonkey.magnifitness.R.layout;
+import com.madmonkey.magnifitness.R.menu;
 
 public class Login extends Activity
 {

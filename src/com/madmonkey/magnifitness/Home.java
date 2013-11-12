@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import name.bagi.levente.pedometer.Pedometer;
-import name.bagi.levente.pedometer.preferences.*;
 public class Home extends FragmentActivity
 {
 
@@ -234,6 +233,7 @@ public class Home extends FragmentActivity
 					i.addCategory(Intent.CATEGORY_LAUNCHER);
 					startActivity(i);*/
 					getActivity().finish();
+					
 					startActivity(new Intent(getActivity(), Pedometer.class));
 					
 				}
