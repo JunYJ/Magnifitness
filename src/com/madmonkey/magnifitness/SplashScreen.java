@@ -32,16 +32,17 @@ public class SplashScreen extends Activity
 		{
 			overridePendingTransition(R.anim.appear, R.anim.disappear);
 		}
+		
 		// Splash screen view
 		setContentView(R.layout.splash);
 		
 		switcher = (ViewSwitcher) findViewById(R.id.splashSwitcher);
 		switcher.showNext();
 		
-		animationFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.appear);
-		Animation animationRed = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_animation);
-		Animation animationGreen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_animation);;
-		Animation animationYellow = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_animation);
+		//animationFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.appear);
+		Animation animationRed = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.red_ring_animation);
+		Animation animationGreen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.green_ring_animation);;
+		Animation animationYellow = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.yellow_ring_animation);
 		Animation animationText = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.text_animation);
 
 		redRing = (ImageView) findViewById(R.id.red_ring);
@@ -82,9 +83,8 @@ public class SplashScreen extends Activity
 				if (!mIsBackButtonPressed) 
 				{
 					startActivity(new Intent(SplashScreen.this, FacebookLogin.class));
-					
-					
 				}
+				
 				finish();
 				overridePendingTransition(R.anim.appear, R.anim.disappear);
 			}
