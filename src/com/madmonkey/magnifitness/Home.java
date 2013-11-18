@@ -146,6 +146,11 @@ public class Home extends FragmentActivity
 				fragment = new MealLogBook();
 			}
 			
+			else if(position == 2)
+			{
+				fragment = new StepCount();
+			}
+			
 			else
 			{
 				fragment = new DummySectionFragment();
@@ -176,6 +181,8 @@ public class Home extends FragmentActivity
 			case 1:
 				return getString(R.string.title_section2).toUpperCase(l);
 			case 2:
+				return getString(R.string.title_section3).toUpperCase(l);
+			case 3:
 				return getString(R.string.title_section3).toUpperCase(l);
 			}
 			return null;
@@ -216,32 +223,17 @@ public class Home extends FragmentActivity
 				public void onClick(View v)
 				{
 					// TODO Auto-generated method stub
-					/*Intent i = new Intent();
-					i.setComponent(new ComponentName("name.bagi", "name.bagi.levente.pedometer"));
-					startActivity(i);*/
 					
-					/*Intent i = new Intent(Intent.ACTION_MAIN,null);
-					i.addCategory(Intent.CATEGORY_LAUNCHER);
-					final ComponentName cn = new ComponentName("name.bagi.levente.pedometer","name.bagi.levente.pedometer.Pedometer");
-					i.setComponent(cn);
-					i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					//Intent i = new Intent(getApplicationContext(), ShowMapActivity.class);
-					startActivity(i);*/
-					
-					/*Intent i = new Intent(Intent.ACTION_MAIN);
-					i = getActivity().getPackageManager().getLaunchIntentForPackage("name.bagi.levente.pedometer");
-					i.addCategory(Intent.CATEGORY_LAUNCHER);
-					startActivity(i);*/
 					getActivity().finish();
 					
-					startActivity(new Intent(getActivity(), Pedometer.class));
+					//startActivity(new Intent(getActivity(), Pedometer.class));
+					Intent i = new Intent();
+					i.setAction("name.bagi.levente.PEDOMETER");
+					startActivity(i);
 					
 				}
 				
-			});
-			
-			/*View rootView = inflater.inflate(R.layout.fragment_home, container, false);*/
-			
+			});			
 					
 			return rootView;
 		}

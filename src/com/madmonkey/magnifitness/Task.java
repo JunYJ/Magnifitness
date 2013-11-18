@@ -27,7 +27,7 @@ public class Task extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View view = inflater.inflate(R.layout.fragment_home,
+		View view = inflater.inflate(R.layout.task,
 						container, false);
 		taskToComplete = (TextView) view.findViewById(R.id.taskToComplete);
 		taskToComplete.setText("Hi " + userSP.getString("name", "") + ", task to complete today!");
