@@ -213,11 +213,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-
-gen/com/facebook/android/R.java
-
-gen/com/madmonkey/magnifitness/R.java
-
-gen/name/bagi/levente/pedometer/R.java
-
-gen/name/bagi/levente/pedometer/R.java
