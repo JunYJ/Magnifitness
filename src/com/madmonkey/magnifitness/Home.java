@@ -1,8 +1,8 @@
 package com.madmonkey.magnifitness;
 
-import java.util.Locale;
 
-import com.facebook.Session;
+
+import java.util.Locale;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,7 +22,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-import name.bagi.levente.pedometer.Pedometer;
+
+import com.facebook.Session;
 public class Home extends FragmentActivity
 {
 

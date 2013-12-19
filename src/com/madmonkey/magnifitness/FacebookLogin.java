@@ -2,28 +2,30 @@ package com.madmonkey.magnifitness;
 
 import java.util.Calendar;
 
-import android.R;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.DownloadManager.Request;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.service.textservice.SpellCheckerService.Session;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.facebook.Request;
 import com.facebook.Response;
+import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+
+
+
 
 public class FacebookLogin extends FragmentActivity
 {
@@ -86,7 +88,7 @@ public class FacebookLogin extends FragmentActivity
 		//final ActionBar actionBar = getActionBar();
 		//actionBar.setDisplayHomeAsUpEnabled(true);
 	}
-
+	
 	// responsible for showing a given fragment & hiding all other fragments
 	private void showFragment(int fragmentIndex, boolean addToBackStack)
 	{
@@ -157,7 +159,7 @@ public class FacebookLogin extends FragmentActivity
 		// Only make changes if the activity is visible
 		if (isResumed)
 		{
-			FragmentManager manager = getSupportFragmentManager();
+			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
 			// Get the number of entries in the back stack
 			int backStackSize = manager.getBackStackEntryCount();

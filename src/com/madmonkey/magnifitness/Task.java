@@ -1,14 +1,14 @@
 package com.madmonkey.magnifitness;
 
-import com.facebook.widget.ProfilePictureView;
-
+import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.facebook.widget.ProfilePictureView;
 
 public class Task extends Fragment
 {
