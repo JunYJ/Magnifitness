@@ -7,6 +7,8 @@
         <item>Tea-Break</item>
         <item>Dinner</item>
     </string-array>
+    
+    
     <string-array name="task_list">
         <item>Login into Magnifitness</item>
         <item>Log your first meal</item>

@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Calorie Plan:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/TVcalorieValue"
@@ -25,7 +25,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="15dp"
             android:text="5060/7250"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <ProgressBar
@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
+        android:max="100"
         android:progress="30" />
 
     <TextView
@@ -42,10 +43,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Log your meals today!"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/mealList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
