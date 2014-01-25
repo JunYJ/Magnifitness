@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class MealLogBook extends Fragment {
@@ -25,6 +25,19 @@ public class MealLogBook extends Fragment {
 		View rootView = inflater.inflate(R.layout.meal_logbook, container, false);
 		mealList = (ListView) rootView.findViewById(R.id.mealList);
 		
+		mealList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+			{
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int pos, long id)
+					{
+					String item = (String) parent.getItemAtPosition(pos);
+					
+					
+					
+					
+					}
+			});
 		
 		
 		return rootView;

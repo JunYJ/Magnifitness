@@ -116,7 +116,6 @@
             android:id="@+id/weightPicker"
             android:layout_width="204dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp" />
@@ -132,7 +131,6 @@
             android:id="@+id/heightPicker"
             android:layout_width="204dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp" />
@@ -148,7 +146,6 @@
             android:id="@+id/idealWeightPicker"
             android:layout_width="204dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingTop="10dp" />
