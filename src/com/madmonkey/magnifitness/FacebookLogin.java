@@ -312,7 +312,7 @@ public class FacebookLogin extends FragmentActivity {
 		// userInfo.append(String.format("Name: %s\n\n", user.getName()));
 		userInfo.append(String.format("Name: %s\n\n", userSP.getString("name", user.getName())));
 		// Example: typed access (birthday)
-		// - requires user_birthday permission
+		// - requires user_birthday permissions
 		// userInfo.append(String.format("Birthday: %s\n\n",
 		// user.getBirthday()));
 

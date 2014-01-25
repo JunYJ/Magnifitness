@@ -91,7 +91,7 @@ public class LoginFragment extends Fragment {
 		
 		LoginButton loginBtn = (LoginButton) view.findViewById(R.id.login_button);
 		loginBtn.setFragment(this);
-		loginBtn.setReadPermissions(Arrays.asList("user_likes", "user_status"));
+		loginBtn.setReadPermissions(Arrays.asList("name", "gender", "birthday", "email"));
 		
 		
 		
