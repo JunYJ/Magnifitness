@@ -24,18 +24,6 @@
             android:typeface="serif" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/profile_name"
-        android:layout_width="174dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="35dp"
-        android:gravity="center_horizontal"
-        android:lines="2"
-        android:text="@string/get_started"
-        android:textIsSelectable="false"
-        android:textSize="17sp" />
-
     <com.facebook.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
@@ -43,5 +31,26 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/user_nameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/birthdayTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Birthday"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/emailTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>
