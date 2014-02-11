@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MealLogBook extends Fragment {
 
+	TextView TVcalorieValue;
 	ListView	mealList;
 	Intent		nextActivity;
 
@@ -28,6 +30,7 @@ public class MealLogBook extends Fragment {
 		{
 		View rootView = inflater.inflate(R.layout.meal_logbook, container, false);
 		mealList = (ListView) rootView.findViewById(R.id.mealList);
+		TVcalorieValue = (TextView) rootView.findViewById(R.id.TVcalorieValue);
 
 		mealList.setOnItemClickListener(new AdapterView.OnItemClickListener()
 			{

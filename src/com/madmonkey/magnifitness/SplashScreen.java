@@ -82,7 +82,7 @@ public class SplashScreen extends Activity
 				// Run next activity
 				if (!mIsBackButtonPressed) 
 				{
-					startActivity(new Intent(SplashScreen.this, CopyOfFacebookLogin.class));
+					startActivity(new Intent(SplashScreen.this, FacebookLogin.class));
 				}
 				
 				finish();

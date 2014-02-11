@@ -102,11 +102,12 @@ public class User
 
 	public double getBmi()
 	{
-
-		double heightInMeter = (double) getHeight() / 100;
+		
+		double heightInMeter = getHeight();
+		heightInMeter /= 100;
 
 		double heightSquare = heightInMeter * heightInMeter;
-		bmi = getCurrentWeight() / heightSquare;
+		this.bmi = getCurrentWeight() / heightSquare;
 
 		return bmi;
 	}
