@@ -16,7 +16,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
 public class LoginFragment extends Fragment {
-
+/*
 	private static final String		TAG			= "LoginFragment";
 
 	private Session.StatusCallback	callback	= new Session.StatusCallback()
@@ -108,5 +108,12 @@ public class LoginFragment extends Fragment {
 			{
 			Log.i(TAG, "Logged out...");
 			}
+		}*/	
+	@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			View view = inflater.inflate(R.layout.login, container,false);
+			return view;
 		}
+
 }
