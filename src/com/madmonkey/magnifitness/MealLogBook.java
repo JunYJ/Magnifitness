@@ -1,5 +1,6 @@
 package com.madmonkey.magnifitness;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,12 +13,14 @@ import android.widget.Toast;
 public class MealLogBook extends Fragment {
 
 	ListView	mealList;
+	Intent		nextActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 		{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		nextActivity = new Intent(getActivity(), MealEntry.class);
 		}
 
 	@Override
@@ -35,6 +38,7 @@ public class MealLogBook extends Fragment {
 					switch (pos)
 						{
 						case 0:
+
 							Toast.makeText(parent.getContext(), "Breakfast selected", Toast.LENGTH_LONG).show();
 							break;
 
@@ -48,6 +52,11 @@ public class MealLogBook extends Fragment {
 
 						case 3:
 							Toast.makeText(parent.getContext(), "Dinner Selected", Toast.LENGTH_LONG).show();
+							break;
+
+						default:
+							nextActivity.putExtra("meal_type", 1);
+							startActivityForResult(nextActivity, pos);
 							break;
 						}
 
