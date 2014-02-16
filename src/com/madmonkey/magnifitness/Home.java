@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.Session;
+import com.madmonkey.magnifitnessClass.User;
 
 public class Home extends FragmentActivity {
 
@@ -42,6 +43,8 @@ public class Home extends FragmentActivity {
 	MenuItem logOut;
 	Session s;
 	PackageManager manager;
+	User user;
+	Intent i;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,10 @@ public class Home extends FragmentActivity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		s = Session.getActiveSession();
 		manager = getPackageManager();
+		
+		i = getIntent();
+		user = i.getParcelableExtra("userObject");
+		
 	}
 
 	@Override

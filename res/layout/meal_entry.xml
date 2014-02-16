@@ -10,14 +10,17 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Food List:"
+        android:text="What I ate..."
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="261dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.75"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:entries="@array/food_list"
         tools:listitem="@android:layout/simple_list_item_1" >
     </ListView>
 
@@ -37,12 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirm" />
-
-        <Button
-            android:id="@+id/cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancel" />
     </LinearLayout>
 
 </LinearLayout>

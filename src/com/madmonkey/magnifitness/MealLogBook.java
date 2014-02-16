@@ -9,13 +9,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.madmonkey.magnifitnessClass.User;
 
 public class MealLogBook extends Fragment {
 
-	TextView TVcalorieValue;
+	TextView	TVcalorieValue, TVcalorieCap;
 	ListView	mealList;
 	Intent		nextActivity;
+	User		myUser;
+	Intent i;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -28,10 +31,14 @@ public class MealLogBook extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+		
+		
 		View rootView = inflater.inflate(R.layout.meal_logbook, container, false);
 		mealList = (ListView) rootView.findViewById(R.id.mealList);
 		TVcalorieValue = (TextView) rootView.findViewById(R.id.TVcalorieValue);
-
+		TVcalorieCap = (TextView) rootView.findViewById(R.id.TVcalorieCap);
+		TVcalorieCap.setText(myUser.getTotalDailyCalorieNeeds());
+		
 		mealList.setOnItemClickListener(new AdapterView.OnItemClickListener()
 			{
 
@@ -42,26 +49,23 @@ public class MealLogBook extends Fragment {
 						{
 						case 0:
 
-							Toast.makeText(parent.getContext(), "Breakfast selected", Toast.LENGTH_LONG).show();
+							nextActivity.putExtra("meal_type", 1);
 							break;
 
 						case 1:
-							Toast.makeText(parent.getContext(), "Lunch Selected", Toast.LENGTH_LONG).show();
+							nextActivity.putExtra("meal_type", 2);
 							break;
 
 						case 2:
-							Toast.makeText(parent.getContext(), "Tea-break Selected", Toast.LENGTH_LONG).show();
+							nextActivity.putExtra("meal_type", 3);
 							break;
 
 						case 3:
-							Toast.makeText(parent.getContext(), "Dinner Selected", Toast.LENGTH_LONG).show();
+							nextActivity.putExtra("meal_type", 4);
 							break;
 
-						default:
-							nextActivity.putExtra("meal_type", 1);
-							startActivityForResult(nextActivity, pos);
-							break;
 						}
+					startActivityForResult(nextActivity, pos);
 
 					}
 			});

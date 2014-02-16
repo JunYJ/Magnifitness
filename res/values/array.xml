@@ -17,5 +17,17 @@
         <item>Challenge: Water is life! 8 glasses</item>
         <item>Challenge: Fill your plate with Greens!</item>
     </string-array>
+    
+    <string-array name="food_list">
+        <item>Chicken Rice</item>
+        <item>Curry Mee</item>
+        <item>Fried Chicken Wing</item>
+        <item>Fried Chicken Drumstick</item>
+        <item>Fried Chicken Breast</item>
+        <item>Roti Telur Bawang</item>
+    </string-array>
+    
+    
+    
 
 </resources>

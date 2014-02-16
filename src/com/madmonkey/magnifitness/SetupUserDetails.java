@@ -37,6 +37,7 @@ public class SetupUserDetails extends Activity implements
 	String ageString;
 	int ageInt;
 	int levelOfActiveness;
+	Intent nextActivity;
 
 	boolean userCreated = false;
 
@@ -66,8 +67,11 @@ public class SetupUserDetails extends Activity implements
 				saveInformation();
 
 				finish();
-				startActivity(new Intent(SetupUserDetails.this, Home.class));
-
+				
+				nextActivity = new Intent(SetupUserDetails.this, Home.class);
+				nextActivity.putExtra("userObject", user);
+				startActivity(nextActivity);
+				finish();
 			}
 
 		});
