@@ -185,7 +185,7 @@ public class FacebookLogin extends FragmentActivity {
 							if (user != null)
 								{
 								// Display the parsed user info
-								SelectionFragment.userInfo.setText(buildUserInfoDisplay(user));
+								
 
 								SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 								SharedPreferences.Editor editor = shared.edit();
@@ -200,6 +200,8 @@ public class FacebookLogin extends FragmentActivity {
 										c.get(Calendar.YEAR) - Integer.parseInt(user.getBirthday().substring(user.getBirthday().length() - 4)));
 								// commit changes to the SharedPref
 								editor.commit();
+								
+								SelectionFragment.userInfo.setText(buildUserInfoDisplay(user));
 								}
 
 							}
