@@ -30,12 +30,13 @@ public class User implements Parcelable {
 		idealWeight = 0;
 		}
 
-	public User(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int idealWeightIn)
+	public User(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int idealWeightIn, int activenessIn)
 		{
 		name = nameIn;
 		age = ageIn;
 		gender = genderIn;
 		email = emailIn;
+		levelOfActiveness = activenessIn;
 		currentWeight = currentWeightIn;
 		height = heightIn;
 		idealWeight = idealWeightIn;
@@ -193,10 +194,11 @@ public class User implements Parcelable {
 		return idealWeight;
 		}
 
-	public void setUser(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int idealWeightIn)
+	public void setUser(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int idealWeightIn, int activenessIn)
 		{
 		name = nameIn;
 		age = ageIn;
+		levelOfActiveness = activenessIn;
 		gender = genderIn;
 		email = emailIn;
 		currentWeight = currentWeightIn;

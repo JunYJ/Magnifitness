@@ -3,6 +3,7 @@ package com.madmonkey.magnifitness;
 import java.util.Locale;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -34,20 +35,21 @@ public class Home extends FragmentActivity {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	SectionsPagerAdapter	mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
-	ViewPager mViewPager;
-	MenuItem logOut;
-	Session s;
-	PackageManager manager;
-	User user;
-	Intent i;
+	ViewPager				mViewPager;
+	MenuItem				logOut;
+	Session					s;
+	PackageManager			manager;
+	User					user;
+	SharedPreferences		userSP;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+		{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
 
@@ -59,69 +61,70 @@ public class Home extends FragmentActivity {
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		s = Session.getActiveSession();
 		manager = getPackageManager();
-		
-		i = getIntent();
-		user = i.getParcelableExtra("userObject");
-		
-	}
+
+		}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu)
+		{
 		// TODO Auto-generated method stub
-		logOut = menu.add(R.string.logOut)
-				.setIcon(R.drawable.com_facebook_icon);
+		logOut = menu.add(R.string.logOut).setIcon(R.drawable.com_facebook_icon);
 		return super.onCreateOptionsMenu(menu);
-	}
+		}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This is called when the Home (Up) button is pressed in the action
-			// bar.
-			// Create a simple intent that starts the hierarchical parent
-			// activity and
-			// use NavUtils in the Support Package to ensure proper handling of
-			// Up.
-			Intent upIntent = new Intent(this, FacebookLogin.class);
-			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-				// This activity is not part of the application's task, so
-				// create a new task
-				// with a synthesized back stack.
-				TaskStackBuilder.from(this)
-				// If there are ancestor activities, they should be added here.
-						.addNextIntent(upIntent).startActivities();
-				finish();
-			} else {
-				// This activity is part of the application's task, so simply
-				// navigate up to the hierarchical parent activity.
-				NavUtils.navigateUpTo(this, upIntent);
+	public boolean onOptionsItemSelected(MenuItem item)
+		{
+		switch (item.getItemId())
+			{
+			case android.R.id.home:
+				// This is called when the Home (Up) button is pressed in the action
+				// bar.
+				// Create a simple intent that starts the hierarchical parent
+				// activity and
+				// use NavUtils in the Support Package to ensure proper handling of
+				// Up.
+				Intent upIntent = new Intent(this, FacebookLogin.class);
+				if (NavUtils.shouldUpRecreateTask(this, upIntent))
+					{
+					// This activity is not part of the application's task, so
+					// create a new task
+					// with a synthesized back stack.
+					TaskStackBuilder.from(this)
+					// If there are ancestor activities, they should be added here.
+							.addNextIntent(upIntent).startActivities();
+					finish();
+					}
+				else
+					{
+					// This activity is part of the application's task, so simply
+					// navigate up to the hierarchical parent activity.
+					NavUtils.navigateUpTo(this, upIntent);
+					}
+				return true;
 			}
-			return true;
-		}
 
-		if (item.equals(logOut)) {
+		if (item.equals(logOut))
+			{
 			// Fragment settings = new Settings();
-			Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG).show();
 			System.out.println("LOGOUT");
 			finishAffinity();
 			// Fragment settings = findFragmentById(R.id.userSettingsFragment);
 			s.closeAndClearTokenInformation();
 			return true;
-		}
+			}
 
 		return super.onOptionsItemSelected(item);
-	}
+		}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -129,60 +132,68 @@ public class Home extends FragmentActivity {
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-		public SectionsPagerAdapter(FragmentManager fm) {
+		public SectionsPagerAdapter(FragmentManager fm)
+			{
 			super(fm);
-		}
+			}
 
 		@Override
-		public Fragment getItem(int position) {
+		public Fragment getItem(int position)
+			{
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment;
-			if (position == 0) {
+			Fragment fragment = new Fragment();
+			if (position == 0)
+				{
 				fragment = new Task();
-			}
+				}
 
-			else if (position == 1) {
+			else if (position == 1)
+				{
 				fragment = new MealLogBook();
-			}
+				}
 
-			else if (position == 2) {
+			else if (position == 2)
+				{
 				fragment = new StepCount();
-			}
+				}
 
-			else {
+			else
+				{
 				fragment = new DummySectionFragment();
 				Bundle args = new Bundle();
-				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
-						position + 1);
+				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
 				fragment.setArguments(args);
-			}
+				}
 
 			return fragment;
-		}
+			}
 
 		@Override
-		public int getCount() {
+		public int getCount()
+			{
 			// Show 3 total pages.
 			return 3;
-		}
+			}
 
 		@Override
-		public CharSequence getPageTitle(int position) {
+		public CharSequence getPageTitle(int position)
+			{
 			Locale l = Locale.getDefault();
-			switch (position) {
-			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
-			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
-			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
-			case 3:
-				return getString(R.string.title_section3).toUpperCase(l);
-			}
+			switch (position)
+				{
+				case 0:
+					return getString(R.string.title_section1).toUpperCase(l);
+				case 1:
+					return getString(R.string.title_section2).toUpperCase(l);
+				case 2:
+					return getString(R.string.title_section3).toUpperCase(l);
+				case 3:
+					return getString(R.string.title_section3).toUpperCase(l);
+				}
 			return null;
-		}
+			}
 	}
 
 	/**
@@ -194,57 +205,79 @@ public class Home extends FragmentActivity {
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
+		public static final String	ARG_SECTION_NUMBER	= "section_number";
 
-		public DummySectionFragment() {
-		}
+		public DummySectionFragment()
+			{
+			}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_home_dummy,
-					container, false);
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+			{
+			View rootView = inflater.inflate(R.layout.fragment_home_dummy, container, false);
 			/*
 			 * TextView dummyTextView = (TextView) rootView
 			 * .findViewById(R.id.section_label);
 			 * dummyTextView.setText("I am page " +
 			 * Integer.toString(getArguments().getInt( ARG_SECTION_NUMBER)));
 			 */
-			Button pedometerBtn = (Button) rootView
-					.findViewById(R.id.activatePedometerBtn);
-			pedometerBtn.setOnClickListener(new OnClickListener() {
+			Button pedometerBtn = (Button) rootView.findViewById(R.id.activatePedometerBtn);
+			pedometerBtn.setOnClickListener(new OnClickListener()
+				{
 
-				@Override
-				public void onClick(View v) {
-					// TODO Auto-generated method stub
+					@Override
+					public void onClick(View v)
+						{
+						// TODO Auto-generated method stub
 
-					getActivity().finish();
+						getActivity().finish();
 
-					// startActivity(new Intent(getActivity(),
-					// Pedometer.class));
-					Intent i = new Intent();
-					i.setAction("name.bagi.levente.PEDOMETER");
-					startActivity(i);
+						// startActivity(new Intent(getActivity(),
+						// Pedometer.class));
+						Intent i = new Intent();
+						i.setAction("name.bagi.levente.PEDOMETER");
+						startActivity(i);
 
-				}
+						}
 
-			});
+				});
 
 			return rootView;
-		}
+			}
 	}
 
 	/*
 	 * public static class Settings extends Fragment {
-	 * 
 	 * public Settings() {
-	 * 
 	 * }
-	 * 
 	 * public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	 * Bundle savedInstanceState) { View settings =
 	 * inflater.inflate(R.layout.com_facebook_usersettingsfragment, container,
 	 * false); return settings; } }
 	 */
+
+	public void loadFromPref()
+		{
+
+		userSP = getSharedPreferences(FacebookLogin.filename, 0);
+		String username, email, gender;
+		int age, weight, height, idealWeight, lvOfActiveness;
+
+		if (userSP.getBoolean("userCreated", false))
+			{
+			username = userSP.getString("name", "unknown");
+			email = userSP.getString("email", "unknown");
+			gender = userSP.getString("gender", "Lady Boy");
+			age = userSP.getInt("age", 99);
+			lvOfActiveness = userSP.getInt("lvOfActiveness", 0);
+			weight = userSP.getInt("weight", 1);
+			height = userSP.getInt("height", 1);
+			idealWeight = userSP.getInt("idealWeight", 2);
+
+			user = new User(username, age, email, gender, weight, height, idealWeight, lvOfActiveness);
+
+			}
+
+		}
 
 }

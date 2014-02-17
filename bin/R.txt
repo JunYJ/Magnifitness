@@ -147,7 +147,6 @@ int id add_btn 0x7f0a003b
 int id ageET 0x7f0a0053
 int id ageTV 0x7f0a0052
 int id birthdayTV 0x7f0a0021
-int id bmrSpinner 0x7f0a005a
 int id box_calories 0x7f0a0031
 int id box_distance 0x7f0a0027
 int id box_pace 0x7f0a002b
@@ -198,6 +197,7 @@ int id levelOfActive 0x7f0a0059
 int id listView1 0x7f0a003a
 int id loginFragment 0x7f0a0019
 int id login_button 0x7f0a001f
+int id lvOfActivenssSpinner 0x7f0a005a
 int id m_text 0x7f0a004b
 int id mealList 0x7f0a0042
 int id nameTV 0x7f0a0050

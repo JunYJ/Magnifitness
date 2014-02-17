@@ -201,6 +201,15 @@ public class FacebookLogin extends FragmentActivity {
 								// commit changes to the SharedPref
 								editor.commit();
 								
+								String gender = user.asMap().get("gender").toString();
+						        
+						        if(gender.equalsIgnoreCase("male"))
+						         gender = "Male";
+						        else if(gender.equalsIgnoreCase("female"))
+						         gender = "Female";
+						        
+						        editor.putString("gender", gender).commit();
+								
 								SelectionFragment.userInfo.setText(buildUserInfoDisplay(user));
 								}
 
