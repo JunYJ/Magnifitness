@@ -12,6 +12,10 @@ import android.widget.Toast;
 public class MealEntry extends Activity implements OnClickListener {
 
 	Button	add, confirm;
+	final static int BREAKFAST = 1;  
+	final static int LUNCH = 2;  
+	final static int SNACK = 3;  
+	final static int DINNER = 4; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -25,20 +29,26 @@ public class MealEntry extends Activity implements OnClickListener {
 
 		switch (meal_type)
 			{
-			case 1:
+			case BREAKFAST:
 				Toast.makeText(getApplication(), "Breakfast", Toast.LENGTH_SHORT).show();
 				break;
-			case 2:
+			case LUNCH:
 				Toast.makeText(getApplication(), "Lunch", Toast.LENGTH_SHORT).show();
 				break;
-			case 3:
-				Toast.makeText(getApplication(), "Tea Break", Toast.LENGTH_SHORT).show();
+			case SNACK:
+				Toast.makeText(getApplication(), "Snack", Toast.LENGTH_SHORT).show();
 				break;
-			case 4:
+			case DINNER:
 				Toast.makeText(getApplication(), "Dinner", Toast.LENGTH_SHORT).show();
 				break;
-
 			}
+		
+		
+		
+		
+		
+		
+		
 		}
 
 	private void initialization()

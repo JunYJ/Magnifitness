@@ -21,6 +21,10 @@ public class MealLogBook extends Fragment {
 	ListView			mealList;
 	Intent				nextActivity;
 	User				user;
+	final static int BREAKFAST = 1;  
+	final static int LUNCH = 2;  
+	final static int SNACK = 3;  
+	final static int DINNER = 4;  
 	SharedPreferences	userSP;
 
 	@Override
@@ -59,19 +63,19 @@ public class MealLogBook extends Fragment {
 						{
 						case 0:
 
-							nextActivity.putExtra("meal_type", 1);
+							nextActivity.putExtra("meal_type", BREAKFAST);
 							break;
 
 						case 1:
-							nextActivity.putExtra("meal_type", 2);
+							nextActivity.putExtra("meal_type", LUNCH);
 							break;
 
 						case 2:
-							nextActivity.putExtra("meal_type", 3);
+							nextActivity.putExtra("meal_type", SNACK);
 							break;
 
 						case 3:
-							nextActivity.putExtra("meal_type", 4);
+							nextActivity.putExtra("meal_type", DINNER);
 							break;
 
 						}

@@ -10,7 +10,7 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="What I ate..."
+        android:text="What I ate:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView
@@ -20,8 +20,7 @@
         android:layout_weight="0.75"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:entries="@array/food_list"
-        tools:listitem="@android:layout/simple_list_item_1" >
+        tools:listitem="@android:layout/simple_list_item_2" >
     </ListView>
 
     <LinearLayout
