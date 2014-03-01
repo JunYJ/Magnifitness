@@ -1,11 +1,13 @@
 package com.madmonkey.magnifitness.util;
 
-import com.madmonkey.magnifitnessClass.Food;
-
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.madmonkey.magnifitnessClass.Food;
 
 public class DatabaseHandler extends SQLiteOpenHelper
 {
@@ -17,14 +19,13 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 	// Table Names
 	private static final String	TABLE_FOOD				= "food";
-	private static final String	TABLE_USER				= "user";
+	private static final String	TABLE_USER_MEAL_ENTRY	= "user";
 
 	// Column Names
 	// FOOD
 	private static final String	KEY_TITLE				= "title";
 	private static final String	KEY_MEASUREMENT_UNIT	= "measurementUnit";
 	private static final String	KEY_CALORIE				= "calorie";
-	private static final String	KEY_PHOTO				= "photo";
 	private static final String	KEY_TYPE				= "type";
 
 	// USER
@@ -39,6 +40,13 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String	KEY_CURRENT_WEIGHT		= "currentWeight";
 	private static final String	KEY_HEIGHT				= "height";
 	private static final String	KEY_IDEAL_WEIGHT		= "idealWeight";
+	
+	String CREATE_FOOD_TABLE = "CREATE TABLE " + TABLE_FOOD + "("
+			+ KEY_TITLE + " TEXT PRIMARY KEY," + KEY_MEASUREMENT_UNIT
+			+ " TEXT NOT NULL," + KEY_CALORIE + " REAL NOT NULL,"
+		    + KEY_TYPE + " STRING" + ")";
+	
+	String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(";
 
 	public DatabaseHandler(Context context)
 	{
@@ -55,14 +63,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		 * KEY_MODIFIED_BY + " INT," + KEY_MODIFIED_ON + " DATETIME," +
 		 * KEY_IS_ADMIN + " INTEGER NOT NULL" + ")"; */
 
-		String CREATE_FOOD_TABLE = "CREATE TABLE " + TABLE_FOOD + "("
-				+ KEY_TITLE + " TEXT PRIMARY KEY," + KEY_MEASUREMENT_UNIT
-				+ " TEXT NOT NULL," + KEY_CALORIE + " REAL NOT NULL,"
-				+ KEY_PHOTO + " BLOB," + KEY_TYPE + " STRING" + ")";
-		
-		String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(";
-		
 		db.execSQL(CREATE_FOOD_TABLE);
+		Log.i("EXECSQL", CREATE_FOOD_TABLE);
 
 	}
 
@@ -70,7 +72,21 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_FOOD);
+	}
+	
+	public void addFood(Food food)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
 
+		ContentValues values = new ContentValues();
+		// values.put(KEY_USER_ID, user.getUserID());
+		values.put(KEY_TITLE, food.getTitle());
+		values.put(KEY_MEASUREMENT_UNIT, food.getMeasurementUnit());
+		values.put(KEY_CALORIE, food.getCalorie());
+		values.put(KEY_TYPE, food.getType());
+
+		db.insert(TABLE_FOOD, null, values);
+		db.close();
 	}
 	
 	public Food getFood(String title)
@@ -79,7 +95,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		
 		Cursor cursor = db.query(TABLE_FOOD,
 				new String[] { KEY_TITLE, KEY_MEASUREMENT_UNIT, KEY_CALORIE,
-						KEY_PHOTO, KEY_TYPE },
+						 KEY_TYPE },
 						KEY_TITLE + "=?", new String[] { String.valueOf(title) }, null,
 				null, null, null);
 
@@ -88,9 +104,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			cursor.moveToFirst();
 		}
 
-		Food food = null;
-		/*Food user = new Food(cursor.getString(0), cursor.getString(1),
-				cursor.getString(2), cursor.getString(3), cursor.getString(4));*/
+		//Food food = null;
+		Food food = new Food(cursor.getString(0), cursor.getString(1),
+				Double.parseDouble(cursor.getString(2)), cursor.getString(3));
 
 		return food;
 	}

@@ -427,4 +427,5 @@ int styleable com_facebook_place_picker_fragment_show_search_box 3
 int[] styleable com_facebook_profile_picture_view { 0x7f010010, 0x7f010011 }
 int styleable com_facebook_profile_picture_view_is_cropped 1
 int styleable com_facebook_profile_picture_view_preset_size 0
-int xml preferences 0x7f050000
+int xml foodlist 0x7f050000
+int xml preferences 0x7f050001

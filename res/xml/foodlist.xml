@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<item>
+	    <Food>
+	        <Title>McChicken</Title>
+	        <MeasurementUnit>Piece</MeasurementUnit>
+	        <Calorie>394.8</Calorie>
+	        <Type>Meat</Type>
+	    </Food>
+	    <Food>
+	        <Title>McDonald's Apple Pie</Title>
+	        <MeasurementUnit>Piece</MeasurementUnit>
+	        <Calorie>245.00</Calorie>
+	        <Type>Bread</Type>
+	    </Food>
+	    <Food>
+	        <Title>McDonald's Chicken McNuggets</Title>
+	        <MeasurementUnit>Piece</MeasurementUnit>
+	        <Calorie>39.00</Calorie>
+	        <Type>Meat</Type>
+	    </Food>
+	    <Food>
+	        <Title>Chicken Rice</Title>
+	        <MeasurementUnit>Plate</MeasurementUnit>
+	        <Calorie>328.00</Calorie>
+	        <Type>Rice</Type>
+	    </Food>
+	    <Food>
+	        <Title>Roti Canai</Title>
+	        <MeasurementUnit>Piece</MeasurementUnit>
+	        <Calorie>301.50</Calorie>
+	        <Type>Bread</Type>
+	    </Food>
+	    <Food>
+	        <Title>Nasi Lemak</Title>
+	        <MeasurementUnit>Plate</MeasurementUnit>
+	        <Calorie>389.50</Calorie>
+	        <Type>Rice</Type>
+	    </Food>
+	    <Food>
+	        <Title>Teh Tarik</Title>
+	        <MeasurementUnit>Cup</MeasurementUnit>
+	        <Calorie>97.70</Calorie>
+	        <Type>Drinks</Type>
+	    </Food>
+	    <Food>
+	        <Title>Nestle Milo</Title>
+	        <MeasurementUnit>Cup</MeasurementUnit>
+	        <Calorie>140.75</Calorie>
+	        <Type>Drinks</Type>
+	    </Food>
+	</item>
+	
+</menu>

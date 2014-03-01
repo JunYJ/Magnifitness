@@ -20,9 +20,12 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.madmonkey.magnifitness.util.DatabaseHandler;
 import com.madmonkey.magnifitnessClass.User;
 
-public class SetupUserDetails extends Activity implements OnCheckedChangeListener {
+public class SetupUserDetails extends Activity implements
+		OnCheckedChangeListener
+{
 	EditText			name, email, age;
 	RadioGroup			genderRG;
 	NumberPicker		weightPicker, heightPicker, idealWeightPicker;
@@ -38,10 +41,11 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 	Intent				nextActivity;
 
 	boolean				userCreated	= false;
+	DatabaseHandler		db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-		{
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_detail_setup);
 		getView();
@@ -50,51 +54,53 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		// ERROR HERE
 		loadFromPreferences();
 
-		okBtn.setOnClickListener(new OnClickListener()
+		okBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v)
 			{
-				@Override
-				public void onClick(View v)
+				ageString = age.getText().toString();
+
+				ageInt = Integer.parseInt(ageString);
+
+				user.setUser(name.getText().toString(), ageInt, email.getText()
+						.toString(), gender, weightPicker.getValue(),
+						heightPicker.getValue(), idealWeightPicker.getValue(),
+						lvOfActiveness.getSelectedItemPosition());
+				userCreated = true;
+				saveInformation();
+
+				finish();
+
+				nextActivity = new Intent(SetupUserDetails.this, Home.class);
+				nextActivity.putExtra("userObject", user);
+				startActivity(nextActivity);
+				finish();
+			}
+
+		});
+
+		lvOfActiveness
+				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> parent,
+							View view, int pos, long id)
 					{
-					ageString = age.getText().toString();
-
-					ageInt = Integer.parseInt(ageString);
-
-					user.setUser(name.getText().toString(), ageInt, email.getText().toString(), gender, weightPicker.getValue(),
-							heightPicker.getValue(), idealWeightPicker.getValue(), lvOfActiveness.getSelectedItemPosition());
-					userCreated = true;
-					saveInformation();
-
-					finish();
-
-					nextActivity = new Intent(SetupUserDetails.this, Home.class);
-					nextActivity.putExtra("userObject", user);
-					startActivity(nextActivity);
-					finish();
-					}
-
-			});
-
-		lvOfActiveness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-			{
-
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-					{
-					levelOfActiveness = pos;
-					
-					}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0)
-					{
+						levelOfActiveness = pos;
 
 					}
 
-			});
-		}
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0)
+					{
+
+					}
+
+				});
+	}
 
 	private void getView()
-		{
+	{
 		name = (EditText) findViewById(R.id.username);
 		email = (EditText) findViewById(R.id.emailET);
 		genderRG = (RadioGroup) findViewById(R.id.genderRG);
@@ -121,17 +127,15 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 		genderRG.setOnCheckedChangeListener(this);
 		genderRG.check(R.id.rbMale);
-		}
+	}
 
-	/**
-	 * This method handle the RadioGroup
-	 */
+	/** This method handle the RadioGroup */
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
-		{
+	{
 
 		switch (checkedId)
-			{
+		{
 			case R.id.rbMale:
 				gender = "Male";
 				break;
@@ -141,12 +145,13 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 			default:
 				gender = "";
 				break;
-			}
 		}
+	}
 
 	public void saveInformation()
-		{
-		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
+	{
+		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename,
+				MODE_PRIVATE);
 		SharedPreferences.Editor editor = shared.edit();
 		// Insert value below
 		editor.putString("name", name.getText().toString());
@@ -156,17 +161,19 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		Matcher matcher = pattern.matcher(email.getText().toString());
 
 		if (matcher.matches())
-			{
+		{
 			editor.putString("email", email.getText().toString());
-			}
+		}
 		else
-			{
-			Toast.makeText(getApplication(), "Invalid email", Toast.LENGTH_LONG).show();
-			}
+		{
+			Toast.makeText(getApplication(), "Invalid email", Toast.LENGTH_LONG)
+					.show();
+		}
 
 		editor.putString("gender", gender);
 		editor.putInt("age", Integer.parseInt(age.getText().toString()));
-		editor.putInt("lvOfActiveness", lvOfActiveness.getSelectedItemPosition());
+		editor.putInt("lvOfActiveness",
+				lvOfActiveness.getSelectedItemPosition());
 		editor.putInt("weight", weightPicker.getValue());
 		editor.putInt("height", heightPicker.getValue());
 		editor.putInt("idealWeight", idealWeightPicker.getValue());
@@ -178,11 +185,12 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 		// commit changes to the SharedPref
 		editor.commit();
-		}
+	}
 
 	private void loadFromPreferences()
-		{
-		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
+	{
+		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename,
+				MODE_PRIVATE);
 		name.setText(shared.getString("name", ""));
 		email.setText(shared.getString("email", ""));
 		if (shared.getString("gender", "").equalsIgnoreCase("male"))
@@ -196,6 +204,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		weightPicker.setValue(shared.getInt("weight", 50));
 		heightPicker.setValue(shared.getInt("height", 150));
 		idealWeightPicker.setValue(shared.getInt("idealWeight", 50));
-		}
+	}
 
+	
 }
