@@ -46,6 +46,7 @@
             android:id="@+id/emailTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/user_email"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -60,6 +61,7 @@
             android:id="@+id/genderTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/user_gender"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -93,6 +95,7 @@
             android:id="@+id/levelOfActive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/LOA"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -105,55 +108,30 @@
             android:entries="@array/BMR" />
 
         <TextView
-            android:id="@+id/weight"
+            android:id="@+id/weightTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:onClick="selectWeight"
             android:text="@string/user_current_weight"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <NumberPicker
-            android:id="@+id/weightPicker"
-            android:layout_width="204dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp" />
 
         <TextView
             android:id="@+id/heightTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:onClick="selectHeight"
             android:text="@string/user_height"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <NumberPicker
-            android:id="@+id/heightPicker"
-            android:layout_width="204dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp" />
-
-        <TextView
-            android:id="@+id/idealWeightTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ideal_weight"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <NumberPicker
-            android:id="@+id/idealWeightPicker"
-            android:layout_width="204dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp" />
 
         <Button
             android:id="@+id/okBtn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/okBtn" />
     </LinearLayout>
 
