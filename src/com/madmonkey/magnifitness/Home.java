@@ -274,7 +274,7 @@ public class Home extends FragmentActivity {
 			height = userSP.getInt("height", 1);
 			idealWeight = userSP.getInt("idealWeight", 2);
 
-			user = new User(username, age, email, gender, weight, height, idealWeight, lvOfActiveness);
+			user = new User(username, age, email, gender, weight, height, lvOfActiveness);
 
 			}
 

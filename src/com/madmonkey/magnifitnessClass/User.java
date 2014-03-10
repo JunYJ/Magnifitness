@@ -4,42 +4,47 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class User implements Parcelable {
-	String	name;
-	int		age;
-	String	email;
-	String	gender;
-	double	bmr;
-	double	bmi;
-	int		levelOfActiveness;
-	int		totalDailyCalorieNeeds;
-	int		currentWeight;
-	int		height;
-	int		idealWeight;
+	String				name;
+	int					age;
+	String				email;
+	String				gender;
+	double				bmr;
+	double				bmi;
+	int					levelOfActiveness;
+	int					totalDailyCalorieNeeds;
+	int					currentWeight;
+	int					height;
+	int					idealWeight;
+
+	static final double	NORMAL_WEIGHT	= 21.7; // (18.5 + 24.9) /2
+	static final double	UNDER_WEIGHT	= 18.5;
+	static final double	OVER_WEIGHT		= 24.9;
+	static final double	OBESE			= 30;
 
 	public User()
 		{
-		name = "";
-		age = 0;
-		email = "";
-		gender = "";
-		levelOfActiveness = 0;
-		bmr = 0.0;
-		bmi = 0.0;
-		currentWeight = 0;
-		height = 0;
-		idealWeight = 0;
+		this.name = "";
+		this.age = 0;
+		this.email = "";
+		this.gender = "";
+		this.levelOfActiveness = 0;
+		this.bmr = 0.0;
+		this.bmi = 0.0;
+		this.currentWeight = 0;
+		this.height = 0;
+		this.idealWeight = 0;
 		}
 
-	public User(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int idealWeightIn, int activenessIn)
+	public User(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int activenessIn)
 		{
-		name = nameIn;
-		age = ageIn;
-		gender = genderIn;
-		email = emailIn;
-		levelOfActiveness = activenessIn;
-		currentWeight = currentWeightIn;
-		height = heightIn;
-		idealWeight = idealWeightIn;
+		this.name = nameIn;
+		this.age = ageIn;
+		this.gender = genderIn;
+		this.email = emailIn;
+		this.levelOfActiveness = activenessIn;
+		this.currentWeight = currentWeightIn;
+		this.height = heightIn;
+		this.idealWeight = getIdealWeight();
 		}
 
 	public User(Parcel in)
@@ -55,7 +60,6 @@ public class User implements Parcelable {
 		bmi = in.readDouble();
 		levelOfActiveness = in.readInt();
 		currentWeight = in.readInt();
-		idealWeight = in.readInt();
 		totalDailyCalorieNeeds = in.readInt();
 
 		}
@@ -165,6 +169,8 @@ public class User implements Parcelable {
 	public int getTotalDailyCalorieNeeds()
 		{
 		double bmrFactor = 0;
+		double scalingFactor = 1;
+		double userBMI = getBmi();
 		switch (levelOfActiveness)
 			{
 			case 0:
@@ -184,17 +190,29 @@ public class User implements Parcelable {
 				break;
 			}
 
-		totalDailyCalorieNeeds = (int) (getBmr() * bmrFactor);
+		if (userBMI < UNDER_WEIGHT)
+			scalingFactor = 1.1;
+		else if (userBMI > OVER_WEIGHT && userBMI < OBESE)
+			scalingFactor = 0.9;
+		else if (userBMI > OBESE)
+			scalingFactor = 0.8;
+
+		totalDailyCalorieNeeds = (int) ((getBmr() * bmrFactor) * scalingFactor);
 
 		return totalDailyCalorieNeeds;
 		}
 
 	public int getIdealWeight()
 		{
+
+		double heightInMeter = getHeight();
+		heightInMeter /= 100;
+		
+		idealWeight = (int) ((heightInMeter * heightInMeter) * NORMAL_WEIGHT);
 		return idealWeight;
 		}
 
-	public void setUser(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int idealWeightIn, int activenessIn)
+	public void setUser(String nameIn, int ageIn, String emailIn, String genderIn, int currentWeightIn, int heightIn, int activenessIn)
 		{
 		name = nameIn;
 		age = ageIn;
@@ -203,7 +221,6 @@ public class User implements Parcelable {
 		email = emailIn;
 		currentWeight = currentWeightIn;
 		height = heightIn;
-		idealWeight = idealWeightIn;
 		}
 
 	@Override
@@ -223,22 +240,21 @@ public class User implements Parcelable {
 		out.writeDouble(bmi);
 		out.writeInt(levelOfActiveness);
 		out.writeInt(currentWeight);
-		out.writeInt(idealWeight);
 		out.writeInt(totalDailyCalorieNeeds);
 
 		}
-	
-	public static final Parcelable.Creator<User>	CREATOR	= new Parcelable.Creator<User>()
-				{
-					public User createFromParcel(Parcel in)
-						{
-						return new User(in);
-						}
 
-					public User[] newArray(int size)
-						{
-						return new User[size];
-						}
-				};
-	
+	public static final Parcelable.Creator<User>	CREATOR	= new Parcelable.Creator<User>()
+																{
+																	public User createFromParcel(Parcel in)
+																		{
+																		return new User(in);
+																		}
+
+																	public User[] newArray(int size)
+																		{
+																		return new User[size];
+																		}
+																};
+
 }

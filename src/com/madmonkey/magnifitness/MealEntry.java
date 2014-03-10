@@ -3,6 +3,7 @@ package com.madmonkey.magnifitness;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,12 +44,6 @@ public class MealEntry extends Activity implements OnClickListener {
 				break;
 			}
 		
-		
-		
-		
-		
-		
-		
 		}
 
 	private void initialization()
@@ -56,6 +51,8 @@ public class MealEntry extends Activity implements OnClickListener {
 		add = (Button) findViewById(R.id.add_btn);
 		confirm = (Button) findViewById(R.id.confirm_btn);
 
+		add.setOnClickListener(this);
+		confirm.setOnClickListener(this);
 		}
 
 	@Override
@@ -72,11 +69,13 @@ public class MealEntry extends Activity implements OnClickListener {
 			{
 
 			case R.id.add_btn:
-
+			
+				Intent i = new Intent(getApplicationContext(), SearchableActivity.class);
+				startActivityForResult(i, RESULT_OK);
 				break;
 
 			case R.id.confirm_btn:
-
+			Log.i("confirm_button", "Confirm button clicked");
 				break;
 
 			}

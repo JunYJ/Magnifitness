@@ -21,7 +21,7 @@
 
     <string-array name="BMR">
         <item>Sedentary		(little or no exercise)</item>
-        <item>Lightly   	(light exercise 1–3 days/week)</item>
+        <item>Light   	(light exercise 1–3 days/week)</item>
         <item>Moderate		(moderate exercise 3–5 days/week)</item>
         <item>Heavy			(hard exercise 6–7 days a week)</item>
         <item>Intensive		(intensive physical job or 2x training)</item>

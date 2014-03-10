@@ -64,7 +64,7 @@ public class SetupUserDetails extends Activity implements
 
 				user.setUser(name.getText().toString(), ageInt, email.getText()
 						.toString(), gender, weightPicker.getValue(),
-						heightPicker.getValue(), idealWeightPicker.getValue(),
+						heightPicker.getValue(),
 						lvOfActiveness.getSelectedItemPosition());
 				userCreated = true;
 				saveInformation();
