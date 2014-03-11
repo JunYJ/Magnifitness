@@ -32,25 +32,6 @@
         android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp" />
 
-    <TextView
-        android:id="@+id/user_nameTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    
-    <TextView
-        android:id="@+id/birthdayTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Birthday"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    
-    <TextView
-        android:id="@+id/emailTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+   
 
 </LinearLayout>
