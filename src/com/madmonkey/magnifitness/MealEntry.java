@@ -84,6 +84,8 @@ public class MealEntry extends Activity implements OnClickListener {
 
 						Toast.makeText(getApplicationContext(), "Item " + which + " is selected", Toast.LENGTH_SHORT).show();
 						
+						
+						
 						}
 				});
 			
