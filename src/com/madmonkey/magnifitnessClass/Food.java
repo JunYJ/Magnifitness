@@ -79,5 +79,10 @@ public class Food
 	{
 		this.type = type;
 	}
+	
+	public String toString()
+	{
+		return "Title: " + getTitle() + "Measurement Unit: " + getMeasurementUnit() + "Calorie: " + getCalorie() + "Type: " + getType();
+	}
 
 }

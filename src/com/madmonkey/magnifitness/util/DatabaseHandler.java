@@ -1,5 +1,8 @@
 package com.madmonkey.magnifitness.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -23,6 +26,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 	// Column Names
 	// FOOD
+	//private static final String KEY_FOOD_ID				= "id";
 	private static final String	KEY_TITLE				= "title";
 	private static final String	KEY_MEASUREMENT_UNIT	= "measurementUnit";
 	private static final String	KEY_CALORIE				= "calorie";
@@ -42,7 +46,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String	KEY_IDEAL_WEIGHT		= "idealWeight";
 	
 	String CREATE_FOOD_TABLE = "CREATE TABLE " + TABLE_FOOD + "("
-			+ KEY_TITLE + " TEXT PRIMARY KEY," + KEY_MEASUREMENT_UNIT
+			+ KEY_TITLE + " TEXT NOT NULL," + KEY_MEASUREMENT_UNIT
 			+ " TEXT NOT NULL," + KEY_CALORIE + " REAL NOT NULL,"
 		    + KEY_TYPE + " STRING" + ")";
 	
@@ -109,5 +113,28 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				Double.parseDouble(cursor.getString(2)), cursor.getString(3));
 
 		return food;
+	}
+	
+	public List<Food> getAllFood()
+	{
+		List<Food> foodList = new ArrayList<Food>();
+		String selectQuery = "SELECT * FROM " + TABLE_FOOD;
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		
+		if(cursor.moveToFirst())
+		{
+			do
+			{
+				Food food = new Food(cursor.getString(0), cursor.getString(1),
+						Double.parseDouble(cursor.getString(2)), cursor.getString(3));
+				
+				foodList.add(food);
+			}
+			while(cursor.moveToNext());
+		}
+		
+		return foodList;
 	}
 }

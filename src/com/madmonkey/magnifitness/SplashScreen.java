@@ -2,6 +2,7 @@ package com.madmonkey.magnifitness;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -32,7 +33,8 @@ public class SplashScreen extends Activity
 	//private Animation		animationFadeIn;
 	SharedPreferences		userSP;
 	DatabaseHandler 		db = null;
-	boolean databaseExist = false;
+
+	boolean databasePopulated = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -40,20 +42,21 @@ public class SplashScreen extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		userSP = getSharedPreferences(FacebookLogin.filename, 0);
-		
-		if(db == null && databaseExist == false)
+				
+		if(db == null)
 		{
 			db = new DatabaseHandler(this);
 			db.getReadableDatabase();
 			db.close();
+			Log.i("DATABASE CREATED: ", "TRUE");
 		}
 		
 		File database = getBaseContext().getDatabasePath(db.getDatabaseName());
 		
-		if(database.exists())
+		if(databasePopulated == false && database.exists() == true)
 		{
-			Log.i("EXIST: ", "TRUE");
-			databaseExist = true;
+			Log.i("DATABASE EXIST: ", "TRUE");
+
 			try
 			{
 				populateFoodDatabase();
@@ -68,6 +71,7 @@ public class SplashScreen extends Activity
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			databasePopulated = true;
 		}
 		else
 			Log.i("EXIST: ", "FALSE");
@@ -141,6 +145,7 @@ public class SplashScreen extends Activity
 		};
 
 		mSplashThread.start();
+
 	}
 
 	/* @Override public void onBackPressed() { // set the flag to true so the
@@ -155,50 +160,56 @@ public class SplashScreen extends Activity
 
 	private void populateFoodDatabase() throws XmlPullParserException,
 			IOException
-	{
-		XmlResourceParser parser = getResources().getXml(R.xml.foodlist);
-
-		while (parser.next() != XmlPullParser.END_TAG)
+	{		
+		List<Food> foodList = db.getAllFood();
+		
+		if(foodList.size() <= 0)
 		{
-			if (parser.getEventType() != XmlPullParser.START_TAG)
-			{
-				continue;
-			}
+			XmlResourceParser parser = getResources().getXml(R.xml.foodlist);
 
-			String tag = parser.getName();
-			if (tag.equals("Food"))
+			while (parser.next() != XmlPullParser.END_TAG)
 			{
-				String title = "";
-				String measurementUnit = "";
-				double calorie = 0.0;
-				String type = "";
-				while (parser.next() != XmlPullParser.END_TAG)
+				if (parser.getEventType() != XmlPullParser.START_TAG)
 				{
-					if (parser.getEventType() != XmlPullParser.START_TAG)
-					{
-						continue;
-					}
-					tag = parser.getName();
-					if (tag.equals("Title"))
-					{
-						title = readText(parser);
-					}
-					else if (tag.equals("MeasurementUnit"))
-					{
-						measurementUnit = readText(parser);
-					}
-					else if (tag.equals("Calorie"))
-					{
-						calorie = Double.parseDouble(readText(parser));
-					}
-					else if (tag.equals("Type"))
-					{
-						type = readText(parser);
-					}
+					continue;
 				}
 
-				Food food = new Food(title, measurementUnit, calorie, type);
-				db.addFood(food);
+				String tag = parser.getName();
+				if (tag.equals("Food"))
+				{
+					String title = "";
+					String measurementUnit = "";
+					double calorie = 0.0;
+					String type = "";
+					while (parser.next() != XmlPullParser.END_TAG)
+					{
+						if (parser.getEventType() != XmlPullParser.START_TAG)
+						{
+							continue;
+						}
+						tag = parser.getName();
+						if (tag.equals("Title"))
+						{
+							title = readText(parser);
+						}
+						else if (tag.equals("MeasurementUnit"))
+						{
+							measurementUnit = readText(parser);
+						}
+						else if (tag.equals("Calorie"))
+						{
+							calorie = Double.parseDouble(readText(parser));
+						}
+						else if (tag.equals("Type"))
+						{
+							type = readText(parser);
+						}
+					}
+
+					Food food = new Food(title, measurementUnit, calorie, type);
+					
+					db.addFood(food);
+				}
 			}
 		}
 	}

@@ -67,19 +67,33 @@ public class SetupUserDetails extends Activity implements
 
 				ageInt = Integer.parseInt(ageString);
 
-				user.setUser(name.getText().toString(), ageInt, email.getText()
-						.toString(), gender, weightPicker.getValue(),
-						heightPicker.getValue(),
-						lvOfActiveness.getSelectedItemPosition());
-				userCreated = true;
-				saveInformation();
+				int weight = weightPicker.getValue();
+				
+				int height = heightPicker.getValue();
+				
+				if(weight != 0 && height != 0)
+				{
+					user.setUser(name.getText().toString(), ageInt, email.getText()
+							.toString(), gender, weightPicker.getValue(),
+							heightPicker.getValue(),
+							lvOfActiveness.getSelectedItemPosition());
+					userCreated = true;
+					saveInformation();
 
-				finish();
+					nextActivity = new Intent(SetupUserDetails.this, Home.class);
+					nextActivity.putExtra("userObject", user);
+					startActivity(nextActivity);
 
-				nextActivity = new Intent(SetupUserDetails.this, Home.class);
-				nextActivity.putExtra("userObject", user);
-				startActivity(nextActivity);
-				finish();
+					finish();
+				}
+				else
+				{					
+					if(weight == 0)
+						Toast.makeText(getBaseContext(), "Please choose a weight", Toast.LENGTH_SHORT).show();
+					else if(height == 0)
+						Toast.makeText(getBaseContext(), "Please choose a height", Toast.LENGTH_SHORT).show();
+				}
+				
 			}
 
 		});
@@ -116,13 +130,16 @@ public class SetupUserDetails extends Activity implements
 		age = (EditText) findViewById(R.id.ageET);
 		weightPicker = (NumberPicker) findViewById(R.id.weightPicker);
 		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
-		//idealWeightPicker = (NumberPicker) findViewById(R.id.idealWeightPicker);
+		
 		lvOfActiveness = (Spinner) findViewById(R.id.lvOfActivenssSpinner);
 		okBtn = (Button) findViewById(R.id.okBtn);
 
-		/*idealWeightPicker.setMaxValue(250);
-		idealWeightPicker.setMinValue(30);
-		idealWeightPicker.setValue(50);*/
+		LayoutInflater inflater = getLayoutInflater();
+		View selectWeightLayout = inflater.inflate(R.layout.select_weight, null);
+		weightPicker = (NumberPicker) selectWeightLayout.findViewById(R.id.weightPicker);
+		
+		View selectHeightLayout = inflater.inflate(R.layout.select_height, null);
+		heightPicker = (NumberPicker) selectHeightLayout.findViewById(R.id.heightPicker);
 
 		genderRG.setOnCheckedChangeListener(this);
 		genderRG.check(R.id.rbMale);
