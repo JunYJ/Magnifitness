@@ -15,8 +15,8 @@
     <string name="user_email">Email</string>
     <string name="user_gender">Gender (M/F)</string>
     <string name="user_bmr">BMR</string>
-    <string name="user_current_weight">Weight (kg)</string>
-    <string name="user_height">Height (cm)</string>
+    <string name="user_current_weight">Weight (kg): </string>
+    <string name="user_height">Height (cm): </string>
     <string name="ideal_weight">Ideal Weight (kg)</string>
 
     <string-array name="BMR">

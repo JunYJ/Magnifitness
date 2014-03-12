@@ -12,23 +12,26 @@ public class SearchDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 		{
-		// Use the Builder class for convenient dialog construction
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setMessage("Ready?").setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		AlertDialog.Builder searchDialog = new AlertDialog.Builder(getActivity());
+		
+		searchDialog.setTitle("Search Food");
+		searchDialog.setItems(R.array.food_list, new DialogInterface.OnClickListener()
 			{
-				public void onClick(DialogInterface dialog, int id)
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
 					{
-					// FIRE ZE MISSILES!
-					}
-			}).setNegativeButton("No", new DialogInterface.OnClickListener()
-			{
-				public void onClick(DialogInterface dialog, int id)
-					{
-					// User cancelled the dialog
+					
+					Toast.makeText(getActivity(), "Item " + which + " is selected", Toast.LENGTH_SHORT).show();
+					
+					
 					}
 			});
 		// Create the AlertDialog object and return it
-		return builder.create();
+		return searchDialog.create();
 		}
+	
+	
+	
 
 }
