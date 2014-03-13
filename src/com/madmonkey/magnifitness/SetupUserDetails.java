@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +31,7 @@ import com.madmonkey.magnifitnessClass.User;
 
 public class SetupUserDetails extends Activity implements OnCheckedChangeListener {
 	TextView			heightTV, weightTV;
-	EditText			name, email, age, weightET;
+	EditText			name, email, age, weightET, heightET;
 	RadioGroup			genderRG;
 	NumberPicker		weightPicker, heightPicker;
 	Spinner				lvOfActiveness;
@@ -58,18 +59,6 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 		loadFromPreferences();
 
-		weightET.setText(userSP.getInt("weight", 0) + "");
-
-		weightET.setOnClickListener(new OnClickListener()
-			{
-
-				@Override
-				public void onClick(View v)
-					{
-					if (weightET.isFocused())
-						selectWeight(v);
-					}
-			});
 
 		okBtn.setOnClickListener(new OnClickListener()
 			{
@@ -139,8 +128,10 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		femaleRB = (RadioButton) findViewById(R.id.rbFemale);
 		age = (EditText) findViewById(R.id.ageET);
 		weightPicker = (NumberPicker) findViewById(R.id.weightPicker);
-		weightET = (EditText) findViewById(R.id.editText1);
+		weightET = (EditText) findViewById(R.id.weightET);
 		weightET.setInputType(InputType.TYPE_NULL);
+		heightET = (EditText) findViewById(R.id.heightET);
+		heightET.setInputType(InputType.TYPE_NULL);
 		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
 
 		lvOfActiveness = (Spinner) findViewById(R.id.lvOfActivenssSpinner);
@@ -217,6 +208,8 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 		name.setText(shared.getString("name", ""));
 		email.setText(shared.getString("email", ""));
+		weightET.setText(userSP.getInt("weight", 0) + "");
+		heightET.setText(userSP.getInt("height", 0) + "");
 		if (shared.getString("gender", "").equalsIgnoreCase("male"))
 			maleRB.setChecked(true);
 		else if (shared.getString("gender", "").equalsIgnoreCase("female"))
@@ -232,6 +225,8 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 	public void selectWeight(View v)
 		{
+		
+		Log.i("Y U NO CLICKED", "I'M CLICKED ONCE");
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
 
 		LayoutInflater inflater = getLayoutInflater();
@@ -296,7 +291,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 					String height = "Height (cm): ";
 
-					heightTV.setText(height + heightPicker.getValue());
+					heightET.setText(heightPicker.getValue() + "");
 					}
 			});
 
