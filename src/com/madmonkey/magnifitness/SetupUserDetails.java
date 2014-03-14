@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +28,9 @@ import android.widget.Toast;
 import com.madmonkey.magnifitness.util.DatabaseHandler;
 import com.madmonkey.magnifitnessClass.User;
 
-public class SetupUserDetails extends Activity implements OnCheckedChangeListener {
+public class SetupUserDetails extends Activity implements
+		OnCheckedChangeListener
+{
 	TextView			heightTV, weightTV;
 	EditText			name, email, age, weightET, heightET;
 	RadioGroup			genderRG;
@@ -50,7 +51,7 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-		{
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_detail_setup);
 		getView();
@@ -58,67 +59,75 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 
 		loadFromPreferences();
+		weightET.requestFocus();
 
-
-		okBtn.setOnClickListener(new OnClickListener()
+		okBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v)
 			{
-				@Override
-				public void onClick(View v)
+				ageString = age.getText().toString();
+
+				ageInt = Integer.parseInt(ageString);
+
+				int weight = Integer.parseInt(weightET.getText().toString());//weightPicker.getValue();
+
+				int height = Integer.parseInt(heightET.getText().toString());//heightPicker.getValue();
+
+				if (weight != 0 && height != 0)
+				{
+					user.setUser(name.getText().toString(), ageInt, email
+							.getText().toString(), gender, weightPicker
+							.getValue(), heightPicker.getValue(),
+							lvOfActiveness.getSelectedItemPosition());
+					userCreated = true;
+					saveInformation();
+
+					nextActivity = new Intent(SetupUserDetails.this, Home.class);
+					nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+					nextActivity.putExtra("userObject", user);
+
+					startActivity(nextActivity);
+
+					finish();
+				}
+				else
+				{
+					if (weight == 0)
+						Toast.makeText(getBaseContext(),
+								"Please choose a weight", Toast.LENGTH_SHORT)
+								.show();
+					else if (height == 0)
+						Toast.makeText(getBaseContext(),
+								"Please choose a height", Toast.LENGTH_SHORT)
+								.show();
+				}
+
+			}
+
+		});
+
+		lvOfActiveness
+				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> parent,
+							View view, int pos, long id)
 					{
-					ageString = age.getText().toString();
-
-					ageInt = Integer.parseInt(ageString);
-
-					int weight = weightPicker.getValue();
-
-					int height = heightPicker.getValue();
-
-					if (weight != 0 && height != 0)
-						{
-						user.setUser(name.getText().toString(), ageInt, email.getText().toString(), gender, weightPicker.getValue(),
-								heightPicker.getValue(), lvOfActiveness.getSelectedItemPosition());
-						userCreated = true;
-						saveInformation();
-
-						nextActivity = new Intent(SetupUserDetails.this, Home.class);
-						nextActivity.putExtra("userObject", user);
-						startActivity(nextActivity);
-
-						finish();
-						}
-					else
-						{
-						if (weight == 0)
-							Toast.makeText(getBaseContext(), "Please choose a weight", Toast.LENGTH_SHORT).show();
-						else if (height == 0)
-							Toast.makeText(getBaseContext(), "Please choose a height", Toast.LENGTH_SHORT).show();
-						}
+						levelOfActiveness = pos;
 
 					}
 
-			});
-
-		lvOfActiveness.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-			{
-
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-					{
-					levelOfActiveness = pos;
-
-					}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0)
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0)
 					{
 
 					}
 
-			});
-		}
+				});
+	}
 
 	private void getView()
-		{
+	{
 		heightTV = (TextView) findViewById(R.id.heightTV);
 		weightTV = (TextView) findViewById(R.id.weightTV);
 		name = (EditText) findViewById(R.id.username);
@@ -138,23 +147,27 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		okBtn = (Button) findViewById(R.id.okBtn);
 
 		LayoutInflater inflater = getLayoutInflater();
-		View selectWeightLayout = inflater.inflate(R.layout.select_weight, null);
-		weightPicker = (NumberPicker) selectWeightLayout.findViewById(R.id.weightPicker);
+		View selectWeightLayout = inflater
+				.inflate(R.layout.select_weight, null);
+		weightPicker = (NumberPicker) selectWeightLayout
+				.findViewById(R.id.weightPicker);
 
-		View selectHeightLayout = inflater.inflate(R.layout.select_height, null);
-		heightPicker = (NumberPicker) selectHeightLayout.findViewById(R.id.heightPicker);
+		View selectHeightLayout = inflater
+				.inflate(R.layout.select_height, null);
+		heightPicker = (NumberPicker) selectHeightLayout
+				.findViewById(R.id.heightPicker);
 
 		genderRG.setOnCheckedChangeListener(this);
 		genderRG.check(R.id.rbMale);
-		}
+	}
 
 	/** This method handle the RadioGroup */
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId)
-		{
+	{
 
 		switch (checkedId)
-			{
+		{
 			case R.id.rbMale:
 				gender = "Male";
 				break;
@@ -164,12 +177,13 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 			default:
 				gender = "";
 				break;
-			}
 		}
+	}
 
 	public void saveInformation()
-		{
-		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
+	{
+		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename,
+				MODE_PRIVATE);
 		SharedPreferences.Editor editor = shared.edit();
 		// Insert value below
 		editor.putString("name", name.getText().toString());
@@ -179,17 +193,19 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		Matcher matcher = pattern.matcher(email.getText().toString());
 
 		if (matcher.matches())
-			{
+		{
 			editor.putString("email", email.getText().toString());
-			}
+		}
 		else
-			{
-			Toast.makeText(getApplication(), "Invalid email", Toast.LENGTH_LONG).show();
-			}
+		{
+			Toast.makeText(getApplication(), "Invalid email", Toast.LENGTH_LONG)
+					.show();
+		}
 
 		editor.putString("gender", gender);
 		editor.putInt("age", Integer.parseInt(age.getText().toString()));
-		editor.putInt("lvOfActiveness", lvOfActiveness.getSelectedItemPosition());
+		editor.putInt("lvOfActiveness",
+				lvOfActiveness.getSelectedItemPosition());
 		// editor.putInt("weight", weightPicker.getValue());
 		// editor.putInt("height", heightPicker.getValue());
 		// editor.putInt("idealWeight", idealWeightPicker.getValue());
@@ -201,11 +217,15 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 
 		// commit changes to the SharedPref
 		editor.commit();
-		}
+		
+		shared.edit().putInt("weight", Integer.parseInt(weightET.getEditableText().toString())).commit();
+		shared.edit().putInt("height", Integer.parseInt(heightET.getEditableText().toString())).commit();
+	}
 
 	private void loadFromPreferences()
-		{
-		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
+	{
+		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename,
+				MODE_PRIVATE);
 		name.setText(shared.getString("name", ""));
 		email.setText(shared.getString("email", ""));
 		weightET.setText(userSP.getInt("weight", 0) + "");
@@ -221,93 +241,100 @@ public class SetupUserDetails extends Activity implements OnCheckedChangeListene
 		// weightPicker.setValue(shared.getInt("weight", 50));
 		// heightPicker.setValue(shared.getInt("height", 150));
 		// idealWeightPicker.setValue(shared.getInt("idealWeight", 50));
-		}
+	}
 
 	public void selectWeight(View v)
-		{
-		
-		Log.i("Y U NO CLICKED", "I'M CLICKED ONCE");
+	{
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
 
 		LayoutInflater inflater = getLayoutInflater();
-		View selectWeightLayout = inflater.inflate(R.layout.select_weight, null);
+		View selectWeightLayout = inflater
+				.inflate(R.layout.select_weight, null);
 		helpBuilder.setView(selectWeightLayout);
 
-		weightPicker = (NumberPicker) selectWeightLayout.findViewById(R.id.weightPicker);
+		weightPicker = (NumberPicker) selectWeightLayout
+				.findViewById(R.id.weightPicker);
 		weightPicker.setMaxValue(250);
 		weightPicker.setMinValue(30);
 		weightPicker.setValue(userSP.getInt("weight", 50));
 
-		helpBuilder.setPositiveButton("Confirm", new DialogInterface.OnClickListener()
-			{
+		helpBuilder.setPositiveButton("Confirm",
+				new DialogInterface.OnClickListener() {
 
-				public void onClick(DialogInterface dialog, int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
-					SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
-					shared.edit().putInt("weight", weightPicker.getValue()).commit();
+						SharedPreferences shared = getSharedPreferences(
+								FacebookLogin.filename, MODE_PRIVATE);
+						shared.edit().putInt("weight", weightPicker.getValue())
+								.commit();
 
-					String weight = "Weight (kg): ";//
+						// String weight = "Weight (kg): ";//
 
-					weightET.setText(weightPicker.getValue() + "");
+						weightET.setText(weightPicker.getValue() + "");
+						heightET.requestFocus();
 					}
-			});
+				});
 
-		helpBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-			{
+		helpBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which)
+					@Override
+					public void onClick(DialogInterface dialog, int which)
 					{
 
 					}
-			});
+				});
 
 		// Remember, create doesn't show the dialog
 		AlertDialog helpDialog = helpBuilder.create();
 
 		helpDialog.show();
-		}
+	}
 
 	public void selectHeight(View v)
-		{
+	{
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
 
 		LayoutInflater inflater = getLayoutInflater();
-		View selectHeightLayout = inflater.inflate(R.layout.select_height, null);
+		View selectHeightLayout = inflater
+				.inflate(R.layout.select_height, null);
 		helpBuilder.setView(selectHeightLayout);
 
-		heightPicker = (NumberPicker) selectHeightLayout.findViewById(R.id.heightPicker);
+		heightPicker = (NumberPicker) selectHeightLayout
+				.findViewById(R.id.heightPicker);
 		heightPicker.setMaxValue(250);
 		heightPicker.setMinValue(130);
 		heightPicker.setValue(userSP.getInt("height", 50));
 
-		helpBuilder.setPositiveButton("Confirm", new DialogInterface.OnClickListener()
-			{
+		helpBuilder.setPositiveButton("Confirm",
+				new DialogInterface.OnClickListener() {
 
-				public void onClick(DialogInterface dialog, int which)
+					public void onClick(DialogInterface dialog, int which)
 					{
-					SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
-					shared.edit().putInt("height", heightPicker.getValue()).commit();
+						SharedPreferences shared = getSharedPreferences(
+								FacebookLogin.filename, MODE_PRIVATE);
+						shared.edit().putInt("height", heightPicker.getValue())
+								.commit();
 
-					String height = "Height (cm): ";
+						// String height = "Height (cm): ";
 
-					heightET.setText(heightPicker.getValue() + "");
+						heightET.setText(heightPicker.getValue() + "");
 					}
-			});
+				});
 
-		helpBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
-			{
+		helpBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which)
+					@Override
+					public void onClick(DialogInterface dialog, int which)
 					{
 
 					}
-			});
+				});
 
 		// Remember, create doesn't show the dialog
 		AlertDialog helpDialog = helpBuilder.create();
 
 		helpDialog.show();
-		}
+	}
 }

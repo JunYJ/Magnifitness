@@ -25,7 +25,8 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
-public class FacebookLogin extends FragmentActivity {
+public class FacebookLogin extends FragmentActivity
+{
 	// Fragment index
 	private static final int		LOGIN			= 0;
 	private static final int		SELECTION		= 1;
@@ -34,21 +35,29 @@ public class FacebookLogin extends FragmentActivity {
 	private static final int		FRAGMENT_COUNT	= SETTINGS + 1;
 
 	public static boolean			isResumed		= false;									// flag
-// to indicate a visible
+																								// to
+																								// indicate
+																								// a
+																								// visible
 																								// activity
 	private UiLifecycleHelper		uiHelper;
 
 	// track the session & trigger a session state change listener
 	// Session.StatusCallback() overrides call() & invokes
 	// onSessionStateChange()
-	private Session.StatusCallback	callBack		= new Session.StatusCallback()
+	private Session.StatusCallback	callBack		= new Session.StatusCallback() {
+														@Override
+														public void call(
+																Session session,
+																SessionState state,
+																Exception exception)
 														{
-															@Override
-															public void call(Session session, SessionState state, Exception exception)
-																{
-																onSessionStateChange(session, state, exception);
-																}
-														};
+															onSessionStateChange(
+																	session,
+																	state,
+																	exception);
+														}
+													};
 
 	private MenuItem				logOut;
 
@@ -62,7 +71,7 @@ public class FacebookLogin extends FragmentActivity {
 	// hide fragments initially in onCreate
 	@Override
 	public void onCreate(Bundle savedInstanceState)
-		{
+	{
 		super.onCreate(savedInstanceState);
 
 		uiHelper = new UiLifecycleHelper(this, callBack);
@@ -76,86 +85,87 @@ public class FacebookLogin extends FragmentActivity {
 
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (int i = 0; i < fragments.length; i++)
-			{
+		{
 			transaction.hide(fragments[i]);
-			}
+		}
 		transaction.commit();
 		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 		userCreated = userSP.getBoolean("userCreated", false);
 
 		// final ActionBar actionBar = getActionBar();
 		// actionBar.setDisplayHomeAsUpEnabled(true);
-		}
+	}
 
 	// responsible for showing a given fragment & hiding all other fragments
 	private void showFragment(int fragmentIndex, boolean addToBackStack)
-		{
+	{
 		FragmentManager fm = getSupportFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
 
 		for (int i = 0; i < fragments.length; i++)
-			{
+		{
 			if (i == fragmentIndex)
-				{
-				transaction.show(fragments[i]);
-				}
-			else
-				{
-				transaction.hide(fragments[i]);
-				}
-			}
-		if (addToBackStack)
 			{
-			transaction.addToBackStack(null);
+				transaction.show(fragments[i]);
 			}
-		transaction.commit();
+			else
+			{
+				transaction.hide(fragments[i]);
+			}
 		}
+		if (addToBackStack)
+		{
+			transaction.addToBackStack(null);
+		}
+		transaction.commit();
+	}
 
 	@Override
 	public void onResume()
-		{
+	{
 		super.onResume();
 		uiHelper.onResume();
 		isResumed = true;
-		}
+	}
 
 	@Override
 	public void onPause()
-		{
+	{
 		super.onPause();
 		uiHelper.onPause();
 		isResumed = false;
-		}
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data)
-		{
+	{
 		super.onActivityResult(requestCode, resultCode, data);
 		uiHelper.onActivityResult(requestCode, resultCode, data);
-		}
+	}
 
 	@Override
 	public void onDestroy()
-		{
+	{
 		super.onDestroy();
 		uiHelper.onDestroy();
-		}
+	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState)
-		{
+	{
 		super.onSaveInstanceState(outState);
 		uiHelper.onSaveInstanceState(outState);
-		}
+	}
 
 	// called due to state changes
 	// shows relevant fragment based on user's authenticated state
 	// fragment back stack is 1st cleared before the showFragment() is called
-	private void onSessionStateChange(Session session, SessionState state, Exception exception)
-		{
+	private void onSessionStateChange(Session session, SessionState state,
+			Exception exception)
+	{
 		// Only make changes if the activity is visible
 		if (isResumed)
-			{
+		{
 			android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
 			// Get the number of entries in the back stack
@@ -163,123 +173,150 @@ public class FacebookLogin extends FragmentActivity {
 
 			// Clear the back stack
 			for (int i = 0; i < backStackSize; i++)
-				{
+			{
 				manager.popBackStack();
-				}
+			}
 
 			if (state.isOpened())
-				{
+			{
 				// If the session state is open --> show the authenticated
 				// fragment
 				Log.i(TAG, "Logged in...");
-				showFragment(SELECTION, false);
+				// showFragment(SELECTION, false);
 
+				final Intent i = new Intent(this, SetupUserDetails.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				// Request user data and show the results
-				Request meRequest = Request.newMeRequest(session, new GraphUserCallback()
-					{
+				Request meRequest = Request.newMeRequest(session,
+						new GraphUserCallback() {
 
-						@Override
-						public void onCompleted(GraphUser user, Response response)
+							@Override
+							public void onCompleted(GraphUser user,
+									Response response)
 							{
 
-							if (user != null)
+								if (user != null)
 								{
-								// Display the parsed user info
-								
+									// Display the parsed user info
 
-								SharedPreferences shared = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
-								SharedPreferences.Editor editor = shared.edit();
-								// Insert value below
-								editor.putString("name", user.getName().toString());
-								editor.putString("email", getEmail(getBaseContext()));
-								// editor.putString("gender", gender);
+									SharedPreferences shared = getSharedPreferences(
+											FacebookLogin.filename,
+											MODE_PRIVATE);
+									SharedPreferences.Editor editor = shared
+											.edit();
+									// Insert value below
+									editor.putString("name", user.getName()
+											.toString());
+									editor.putString("email",
+											getEmail(getBaseContext()));
+									// editor.putString("gender", gender);
 
-								Calendar c = Calendar.getInstance();
+									Calendar c = Calendar.getInstance();
 
-								editor.putInt("age",
-										c.get(Calendar.YEAR) - Integer.parseInt(user.getBirthday().substring(user.getBirthday().length() - 4)));
-								// commit changes to the SharedPref
-								editor.commit();
-								
-								String gender = user.asMap().get("gender").toString();
-						        
-						        if(gender.equalsIgnoreCase("male"))
-						         gender = "Male";
-						        else if(gender.equalsIgnoreCase("female"))
-						         gender = "Female";
-						        
-						        editor.putString("gender", gender).commit();
-								
-								SelectionFragment.userInfo.setText(buildUserInfoDisplay(user));
+									editor.putInt(
+											"age",
+											c.get(Calendar.YEAR)
+													- Integer
+															.parseInt(user
+																	.getBirthday()
+																	.substring(
+																			user.getBirthday()
+																					.length() - 4)));
+									// commit changes to the SharedPref
+									editor.commit();
+
+									String gender = user.asMap().get("gender")
+											.toString();
+
+									if (gender.equalsIgnoreCase("male"))
+										gender = "Male";
+									else if (gender.equalsIgnoreCase("female"))
+										gender = "Female";
+
+									editor.putString("gender", gender).commit();
+
+									SelectionFragment.userInfo
+											.setText(buildUserInfoDisplay(user));
+
+									if(userSP.getBoolean("userCreated", false) == false)
+										startActivity(i);
 								}
 
 							}
-					});
+
+						});
 
 				meRequest.executeAsync();
 
-				}
+			}
 
 			else if (state.isClosed())
-				{
+			{
 				Log.i(TAG, "Logged out...");
 				// If the session state is close --> show the login fragment
 				showFragment(LOGIN, false);
-				}
 			}
 		}
+	}
 
 	// handle the case where fragments are newly instantiated
 	@Override
 	protected void onResumeFragments()
-		{
+	{
 		super.onResumeFragments();
 		Session session = Session.getActiveSession();
 		// userCreated = userSP.getBoolean("userCreated", false);
 		if (session != null && session.isOpened())
-			{
+		{
 			// if the session is already open --> try to show the selection
 			// fragment
 
 			if (userCreated == true)
-				{
+			{
 				// userCreated = false;
 				startActivity(new Intent(this, Home.class));
 				finish();
-				}
+			}
 			else
-				{
-				showFragment(SELECTION, false);
+			{
+				// showFragment(SELECTION, false);
+				final Intent i = new Intent(this, SetupUserDetails.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				Request meRequest = Request.newMeRequest(session,
+						new GraphUserCallback() {
 
-				Request meRequest = Request.newMeRequest(session, new GraphUserCallback()
-					{
-
-						@Override
-						public void onCompleted(GraphUser user, Response response)
+							@Override
+							public void onCompleted(GraphUser user,
+									Response response)
 							{
-							if (user != null)
+								if (user != null)
 								{
-								// Display the parsed user info
-								SelectionFragment.userInfo.setText(buildUserInfoDisplay(user));
+									// Display the parsed user info
+									SelectionFragment.userInfo
+											.setText(buildUserInfoDisplay(user));
+									
+									if(userSP.getBoolean("userCreated", false) == false)
+										startActivity(i);
+
 								}
 							}
-					});
+						});
 
 				meRequest.executeAsync();
-				}
-
 			}
+
+		}
 		else
-			{
+		{
 			// otherwise show the splash and ask person to login
 			showFragment(LOGIN, false);
-			}
 		}
+	}
 
 	// prepare option menu display
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
-		{
+	{
 		// only add the menu when the selection fragment is showing
 		// if (fragments[SELECTION].isVisible() || fragments[LOGIN].isVisible())
 		// {
@@ -291,27 +328,25 @@ public class FacebookLogin extends FragmentActivity {
 		// }
 		return true;
 		// }
-		/*
-		 * else { menu.clear(); settings = null; }
-		 */
+		/* else { menu.clear(); settings = null; } */
 		// return false;
-		}
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
-		{
+	{
 		if (item.equals(logOut))
-			{
+		{
 			showFragment(SETTINGS, false);
 
 			return true;
-			}
-
-		return super.onOptionsItemSelected(item);
 		}
 
+		return super.onOptionsItemSelected(item);
+	}
+
 	private String buildUserInfoDisplay(GraphUser user)
-		{
+	{
 		userSP.edit().putString("userid", user.getId()).commit();
 		StringBuilder userInfo = new StringBuilder("");
 		SelectionFragment.profilePictureView.setProfileId(user.getId());
@@ -321,78 +356,93 @@ public class FacebookLogin extends FragmentActivity {
 		// Example: typed access (name)
 		// - no special permissions required
 		// userInfo.append(String.format("Name: %s\n\n", user.getName()));
-		userInfo.append(String.format("Name: %s\n\n", userSP.getString("name", user.getName())));
+		userInfo.append(String.format("Name: %s\n\n",
+				userSP.getString("name", user.getName())));
 		// Example: typed access (birthday)
 		// - requires user_birthday permissions
 		// userInfo.append(String.format("Birthday: %s\n\n",
 		// user.getBirthday()));
 
 		// GENDER
-		userInfo.append(String.format("Gender: %s\n\n", userSP.getString("gender", "Not mention")));
+		userInfo.append(String.format("Gender: %s\n\n",
+				userSP.getString("gender", "Not mention")));
 
 		// AGE
 		Calendar c = Calendar.getInstance();
 
-		userInfo.append(String.format("Age: %s\n\n",
-				c.get(Calendar.YEAR) - Integer.parseInt(user.getBirthday().substring(user.getBirthday().length() - 4))));
+		userInfo.append(String.format(
+				"Age: %s\n\n",
+				c.get(Calendar.YEAR)
+						- Integer.parseInt(user.getBirthday().substring(
+								user.getBirthday().length() - 4))));
 
 		// WEIGHT
-		userInfo.append(String.format("Weight: %s kg \n\n", userSP.getInt("weight", 0)));
+		userInfo.append(String.format("Weight: %s kg \n\n",
+				userSP.getInt("weight", 0)));
 		// HEIGHT
-		userInfo.append(String.format("Height: %s cm \n\n", userSP.getInt("height", 0)));
+		userInfo.append(String.format("Height: %s cm \n\n",
+				userSP.getInt("height", 0)));
 		// BMI
-		userInfo.append(String.format("BMI: %s\n\n", userSP.getString("bmi", "")));
+		userInfo.append(String.format("BMI: %s\n\n",
+				userSP.getString("bmi", "")));
 		// BMR
-		userInfo.append(String.format("BMR: %s\n\n", userSP.getString("bmr", "")));
+		userInfo.append(String.format("BMR: %s\n\n",
+				userSP.getString("bmr", "")));
 
 		// EMAIL (sharedPreference)
-		userInfo.append(String.format("Email: %s\n\n", userSP.getString("email", "")));
+		userInfo.append(String.format("Email: %s\n\n",
+				userSP.getString("email", "")));
 		// EMAIL (through facebook sdk)
 		// String email = getEmail(this);
 		// System.out.println("Android registered Email " + email);
 
-		/*
-		 * String test = user.getProperty("email").toString();
-		 * System.out.println("TESTING " + test);
-		 */
+		/* String test = user.getProperty("email").toString();
+		 * System.out.println("TESTING " + test); */
 
-		/*
-		 * userInfo.append(String.format("Facebook primary Email: %s\n\n",
+		/* userInfo.append(String.format("Facebook primary Email: %s\n\n",
 		 * user.asMap() .get("email")));
 		 * userInfo.append(String.format("Android registered Email: %s\n\n",
-		 * email));
-		 */
+		 * email)); */
 
 		return userInfo.toString();
-		}
+	}
 
 	public String getEmail(Context context)
-		{
+	{
 		AccountManager accountManager = AccountManager.get(context);
 		Account account = getAccount(accountManager);
 
 		if (account == null)
-			{
+		{
 			return null;
-			}
-		else
-			{
-			return account.name;
-			}
 		}
+		else
+		{
+			return account.name;
+		}
+	}
 
 	private Account getAccount(AccountManager accountManager)
-		{
+	{
 		Account[] accounts = accountManager.getAccountsByType("com.google");
 		Account account;
 		if (accounts.length > 0)
-			{
+		{
 			account = accounts[0];
-			}
-		else
-			{
-			account = null;
-			}
-		return account;
 		}
+		else
+		{
+			account = null;
+		}
+		return account;
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		// TODO Auto-generated method stub
+		finish();
+	}
+
+	
 }
