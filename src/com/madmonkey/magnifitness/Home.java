@@ -2,6 +2,8 @@ package com.madmonkey.magnifitness;
 
 import java.util.Locale;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,9 +22,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Session;
+import com.facebook.widget.ProfilePictureView;
 import com.madmonkey.magnifitnessClass.User;
 
 public class Home extends FragmentActivity
@@ -49,7 +53,7 @@ public class Home extends FragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-
+		userSP = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 		// Enable Home Button
 		/* final ActionBar actionBar = getActionBar();
 		 * actionBar.setDisplayHomeAsUpEnabled(true); */
@@ -64,7 +68,6 @@ public class Home extends FragmentActivity
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		s = Session.getActiveSession();
 		manager = getPackageManager();
-
 	}
 
 	@Override
@@ -253,27 +256,115 @@ public class Home extends FragmentActivity
 
 	public void loadFromPref()
 	{
-
-		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 		String username, email, gender;
-		int age, weight, height, idealWeight, lvOfActiveness;
+		int age, weight, height, lvOfActiveness;
 
 		if (userSP.getBoolean("userCreated", false))
 		{
 			username = userSP.getString("name", "unknown");
 			email = userSP.getString("email", "unknown");
-			gender = userSP.getString("gender", "Lady Boy");
-			age = userSP.getInt("age", 99);
+			gender = userSP.getString("gender", "unknown");
+			age = userSP.getInt("age", 0);
 			lvOfActiveness = userSP.getInt("lvOfActiveness", 0);
 			weight = userSP.getInt("weight", 1);
 			height = userSP.getInt("height", 1);
-			idealWeight = userSP.getInt("idealWeight", 2);
 
 			user = new User(username, age, email, gender, weight, height,
 					lvOfActiveness);
 
 		}
 
+	}
+
+	public String buildSummaryString()
+	{
+		StringBuilder userInfo = new StringBuilder("");
+		// SelectionFragment.profilePictureView.setProfileId(user.getId());
+
+		// Task.getProfilePic().setProfileId(user.getId());
+		// USER NAME
+		// Example: typed access (name)
+		// - no special permissions required
+		// userInfo.append(String.format("Name: %s\n\n", user.getName()));
+		userInfo.append(String.format("Name: %s\n\n",
+				userSP.getString("name", "")));
+		// Example: typed access (birthday)
+		// - requires user_birthday permissions
+		// userInfo.append(String.format("Birthday: %s\n\n",
+		// user.getBirthday()));
+
+		// GENDER
+		userInfo.append(String.format("Gender: %s\n\n",
+				userSP.getString("gender", "")));
+
+		// AGE
+		userInfo.append(String.format("Age: %s\n\n",
+				userSP.getInt("age", 0)));
+
+		// WEIGHT
+		userInfo.append(String.format("Weight: %s kg \n\n",
+				userSP.getInt("weight", 0)));
+		// HEIGHT
+		userInfo.append(String.format("Height: %s cm \n\n",
+				userSP.getInt("height", 0)));
+		// BMI
+		userInfo.append(String.format("BMI: %s\n\n",
+				userSP.getString("bmi", "")));
+		// BMR
+		userInfo.append(String.format("BMR: %s\n\n",
+				userSP.getString("bmr", "")));
+
+		// EMAIL (sharedPreference)
+		userInfo.append(String.format("Email: %s\n\n",
+				userSP.getString("email", "")));
+
+		return userInfo.toString();
+	}
+	
+	public void editProfile(View v)
+	{
+		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+
+		LayoutInflater inflater = getLayoutInflater();
+		View summary = inflater.inflate(R.layout.summary, null);
+		helpBuilder.setView(summary);
+
+		TextView userInfo = (TextView) summary.findViewById(R.id.txt);
+		userInfo.setText(buildSummaryString());
+
+		ProfilePictureView summaryProfilePictureView = (ProfilePictureView) summary
+				.findViewById(R.id.friendProfilePicture);
+		summaryProfilePictureView.setProfileId(userSP.getString("userid", ""));
+
+		helpBuilder.setPositiveButton("Confirm",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which)
+					{
+
+					}
+				});
+
+		helpBuilder.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+
+					}
+				});
+
+		// Remember, create doesn't show the dialog
+		AlertDialog helpDialog = helpBuilder.create();
+
+		helpDialog.show();
+
+	}
+	
+	public void edit(View v)
+	{
+		startActivity(new Intent(this, SetupUserDetails.class));
 	}
 
 }

@@ -36,12 +36,12 @@ public class SelectionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.selection, container, false);
+		View view = inflater.inflate(R.layout.summary, container, false);
 
 		Log.i(TAG, "SELECTION FRAGMENT");
 		userInfo = (TextView) view.findViewById(R.id.txt);
 
-		setupUserBtn = (Button) view.findViewById(R.id.setupUserBtn);
+		setupUserBtn = (Button) view.findViewById(R.id.editBtn);
 		setupUserBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -51,8 +51,8 @@ public class SelectionFragment extends Fragment {
 			}
 		});
 
-		profilePictureView = (ProfilePictureView) view
-				.findViewById(R.id.friendProfilePicture);
+		//profilePictureView = (ProfilePictureView) view
+		//		.findViewById(R.id.friendProfilePicture);
 
 		return view;
 	}

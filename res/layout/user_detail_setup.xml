@@ -103,6 +103,7 @@
             android:layout_height="0dip"
             android:layout_weight="1"
             android:dropDownWidth="wrap_content"
+            
             android:entries="@array/BMR" />
 
         <LinearLayout
@@ -121,7 +122,7 @@
 
             <EditText
                 android:id="@+id/weightET"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
@@ -145,7 +146,7 @@
 
             <EditText
                 android:id="@+id/heightET"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
@@ -158,6 +159,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:onClick="confirmSetup"
             android:text="@string/okBtn" />
     </LinearLayout>
 

@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,51 +59,6 @@ public class SetupUserDetails extends Activity implements
 
 		loadFromPreferences();
 		weightET.requestFocus();
-
-		okBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				ageString = age.getText().toString();
-
-				ageInt = Integer.parseInt(ageString);
-
-				int weight = Integer.parseInt(weightET.getText().toString());//weightPicker.getValue();
-
-				int height = Integer.parseInt(heightET.getText().toString());//heightPicker.getValue();
-
-				if (weight != 0 && height != 0)
-				{
-					user.setUser(name.getText().toString(), ageInt, email
-							.getText().toString(), gender, weightPicker
-							.getValue(), heightPicker.getValue(),
-							lvOfActiveness.getSelectedItemPosition());
-					userCreated = true;
-					saveInformation();
-
-					nextActivity = new Intent(SetupUserDetails.this, Home.class);
-					nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-					nextActivity.putExtra("userObject", user);
-
-					startActivity(nextActivity);
-
-					finish();
-				}
-				else
-				{
-					if (weight == 0)
-						Toast.makeText(getBaseContext(),
-								"Please choose a weight", Toast.LENGTH_SHORT)
-								.show();
-					else if (height == 0)
-						Toast.makeText(getBaseContext(),
-								"Please choose a height", Toast.LENGTH_SHORT)
-								.show();
-				}
-
-			}
-
-		});
 
 		lvOfActiveness
 				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -182,11 +136,9 @@ public class SetupUserDetails extends Activity implements
 
 	public void saveInformation()
 	{
-		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename,
-				MODE_PRIVATE);
-		SharedPreferences.Editor editor = shared.edit();
 		// Insert value below
-		editor.putString("name", name.getText().toString());
+
+		userSP.edit().putString("name", name.getText().toString()).commit();
 
 		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
 		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
@@ -194,7 +146,8 @@ public class SetupUserDetails extends Activity implements
 
 		if (matcher.matches())
 		{
-			editor.putString("email", email.getText().toString());
+			userSP.edit().putString("email", email.getText().toString())
+					.commit();
 		}
 		else
 		{
@@ -202,41 +155,42 @@ public class SetupUserDetails extends Activity implements
 					.show();
 		}
 
-		editor.putString("gender", gender);
-		editor.putInt("age", Integer.parseInt(age.getText().toString()));
-		editor.putInt("lvOfActiveness",
-				lvOfActiveness.getSelectedItemPosition());
-		// editor.putInt("weight", weightPicker.getValue());
-		// editor.putInt("height", heightPicker.getValue());
-		// editor.putInt("idealWeight", idealWeightPicker.getValue());
-		editor.putBoolean("userCreated", userCreated);
+		userSP.edit().putString("gender", gender).commit();
+		userSP.edit().putInt("age", Integer.parseInt(age.getText().toString()))
+				.commit();
+		userSP.edit()
+				.putInt("lvOfActiveness",
+						lvOfActiveness.getSelectedItemPosition()).commit();
+		userSP.edit().putBoolean("userCreated", userCreated).commit();
 
 		DecimalFormat df = new DecimalFormat("#.##");
-		editor.putString("bmi", df.format(user.getBmi()) + "");
-		editor.putString("bmr", df.format(user.getBmr()) + "");
+		userSP.edit().putString("bmi", df.format(user.getBmi()) + "").commit();
+		userSP.edit().putString("bmr", df.format(user.getBmr()) + "").commit();
 
-		// commit changes to the SharedPref
-		editor.commit();
-		
-		shared.edit().putInt("weight", Integer.parseInt(weightET.getEditableText().toString())).commit();
-		shared.edit().putInt("height", Integer.parseInt(heightET.getEditableText().toString())).commit();
+		userSP.edit()
+				.putInt("weight",
+						Integer.parseInt(weightET.getEditableText().toString()))
+				.commit();
+		userSP.edit()
+				.putInt("height",
+						Integer.parseInt(heightET.getEditableText().toString()))
+				.commit();
 	}
 
 	private void loadFromPreferences()
 	{
-		SharedPreferences shared = getSharedPreferences(FacebookLogin.filename,
-				MODE_PRIVATE);
-		name.setText(shared.getString("name", ""));
-		email.setText(shared.getString("email", ""));
+
+		name.setText(userSP.getString("name", ""));
+		email.setText(userSP.getString("email", ""));
 		weightET.setText(userSP.getInt("weight", 0) + "");
 		heightET.setText(userSP.getInt("height", 0) + "");
-		if (shared.getString("gender", "").equalsIgnoreCase("male"))
+		if (userSP.getString("gender", "").equalsIgnoreCase("male"))
 			maleRB.setChecked(true);
-		else if (shared.getString("gender", "").equalsIgnoreCase("female"))
+		else if (userSP.getString("gender", "").equalsIgnoreCase("female"))
 			femaleRB.setChecked(true);
 
-		age.setText(shared.getInt("age", 0) + "");
-		lvOfActiveness.setSelection(shared.getInt("lvOfActiveness", 0));
+		age.setText(userSP.getInt("age", 0) + "");
+		lvOfActiveness.setSelection(userSP.getInt("lvOfActiveness", 0));
 
 		// weightPicker.setValue(shared.getInt("weight", 50));
 		// heightPicker.setValue(shared.getInt("height", 150));
@@ -263,12 +217,8 @@ public class SetupUserDetails extends Activity implements
 
 					public void onClick(DialogInterface dialog, int which)
 					{
-						SharedPreferences shared = getSharedPreferences(
-								FacebookLogin.filename, MODE_PRIVATE);
-						shared.edit().putInt("weight", weightPicker.getValue())
+						userSP.edit().putInt("weight", weightPicker.getValue())
 								.commit();
-
-						// String weight = "Weight (kg): ";//
 
 						weightET.setText(weightPicker.getValue() + "");
 						heightET.requestFocus();
@@ -304,19 +254,15 @@ public class SetupUserDetails extends Activity implements
 				.findViewById(R.id.heightPicker);
 		heightPicker.setMaxValue(250);
 		heightPicker.setMinValue(130);
-		heightPicker.setValue(userSP.getInt("height", 50));
+		heightPicker.setValue(userSP.getInt("height", 130));
 
 		helpBuilder.setPositiveButton("Confirm",
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which)
 					{
-						SharedPreferences shared = getSharedPreferences(
-								FacebookLogin.filename, MODE_PRIVATE);
-						shared.edit().putInt("height", heightPicker.getValue())
+						userSP.edit().putInt("height", heightPicker.getValue())
 								.commit();
-
-						// String height = "Height (cm): ";
 
 						heightET.setText(heightPicker.getValue() + "");
 					}
@@ -336,5 +282,42 @@ public class SetupUserDetails extends Activity implements
 		AlertDialog helpDialog = helpBuilder.create();
 
 		helpDialog.show();
+	}
+
+	public void confirmSetup(View v)
+	{
+		ageString = age.getText().toString();
+
+		ageInt = Integer.parseInt(ageString);
+
+		int weight = Integer.parseInt(weightET.getText().toString());// weightPicker.getValue();
+
+		int height = Integer.parseInt(heightET.getText().toString());// heightPicker.getValue();
+
+		if (weight != 0 && height != 0)
+		{
+			user.setUser(name.getText().toString(), ageInt, email.getText()
+					.toString(), gender, weightPicker.getValue(), heightPicker
+					.getValue(), lvOfActiveness.getSelectedItemPosition());
+			userCreated = true;
+			saveInformation();
+
+			nextActivity = new Intent(SetupUserDetails.this, Home.class);
+			nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			nextActivity.putExtra("userObject", user);
+
+			startActivity(nextActivity);
+
+			finish();
+		}
+		else
+		{
+			if (weight == 0)
+				Toast.makeText(getBaseContext(), "Please choose a weight",
+						Toast.LENGTH_SHORT).show();
+			else if (height == 0)
+				Toast.makeText(getBaseContext(), "Please choose a height",
+						Toast.LENGTH_SHORT).show();
+		}
 	}
 }

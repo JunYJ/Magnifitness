@@ -29,8 +29,8 @@ public class FacebookLogin extends FragmentActivity
 {
 	// Fragment index
 	private static final int		LOGIN			= 0;
-	private static final int		SELECTION		= 1;
-	private static final int		SETTINGS		= 2;
+	// private static final int SELECTION = 1;
+	private static final int		SETTINGS		= 1;
 
 	private static final int		FRAGMENT_COUNT	= SETTINGS + 1;
 
@@ -78,9 +78,10 @@ public class FacebookLogin extends FragmentActivity
 		uiHelper.onCreate(savedInstanceState);
 		setContentView(R.layout.facebook_login);
 
+		// store fragments
 		FragmentManager fm = getSupportFragmentManager();
 		fragments[LOGIN] = fm.findFragmentById(R.id.loginFragment);
-		fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
+		// fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
 		fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 
 		FragmentTransaction transaction = fm.beginTransaction();
@@ -186,6 +187,7 @@ public class FacebookLogin extends FragmentActivity
 
 				final Intent i = new Intent(this, SetupUserDetails.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
 				// Request user data and show the results
 				Request meRequest = Request.newMeRequest(session,
 						new GraphUserCallback() {
@@ -199,31 +201,29 @@ public class FacebookLogin extends FragmentActivity
 								{
 									// Display the parsed user info
 
-									SharedPreferences shared = getSharedPreferences(
-											FacebookLogin.filename,
-											MODE_PRIVATE);
-									SharedPreferences.Editor editor = shared
-											.edit();
 									// Insert value below
-									editor.putString("name", user.getName()
-											.toString());
-									editor.putString("email",
-											getEmail(getBaseContext()));
-									// editor.putString("gender", gender);
+									userSP.edit()
+											.putString("name",
+													user.getName().toString())
+											.commit();
+
+									userSP.edit()
+											.putString("email",
+													getEmail(getBaseContext()))
+											.commit();
 
 									Calendar c = Calendar.getInstance();
 
-									editor.putInt(
-											"age",
-											c.get(Calendar.YEAR)
-													- Integer
-															.parseInt(user
-																	.getBirthday()
-																	.substring(
-																			user.getBirthday()
-																					.length() - 4)));
-									// commit changes to the SharedPref
-									editor.commit();
+									userSP.edit()
+											.putInt("age",
+													c.get(Calendar.YEAR)
+															- Integer
+																	.parseInt(user
+																			.getBirthday()
+																			.substring(
+																					user.getBirthday()
+																							.length() - 4)))
+											.commit();
 
 									String gender = user.asMap().get("gender")
 											.toString();
@@ -233,12 +233,20 @@ public class FacebookLogin extends FragmentActivity
 									else if (gender.equalsIgnoreCase("female"))
 										gender = "Female";
 
-									editor.putString("gender", gender).commit();
+									userSP.edit().putString("gender", gender)
+											.commit();
 
-									SelectionFragment.userInfo
-											.setText(buildUserInfoDisplay(user));
+									/* SelectionFragment.userInfo
+									 * .setText(buildUserInfoDisplay(user)); */
 
-									if(userSP.getBoolean("userCreated", false) == false)
+									String userSummary = buildUserInfoDisplay(user);
+
+									// Log.e("USER:", userSummary);
+									userSP.edit()
+											.putString("userSummary",
+													userSummary).commit();
+
+									if (userSP.getBoolean("userCreated", false) == false)
 										startActivity(i);
 								}
 
@@ -292,10 +300,10 @@ public class FacebookLogin extends FragmentActivity
 								if (user != null)
 								{
 									// Display the parsed user info
-									SelectionFragment.userInfo
-											.setText(buildUserInfoDisplay(user));
-									
-									if(userSP.getBoolean("userCreated", false) == false)
+									/* SelectionFragment.userInfo
+									 * .setText(buildUserInfoDisplay(user)); */
+
+									if (userSP.getBoolean("userCreated", false) == false)
 										startActivity(i);
 
 								}
@@ -349,7 +357,7 @@ public class FacebookLogin extends FragmentActivity
 	{
 		userSP.edit().putString("userid", user.getId()).commit();
 		StringBuilder userInfo = new StringBuilder("");
-		SelectionFragment.profilePictureView.setProfileId(user.getId());
+		// SelectionFragment.profilePictureView.setProfileId(user.getId());
 
 		// Task.getProfilePic().setProfileId(user.getId());
 		// USER NAME
@@ -444,5 +452,4 @@ public class FacebookLogin extends FragmentActivity
 		finish();
 	}
 
-	
 }

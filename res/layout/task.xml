@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:gravity="center_horizontal"
+            android:onClick="editProfile"
             android:padding="5sp"
             facebook:preset_size="normal" />
 
