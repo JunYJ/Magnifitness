@@ -47,12 +47,14 @@ public class Home extends FragmentActivity
 	PackageManager			manager;
 	User					user;
 	SharedPreferences		userSP;
+	TextView userInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+		
 		userSP = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 		// Enable Home Button
 		/* final ActionBar actionBar = getActionBar();
@@ -329,29 +331,19 @@ public class Home extends FragmentActivity
 		View summary = inflater.inflate(R.layout.summary, null);
 		helpBuilder.setView(summary);
 
-		TextView userInfo = (TextView) summary.findViewById(R.id.txt);
+		userInfo = (TextView) summary.findViewById(R.id.txt);
 		userInfo.setText(buildSummaryString());
 
 		ProfilePictureView summaryProfilePictureView = (ProfilePictureView) summary
 				.findViewById(R.id.friendProfilePicture);
 		summaryProfilePictureView.setProfileId(userSP.getString("userid", ""));
 
-		helpBuilder.setPositiveButton("Confirm",
+		helpBuilder.setPositiveButton("Done",
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which)
 					{
-
-					}
-				});
-
-		helpBuilder.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which)
-					{
-
+						
 					}
 				});
 
@@ -359,12 +351,29 @@ public class Home extends FragmentActivity
 		AlertDialog helpDialog = helpBuilder.create();
 
 		helpDialog.show();
+		
 
 	}
 	
 	public void edit(View v)
 	{
-		startActivity(new Intent(this, SetupUserDetails.class));
+		userSP.edit().putBoolean("edittingProfile", true).commit();
+		Intent i = new Intent(this, SetupUserDetails.class);
+		startActivityForResult(i,1);
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if(requestCode == 1)
+		{
+			if(resultCode == RESULT_OK)
+			{
+				userInfo.setText(buildSummaryString());
+			}
+		}
+	}
+	
+	
 
 }

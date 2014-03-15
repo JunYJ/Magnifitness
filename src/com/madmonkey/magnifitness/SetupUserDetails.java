@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -163,23 +164,25 @@ public class SetupUserDetails extends Activity implements
 						lvOfActiveness.getSelectedItemPosition()).commit();
 		userSP.edit().putBoolean("userCreated", userCreated).commit();
 
-		DecimalFormat df = new DecimalFormat("#.##");
-		userSP.edit().putString("bmi", df.format(user.getBmi()) + "").commit();
-		userSP.edit().putString("bmr", df.format(user.getBmr()) + "").commit();
-
 		userSP.edit()
 				.putInt("weight",
 						Integer.parseInt(weightET.getEditableText().toString()))
 				.commit();
+		user.setCurrentWeight(Integer.parseInt(weightET.getEditableText().toString()));
+		
 		userSP.edit()
 				.putInt("height",
 						Integer.parseInt(heightET.getEditableText().toString()))
 				.commit();
+		user.setHeight(Integer.parseInt(heightET.getEditableText().toString()));
+		
+		DecimalFormat df = new DecimalFormat("#.##");
+		userSP.edit().putString("bmi", df.format(user.getBmi()) + "").commit();
+		userSP.edit().putString("bmr", df.format(user.getBmr()) + "").commit();
 	}
 
 	private void loadFromPreferences()
 	{
-
 		name.setText(userSP.getString("name", ""));
 		email.setText(userSP.getString("email", ""));
 		weightET.setText(userSP.getInt("weight", 0) + "");
@@ -191,10 +194,6 @@ public class SetupUserDetails extends Activity implements
 
 		age.setText(userSP.getInt("age", 0) + "");
 		lvOfActiveness.setSelection(userSP.getInt("lvOfActiveness", 0));
-
-		// weightPicker.setValue(shared.getInt("weight", 50));
-		// heightPicker.setValue(shared.getInt("height", 150));
-		// idealWeightPicker.setValue(shared.getInt("idealWeight", 50));
 	}
 
 	public void selectWeight(View v)
@@ -306,9 +305,29 @@ public class SetupUserDetails extends Activity implements
 			nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			nextActivity.putExtra("userObject", user);
 
-			startActivity(nextActivity);
-
-			finish();
+			if(userSP.getBoolean("edittingProfile", false) == false)
+				startActivity(nextActivity);
+			else
+			{
+				Log.i("PROFILE EDITING (SETUP_USER_DETAILS)", "done editing");
+				
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("name", user.getName());
+				returnIntent.putExtra("gender", user.getGender());
+				returnIntent.putExtra("age", user.getAge());
+				returnIntent.putExtra("weight", user.getCurrentWeight());
+				returnIntent.putExtra("height", user.getHeight());
+				Log.e("WEIGHT", weightET.getEditableText().toString());
+				Log.e("HEIGHT", heightET.getEditableText().toString());
+				returnIntent.putExtra("bmi", user.getBmi());
+				returnIntent.putExtra("bmr", user.getBmr());
+				Log.e("BMI", user.getBmi() + "");
+				Log.e("BMR", user.getBmr() + "");
+				returnIntent.putExtra("email", user.getEmail());
+				setResult(RESULT_OK, returnIntent);
+			}
+			
+			this.finish();
 		}
 		else
 		{

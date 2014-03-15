@@ -255,7 +255,7 @@ public class FacebookLogin extends FragmentActivity
 						});
 
 				meRequest.executeAsync();
-
+				this.finish();
 			}
 
 			else if (state.isClosed())
