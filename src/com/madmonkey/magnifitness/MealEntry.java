@@ -17,13 +17,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.madmonkey.magnifitness.util.DatabaseHandler;
+import com.madmonkey.magnifitness.util.Search;
 import com.madmonkey.magnifitnessClass.Food;
 
 public class MealEntry extends Activity implements OnClickListener
 {
 
 	Button				add, confirm;
-	//String[]			foodList;
+	// String[] foodList;
 	DatabaseHandler		dbHandler;
 	ListView			foodListView;
 	ArrayList<String>	selectedFood;
@@ -97,16 +98,17 @@ public class MealEntry extends Activity implements OnClickListener
 		{
 
 			case R.id.add_btn:
-
-				AlertDialog.Builder searchDialog = new AlertDialog.Builder(this);
+				Intent i = new Intent(this, Search.class);
+				startActivityForResult(i,1);
+				/*AlertDialog.Builder searchDialog = new AlertDialog.Builder(this);
 
 				searchDialog.setTitle("Search Food");
 
 				final ArrayList<Food> foodItems = (ArrayList<Food>) dbHandler
 						.getAllFood();
-				
+
 				ArrayList<String> foodList = new ArrayList<String>();
-				for(int i = 0; i < foodItems.size(); i++)
+				for (int i = 0; i < foodItems.size(); i++)
 				{
 					foodList.add(foodItems.get(i).getTitle());
 				}
@@ -125,26 +127,20 @@ public class MealEntry extends Activity implements OnClickListener
 								Toast.makeText(getApplicationContext(),
 										foodItems.get(which).getTitle(),
 										Toast.LENGTH_SHORT).show();
-								
-								selectedFood.add(foodItems.get(which).getTitle());
-								
-								ArrayAdapter<String> fa = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, selectedFood);
+
+								selectedFood.add(foodItems.get(which)
+										.getTitle());
+
+								ArrayAdapter<String> fa = new ArrayAdapter<String>(
+										getBaseContext(),
+										android.R.layout.simple_list_item_1,
+										selectedFood);
 								foodListView.setAdapter(fa);
 							}
 						});
 
-				/* searchDialog.setItems(R.array.food_list, new
-				 * DialogInterface.OnClickListener() {
-				 * 
-				 * @Override public void onClick(DialogInterface dialog, int
-				 * which) { Toast.makeText( getApplicationContext(), "Item " +
-				 * foodList[which].toString() + " is selected",
-				 * Toast.LENGTH_SHORT).show();
-				 * 
-				 * } }); */
+				searchDialog.show();*/
 
-				searchDialog.show();
-				onSearchRequested();
 				break;
 
 			case R.id.confirm_btn:
@@ -156,5 +152,27 @@ public class MealEntry extends Activity implements OnClickListener
 		}
 
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		super.onActivityResult(requestCode, resultCode, data);
+		
+		if(requestCode == 1)
+		{
+			if(resultCode == RESULT_OK)
+			{
+				selectedFood.add(dbHandler.getFood(data.getStringExtra("name")).getTitle());
+
+				ArrayAdapter<String> fa = new ArrayAdapter<String>(
+						getBaseContext(),
+						android.R.layout.simple_list_item_1,
+						selectedFood);
+				foodListView.setAdapter(fa);
+			}
+		}
+	}
+	
+	
 
 }
