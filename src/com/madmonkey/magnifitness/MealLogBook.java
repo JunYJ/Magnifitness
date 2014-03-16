@@ -98,7 +98,7 @@ public class MealLogBook extends Fragment {
 			{
 			username = userSP.getString("name", "unknown");
 			email = userSP.getString("email", "unknown");
-			gender = userSP.getString("gender", "Lady Boy");
+			gender = userSP.getString("gender", "unknown");
 			age = userSP.getInt("age", 99);
 			lvOfActiveness = userSP.getInt("lvOfActiveness", 0);
 			weight = userSP.getInt("weight", 1);
