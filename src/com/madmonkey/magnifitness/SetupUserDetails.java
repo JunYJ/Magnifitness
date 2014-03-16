@@ -39,6 +39,7 @@ public class SetupUserDetails extends Activity implements
 	RadioButton			maleRB, femaleRB;
 	Button				okBtn;
 	User				user;
+	
 	SharedPreferences	userSP;
 	String				gender;
 	String				ageString;
