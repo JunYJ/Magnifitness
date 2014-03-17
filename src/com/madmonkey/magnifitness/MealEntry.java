@@ -25,6 +25,8 @@ public class MealEntry extends Activity implements OnClickListener
 	DatabaseHandler		dbHandler;
 	ListView			foodListView;
 	ArrayList<String>	selectedFood;
+	Intent				returnIntent;
+	double totalCalorie;
 
 	final static int	BREAKFAST	= 1;
 	final static int	LUNCH		= 2;
@@ -73,6 +75,9 @@ public class MealEntry extends Activity implements OnClickListener
 
 		foodListView = (ListView) findViewById(R.id.food_records);
 		selectedFood = new ArrayList<String>();
+		totalCalorie = 0.0;
+		
+		returnIntent = new Intent();
 	}
 
 	@Override
@@ -131,6 +136,9 @@ public class MealEntry extends Activity implements OnClickListener
 			case R.id.confirm_btn:
 				Log.i("confirm_button", "Confirm button clicked");
 
+				Log.i("TOTAL CALORIE: ", totalCalorie+ "");
+				returnIntent.putExtra("totalCalorie", totalCalorie);
+				setResult(RESULT_OK, returnIntent);
 				finish();
 				break;
 
@@ -147,15 +155,20 @@ public class MealEntry extends Activity implements OnClickListener
 		{
 			if (resultCode == RESULT_OK)
 			{
-				selectedFood.add(dbHandler.getFood(data.getStringExtra("foodTitle"))
-						.getTitle());
+				selectedFood.add(dbHandler.getFood(
+						data.getStringExtra("foodTitle")).getTitle());
+
+				double calorie = data.getDoubleExtra("calorie", 0.0);
+				Log.i("Meal Entry (CALORIE): ", calorie + "");
+				totalCalorie += calorie;
 
 				ArrayAdapter<String> fa = new ArrayAdapter<String>(
 						getBaseContext(), android.R.layout.simple_list_item_1,
 						selectedFood);
 				foodListView.setAdapter(fa);
-				
-				Log.i("Meal Entry(Serving Size): ", data.getIntExtra("servingSize", 0) + "");
+
+				Log.i("Meal Entry(Serving Size): ",
+						data.getIntExtra("servingSize", 0) + "");
 			}
 		}
 	}

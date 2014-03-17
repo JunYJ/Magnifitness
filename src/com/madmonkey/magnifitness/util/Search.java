@@ -24,6 +24,7 @@ public class Search extends FragmentActivity
 	private ListView		foodListView;
 	EditText				inputSearch;
 
+	Food selectedFood;
 	ArrayAdapter<String>	adapter;
 	DatabaseHandler			db;
 	Intent returnIntent;
@@ -60,12 +61,11 @@ public class Search extends FragmentActivity
 				// TODO Auto-generated method stub
 
 				returnIntent = new Intent();
-				Food selectedFood = dbFoodList.get(pos);
+				selectedFood = dbFoodList.get(pos);
 				returnIntent.putExtra("foodTitle", selectedFood.getTitle());
 				returnIntent.putExtra("foodType", selectedFood.getType());
 				returnIntent.putExtra("measure_unit",
 						selectedFood.getMeasurementUnit());
-				returnIntent.putExtra("calorie", selectedFood.getCalorie());
 
 				ServingSizeDialogFragment ssdf = new ServingSizeDialogFragment();
 				Bundle args = new Bundle();
@@ -115,6 +115,7 @@ public class Search extends FragmentActivity
 	public void addSelectedFood(int servingSize)
 	{
 		returnIntent.putExtra("servingSize", servingSize);
+		returnIntent.putExtra("calorie", selectedFood.getCalorie() * servingSize);
 		setResult(RESULT_OK, returnIntent);
 		Log.i("Search.java (ServingSize): ", servingSize + "");
 		finish();
