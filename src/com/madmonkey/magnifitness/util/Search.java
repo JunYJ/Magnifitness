@@ -2,9 +2,9 @@ package com.madmonkey.magnifitness.util;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,9 +15,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.madmonkey.magnifitness.R;
+import com.madmonkey.magnifitness.ServingSizeDialogFragment;
 import com.madmonkey.magnifitnessClass.Food;
 
-public class Search extends Activity
+public class Search extends FragmentActivity
 {
 	private ListView		foodListView;
 	EditText				inputSearch;
@@ -58,9 +59,27 @@ public class Search extends Activity
 				
 				Intent returnIntent = new Intent();
 				Food selectedFood = dbFoodList.get(pos);
-				returnIntent.putExtra("name", selectedFood.getTitle());
+				returnIntent.putExtra("foodTitle", selectedFood.getTitle());
+				returnIntent.putExtra("foodType", selectedFood.getType());
+				returnIntent.putExtra("measure_unit", selectedFood.getMeasurementUnit());
+				returnIntent.putExtra("calorie", selectedFood.getCalorie());
+				
 				setResult(RESULT_OK, returnIntent);
-				finish();
+				
+				
+				ServingSizeDialogFragment ssdf = new ServingSizeDialogFragment();
+				Bundle args = new Bundle();
+				args.putString("foodTitle", selectedFood.getTitle());
+				args.putString("foodType", selectedFood.getType());
+				args.putString("measure_unit", selectedFood.getMeasurementUnit());
+				args.putDouble("calorie", selectedFood.getCalorie());
+				
+				ssdf.setArguments(args);
+				ssdf.show(getSupportFragmentManager(), "Serving Size Dialog");
+				
+				//ssdf.setupAllViews();
+				
+				//finish();
 			}
 
 			
