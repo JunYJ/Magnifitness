@@ -381,7 +381,6 @@ public class Home extends FragmentActivity
 	@Override
 	public void onBackPressed()
 	{
-		
 		super.onBackPressed();
 		finish();
 	}
