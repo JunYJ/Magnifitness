@@ -25,7 +25,6 @@ public class ServingSizeDialogFragment extends DialogFragment
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState)
 	{
-
 		bundleValue = getArguments();
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle("Select Serving Size:");
@@ -66,7 +65,6 @@ public class ServingSizeDialogFragment extends DialogFragment
 
 	public void setupAllViews()
 	{
-
 		final String calText = " Cal"; // add this at the end of the calValue
 		foodTitle = (TextView) v.findViewById(R.id.foodTitleTV);
 		foodType = (TextView) v.findViewById(R.id.foodTypeTV);
