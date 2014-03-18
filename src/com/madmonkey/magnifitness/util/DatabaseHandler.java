@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.madmonkey.magnifitnessClass.Food;
+import com.madmonkey.magnifitnessClass.MealEntry;
 
 public class DatabaseHandler extends SQLiteOpenHelper
 {
@@ -22,7 +23,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 	// Table Names
 	private static final String	TABLE_FOOD				= "food";
-	private static final String	TABLE_USER_MEAL_ENTRY	= "user";
+	private static final String	TABLE_USER_MEAL_ENTRY	= "userMealEntry";
 
 	// Column Names
 	// FOOD
@@ -31,9 +32,15 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String	KEY_MEASUREMENT_UNIT	= "measurementUnit";
 	private static final String	KEY_CALORIE				= "calorie";
 	private static final String	KEY_TYPE				= "type";
+	
+	// MEAL ENTRY
+	private static final String KEY_MEAL_TYPE 			= "mealType";
+	private static final String KEY_DATE 				= "date";
+	private static final String KEY_TOTAL_CALORIE 		= "totalCalorie";
+	private static final String KEY_SELECTED_FOOD		= "selectedFood";
 
 	// USER
-	private static final String	KEY_NAME				= "name";
+	/*private static final String	KEY_NAME				= "name";
 	private static final String	KEY_AGE					= "age";
 	private static final String	KEY_PROFILE_PICTURE		= "profilePicture";
 	private static final String	KEY_EMAIL				= "email";
@@ -43,14 +50,19 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String	KEY_CALORIE_CAP			= "calorieCap";
 	private static final String	KEY_CURRENT_WEIGHT		= "currentWeight";
 	private static final String	KEY_HEIGHT				= "height";
-	private static final String	KEY_IDEAL_WEIGHT		= "idealWeight";
+	private static final String	KEY_IDEAL_WEIGHT		= "idealWeight";*/
 	
 	String CREATE_FOOD_TABLE = "CREATE TABLE " + TABLE_FOOD + "("
-			+ KEY_TITLE + " TEXT NOT NULL," + KEY_MEASUREMENT_UNIT
+			+ KEY_TITLE + " TEXT PRIMARY KEY," + KEY_MEASUREMENT_UNIT
 			+ " TEXT NOT NULL," + KEY_CALORIE + " REAL NOT NULL,"
-		    + KEY_TYPE + " STRING" + ")";
+		    + KEY_TYPE + " TEXT" + ")";
 	
-	String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(";
+	String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(" + KEY_MEAL_TYPE + " TEXT NOT NULL,"
+			+ KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE + " REAL NOT NULL," + KEY_SELECTED_FOOD + " TEXT" + ")";
+	
+	/*String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(" + KEY_MEAL_TYPE + " TEXT NOT NULL,"
+			+ KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE + " REAL NOT NULL," + KEY_SELECTED_FOOD + " TEXT," + " FOREIGN KEY ("
+			+ KEY_SELECTED_FOOD + ") REFERENCES " + TABLE_FOOD + " (" + KEY_TITLE + "))";*/
 
 	public DatabaseHandler(Context context)
 	{
@@ -69,6 +81,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		db.execSQL(CREATE_FOOD_TABLE);
 		Log.i("EXECSQL", CREATE_FOOD_TABLE);
+		db.execSQL(CREATE_USER_MEAL_ENTRY_TABLE);
+		Log.i("EXECSQL", CREATE_USER_MEAL_ENTRY_TABLE);
 
 	}
 
@@ -136,5 +150,59 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		}
 		
 		return foodList;
+	}
+	
+	public void addMealEntry(MealEntry mealEntry)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		// values.put(KEY_USER_ID, user.getUserID());
+		values.put(KEY_MEAL_TYPE, mealEntry.getMealType());
+		values.put(KEY_DATE, mealEntry.getDateStr());
+		values.put(KEY_TOTAL_CALORIE, mealEntry.getTotalCalorie());
+		
+		ArrayList<Food> foodList = mealEntry.getFoodList();
+		for(int i = 0; i < foodList.size(); i++)
+		{
+			values.put(KEY_SELECTED_FOOD, foodList.get(i).getTitle());
+			Log.i("DB (Meal Entry Food): ", foodList.get(i).getTitle());
+		}
+		
+		Log.i("MEAL_TYPE", mealEntry.getMealType());
+		Log.i("DATE", mealEntry.getDateStr());
+		Log.i("TOTAL CALORIE", mealEntry.getTotalCalorie() + "");
+
+		db.insert(TABLE_USER_MEAL_ENTRY, null, values);
+		db.close();
+	}
+	
+	public MealEntry getMealEntry(String mealType, String dateStr)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String [] {KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD }, 
+				KEY_MEAL_TYPE + "=? AND " + KEY_DATE + "=?", new String[] { String.valueOf(mealType), String.valueOf(dateStr) }
+		, null, null, null, null);
+		
+		if(cursor != null)
+		{
+			cursor.moveToFirst();
+		}
+		
+		MealEntry mealEntry = new MealEntry();
+		mealEntry.setMealType(cursor.getString(0));
+		mealEntry.setDateStr(cursor.getString(1));
+		mealEntry.setTotalCalorie(Double.parseDouble(cursor.getString(2)));
+		
+		Log.i("DB (Meal Entry food list): ", cursor.getString(3));
+		ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
+		
+		//for(int i = 0; i < dbFoodList.)
+		ArrayList<Food> foodList = new ArrayList<Food>();
+		foodList.add(getFood(cursor.getString(3)));
+		mealEntry.setFoodList(foodList);
+		
+		return mealEntry;
 	}
 }

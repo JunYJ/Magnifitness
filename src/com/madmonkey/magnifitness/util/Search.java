@@ -114,7 +114,7 @@ public class Search extends FragmentActivity
 		returnIntent.putExtra("servingSize", servingSize);
 		returnIntent.putExtra("calorie", selectedFood.getCalorie() * servingSize);
 		setResult(RESULT_OK, returnIntent);
-		Log.i("Search.java (ServingSize): ", servingSize + "");
+		//Log.i("Search.java (ServingSize): ", servingSize + "");
 		finish();
 	}
 

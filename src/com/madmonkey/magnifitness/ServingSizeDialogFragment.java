@@ -32,7 +32,7 @@ public class ServingSizeDialogFragment extends DialogFragment
 
 		v = inflater.inflate(R.layout.select_serving_size, null);
 
-		Log.i("food title", bundleValue.getString("foodTitle", "not found"));
+		//Log.i("food title", bundleValue.getString("foodTitle", "not found"));
 		setupAllViews();
 		// setupAllViews();
 

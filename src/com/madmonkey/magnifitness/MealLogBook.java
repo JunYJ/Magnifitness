@@ -38,7 +38,7 @@ public class MealLogBook extends Fragment {
 		{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		nextActivity = new Intent(getActivity(), MealEntry.class);
+		nextActivity = new Intent(getActivity(), MealEntryActivity.class);
 		currentCalorie = 0.0;
 		
 		Bundle bundle = this.getArguments();

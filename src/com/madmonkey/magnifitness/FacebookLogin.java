@@ -92,7 +92,7 @@ public class FacebookLogin extends FragmentActivity
 		transaction.commit();
 		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 		userCreated = userSP.getBoolean("userCreated", false);
-
+		
 		// final ActionBar actionBar = getActionBar();
 		// actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -303,6 +303,51 @@ public class FacebookLogin extends FragmentActivity
 									/* SelectionFragment.userInfo
 									 * .setText(buildUserInfoDisplay(user)); */
 
+									// Insert value below
+									userSP.edit()
+											.putString("name",
+													user.getName().toString())
+											.commit();
+
+									userSP.edit()
+											.putString("email",
+													getEmail(getBaseContext()))
+											.commit();
+
+									Calendar c = Calendar.getInstance();
+
+									userSP.edit()
+											.putInt("age",
+													c.get(Calendar.YEAR)
+															- Integer
+																	.parseInt(user
+																			.getBirthday()
+																			.substring(
+																					user.getBirthday()
+																							.length() - 4)))
+											.commit();
+
+									String gender = user.asMap().get("gender")
+											.toString();
+
+									if (gender.equalsIgnoreCase("male"))
+										gender = "Male";
+									else if (gender.equalsIgnoreCase("female"))
+										gender = "Female";
+
+									userSP.edit().putString("gender", gender)
+											.commit();
+
+									/* SelectionFragment.userInfo
+									 * .setText(buildUserInfoDisplay(user)); */
+
+									String userSummary = buildUserInfoDisplay(user);
+
+									// Log.e("USER:", userSummary);
+									userSP.edit()
+											.putString("userSummary",
+													userSummary).commit();
+									
 									if (userSP.getBoolean("userCreated", false) == false)
 										startActivity(i);
 
@@ -311,6 +356,7 @@ public class FacebookLogin extends FragmentActivity
 						});
 
 				meRequest.executeAsync();
+				this.finish();
 			}
 
 		}

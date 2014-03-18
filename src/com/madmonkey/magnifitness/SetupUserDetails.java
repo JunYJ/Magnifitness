@@ -303,7 +303,7 @@ public class SetupUserDetails extends Activity implements
 			saveInformation();
 
 			nextActivity = new Intent(SetupUserDetails.this, Home.class);
-			nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			//nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			nextActivity.putExtra("userObject", user);
 
 			if(userSP.getBoolean("edittingProfile", false) == false)

@@ -1,0 +1,29 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch build-branch
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	renamed:    src/com/madmonkey/magnifitness/MealEntry.java -> src/com/madmonkey/magnifitness/MealEntryActivity.java
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   AndroidManifest.xml
+#	modified:   bin/AndroidManifest.xml
+#	modified:   bin/Magnifitness.apk
+#	modified:   bin/classes.dex
+#	modified:   bin/jarlist.cache
+#	modified:   bin/resources.ap_
+#	modified:   src/com/madmonkey/magnifitness/FacebookLogin.java
+#	modified:   src/com/madmonkey/magnifitness/MealEntryActivity.java
+#	modified:   src/com/madmonkey/magnifitness/MealLogBook.java
+#	modified:   src/com/madmonkey/magnifitness/ServingSizeDialogFragment.java
+#	modified:   src/com/madmonkey/magnifitness/SetupUserDetails.java
+#	modified:   src/com/madmonkey/magnifitness/util/DatabaseHandler.java
+#	modified:   src/com/madmonkey/magnifitness/util/Search.java
+#	modified:   src/com/madmonkey/magnifitnessClass/MealEntry.java
+#
+
