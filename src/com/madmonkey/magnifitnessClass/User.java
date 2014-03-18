@@ -2,6 +2,7 @@ package com.madmonkey.magnifitnessClass;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class User implements Parcelable
 {
@@ -207,8 +208,10 @@ public class User implements Parcelable
 	public int getIdealWeight()
 	{
 
-		double heightInMeter = getHeight();
+		double heightInMeter = (double) getHeight();
 		heightInMeter /= 100;
+		
+		Log.i("Height in Meter", heightInMeter + " meter");
 
 		idealWeight = (int) ((heightInMeter * heightInMeter) * NORMAL_WEIGHT);
 		return idealWeight;

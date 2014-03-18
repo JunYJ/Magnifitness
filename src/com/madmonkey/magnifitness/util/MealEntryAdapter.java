@@ -40,6 +40,11 @@ public View getView(int position, View convertView, ViewGroup parent)
 	Button remove_btn = (Button) rowView.findViewById(R.id.remove_btn);
 	
 	
+
+	foodTitle.setText(recordedFoodList.get(position).getTitle());
+	calValue.setText(recordedFoodList.get(position).getCalorie() + "");
+	
+	
 	
 	
 	return rowView;

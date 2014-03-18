@@ -78,9 +78,6 @@ public class Search extends FragmentActivity
 				ssdf.setArguments(args);
 				ssdf.show(getSupportFragmentManager(), "Serving Size Dialog");
 
-				// ssdf.setupAllViews();
-
-				// finish();
 			}
 
 		});

@@ -319,6 +319,8 @@ public class Home extends FragmentActivity
 		// EMAIL (sharedPreference)
 		userInfo.append(String.format("Email: %s\n\n",
 				userSP.getString("email", "")));
+		
+		//IDEAL WEIGHT
 
 		return userInfo.toString();
 	}
@@ -343,7 +345,7 @@ public class Home extends FragmentActivity
 
 					public void onClick(DialogInterface dialog, int which)
 					{
-						
+
 					}
 				});
 
@@ -371,6 +373,7 @@ public class Home extends FragmentActivity
 			if(resultCode == RESULT_OK)
 			{
 				userInfo.setText(buildSummaryString());
+				
 			}
 		}
 	}

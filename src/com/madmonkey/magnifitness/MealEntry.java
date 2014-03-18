@@ -15,7 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.madmonkey.magnifitness.util.DatabaseHandler;
+import com.madmonkey.magnifitness.util.MealEntryAdapter;
 import com.madmonkey.magnifitness.util.Search;
+import com.madmonkey.magnifitnessClass.Food;
 
 public class MealEntry extends Activity implements OnClickListener
 {
@@ -25,6 +27,7 @@ public class MealEntry extends Activity implements OnClickListener
 	DatabaseHandler		dbHandler;
 	ListView			foodListView;
 	ArrayList<String>	selectedFood;
+	ArrayList<Food> 	selectedFoodObjList;
 	Intent				returnIntent;
 	double totalCalorie;
 
@@ -75,6 +78,7 @@ public class MealEntry extends Activity implements OnClickListener
 
 		foodListView = (ListView) findViewById(R.id.food_records);
 		selectedFood = new ArrayList<String>();
+		selectedFoodObjList = new ArrayList<Food>();
 		totalCalorie = 0.0;
 		
 		returnIntent = new Intent();
@@ -127,6 +131,16 @@ public class MealEntry extends Activity implements OnClickListener
 			{
 				selectedFood.add(dbHandler.getFood(
 						data.getStringExtra("foodTitle")).getTitle());
+				
+				String titleIn = data.getStringExtra("foodTitle");
+				String measurementUnitIn = data.getStringExtra("measure_unit");
+				Double calorieIn = data.getDoubleExtra("calorie", 999);
+				String typeIn = data.getStringExtra("foodType");
+				
+				Food f = new Food(titleIn, measurementUnitIn, calorieIn, typeIn);
+				selectedFoodObjList.add(f);
+				
+				foodListView.setAdapter(new MealEntryAdapter(this, selectedFoodObjList));
 
 				double calorie = data.getDoubleExtra("calorie", 0.0);
 				Log.i("Meal Entry (CALORIE): ", calorie + "");
@@ -135,7 +149,7 @@ public class MealEntry extends Activity implements OnClickListener
 				ArrayAdapter<String> fa = new ArrayAdapter<String>(
 						getBaseContext(), android.R.layout.simple_list_item_1,
 						selectedFood);
-				foodListView.setAdapter(fa);
+				//foodListView.setAdapter(fa);
 
 				Log.i("Meal Entry(Serving Size): ",
 						data.getIntExtra("servingSize", 0) + "");
