@@ -128,7 +128,7 @@ public class MealLogBook extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		if(requestCode == 0)
+		if(requestCode == 0 || requestCode == 1 || requestCode == 2 || requestCode == 3)
 		{
 			if(resultCode == Activity.RESULT_OK)
 			{
