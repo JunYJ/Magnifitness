@@ -35,5 +35,7 @@
         <item name="android:windowEnterAnimation">@anim/appear</item>
         <item name="android:windowExitAnimation">@anim/disappear</item>
     </style>
+    
+    <color name="titleGray">#848482</color>
 
 </resources>

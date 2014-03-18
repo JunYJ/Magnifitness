@@ -7,10 +7,10 @@
     android:padding="10dp" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/mealEntryInfoTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="What I ate:"
+        android:text=" Lunch, on 19th March, 2014 "
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ListView

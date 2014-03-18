@@ -95,36 +95,6 @@ public class MealEntry extends Activity implements OnClickListener
 			case R.id.add_btn:
 				Intent i = new Intent(this, Search.class);
 				startActivityForResult(i, 1);
-				/* AlertDialog.Builder searchDialog = new
-				 * AlertDialog.Builder(this);
-				 * 
-				 * searchDialog.setTitle("Search Food");
-				 * 
-				 * final ArrayList<Food> foodItems = (ArrayList<Food>) dbHandler
-				 * .getAllFood();
-				 * 
-				 * ArrayList<String> foodList = new ArrayList<String>(); for
-				 * (int i = 0; i < foodItems.size(); i++) {
-				 * foodList.add(foodItems.get(i).getTitle()); }
-				 * 
-				 * ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-				 * android.R.layout.simple_list_item_1, foodList);
-				 * 
-				 * searchDialog.setAdapter(adapter, new
-				 * DialogInterface.OnClickListener() {
-				 * 
-				 * @Override public void onClick(DialogInterface dialog, int
-				 * which) { // TODO Auto-generated method stub
-				 * Toast.makeText(getApplicationContext(),
-				 * foodItems.get(which).getTitle(), Toast.LENGTH_SHORT).show();
-				 * 
-				 * selectedFood.add(foodItems.get(which) .getTitle());
-				 * 
-				 * ArrayAdapter<String> fa = new ArrayAdapter<String>(
-				 * getBaseContext(), android.R.layout.simple_list_item_1,
-				 * selectedFood); foodListView.setAdapter(fa); } });
-				 * 
-				 * searchDialog.show(); */
 
 				break;
 
