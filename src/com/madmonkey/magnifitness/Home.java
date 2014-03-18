@@ -47,6 +47,7 @@ public class Home extends FragmentActivity
 	PackageManager			manager;
 	User					user;
 	SharedPreferences		userSP;
+	Fragment currentFragment;
 	TextView userInfo;
 
 	@Override
@@ -149,32 +150,37 @@ public class Home extends FragmentActivity
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			Fragment fragment = new Fragment();
+			currentFragment = new Fragment();
 			if (position == 0)
 			{
-				fragment = new Task();
+				currentFragment = new Task();
 			}
 
 			else if (position == 1)
 			{
-				fragment = new MealLogBook();
+				currentFragment = new MealLogBook();
+				Bundle bundle = new Bundle();
+				loadFromPref();
+				bundle.putInt("calorieCap", user.getTotalDailyCalorieNeeds());
+				currentFragment.setArguments(bundle);
 			}
 
 			else if (position == 2)
 			{
-				fragment = new StepCount();
+				currentFragment = new StepCount();
+				
 			}
 
 			else
 			{
-				fragment = new DummySectionFragment();
+				currentFragment = new DummySectionFragment();
 				Bundle args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
 						position + 1);
-				fragment.setArguments(args);
+				currentFragment.setArguments(args);
 			}
 
-			return fragment;
+			return currentFragment;
 		}
 
 		@Override
@@ -373,7 +379,6 @@ public class Home extends FragmentActivity
 			if(resultCode == RESULT_OK)
 			{
 				userInfo.setText(buildSummaryString());
-				
 			}
 		}
 	}
@@ -383,6 +388,12 @@ public class Home extends FragmentActivity
 	{
 		super.onBackPressed();
 		finish();
+	}
+	
+	public int getCalorieCap()
+	{
+		loadFromPref();
+		return user.getTotalDailyCalorieNeeds();
 	}
 	
 }

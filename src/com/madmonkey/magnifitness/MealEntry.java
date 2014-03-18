@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -110,7 +109,7 @@ public class MealEntry extends Activity implements OnClickListener
 			case R.id.confirm_btn:
 				Log.i("confirm_button", "Confirm button clicked");
 
-				Log.i("TOTAL CALORIE: ", totalCalorie+ "");
+				//Log.i("TOTAL CALORIE: ", totalCalorie+ "");
 				returnIntent.putExtra("totalCalorie", totalCalorie);
 				setResult(RESULT_OK, returnIntent);
 				finish();
@@ -143,16 +142,16 @@ public class MealEntry extends Activity implements OnClickListener
 				foodListView.setAdapter(new MealEntryAdapter(this, selectedFoodObjList));
 
 				double calorie = data.getDoubleExtra("calorie", 0.0);
-				Log.i("Meal Entry (CALORIE): ", calorie + "");
+				//Log.i("Meal Entry (CALORIE): ", calorie + "");
 				totalCalorie += calorie;
 
-				ArrayAdapter<String> fa = new ArrayAdapter<String>(
+				/*ArrayAdapter<String> fa = new ArrayAdapter<String>(
 						getBaseContext(), android.R.layout.simple_list_item_1,
-						selectedFood);
+						selectedFood);*/
 				//foodListView.setAdapter(fa);
 
-				Log.i("Meal Entry(Serving Size): ",
-						data.getIntExtra("servingSize", 0) + "");
+				/*Log.i("Meal Entry(Serving Size): ",
+						data.getIntExtra("servingSize", 0) + "");*/
 			}
 		}
 	}

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,8 @@ public class MealLogBook extends Fragment {
 	Intent				nextActivity;
 	
 	User				user;
+	
+	int calorieCap;
 	double currentCalorie;
 	
 	final static int BREAKFAST = 1;  
@@ -39,7 +40,9 @@ public class MealLogBook extends Fragment {
 		super.onCreate(savedInstanceState);
 		nextActivity = new Intent(getActivity(), MealEntry.class);
 		currentCalorie = 0.0;
-		loadFromPref();
+		
+		Bundle bundle = this.getArguments();
+		calorieCap = bundle.getInt("calorieCap");
 		}
 
 	@Override
@@ -57,7 +60,8 @@ public class MealLogBook extends Fragment {
 		
 		TVcalorieValue = (TextView) rootView.findViewById(R.id.TVcalorieValue);
 		TVcalorieCap = (TextView) rootView.findViewById(R.id.TVcalorieCap);
-		TVcalorieCap.setText(user.getTotalDailyCalorieNeeds() + "");
+		//TVcalorieCap.setText(user.getTotalDailyCalorieNeeds() + "");
+		TVcalorieCap.setText(calorieCap + "");
 		
 		calorieProgressBar = (ProgressBar) rootView.findViewById(R.id.calorieBar);
 		calorieProgressBar.setMax(Integer.parseInt(TVcalorieCap.getText().toString()));
@@ -134,11 +138,20 @@ public class MealLogBook extends Fragment {
 			{
 				currentCalorie = Double.parseDouble(TVcalorieValue.getText().toString());
 				currentCalorie += data.getDoubleExtra("totalCalorie", 0.0);
-				Log.i("CURRENT CALORIE", currentCalorie + "");
+				
+				//Log.i("CURRENT CALORIE", currentCalorie + "");
 				TVcalorieValue.setText(currentCalorie + "");
 				calorieProgressBar.setProgress((int) currentCalorie);
 			}
 		}
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		loadFromPref();
+		TVcalorieCap.setText(user.getTotalDailyCalorieNeeds() + "");
 	}
 
 
