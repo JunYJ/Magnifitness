@@ -38,6 +38,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	MealEntry mealEntry;
 	
 	MealEntry dbMealEntry;
+	ArrayList<MealEntry> list_of_meal_entry;
 
 	final static int	BREAKFAST	= 1;
 	final static int	LUNCH		= 2;
@@ -61,24 +62,16 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
 		
 		dbMealEntry = null;
-		if(meal_type == 0)
-		{
-			dbMealEntry = dbHandler.getMealEntry("Breakfast", "19th March 2014");
-			Log.i("TEST", dbMealEntry.getDateStr());
-		}
-		else if(meal_type == 0)
-			dbMealEntry = dbHandler.getMealEntry("Lunch", date);
-		else if(meal_type == 0)
-			dbMealEntry = dbHandler.getMealEntry("Snack", date);
-		else if(meal_type == 0)
-			dbMealEntry = dbHandler.getMealEntry("Dinner", date);
 		
-		if(dbMealEntry != null)
+		list_of_meal_entry = (ArrayList<MealEntry>) dbHandler.getAllMealEntry();
+		Log.i("list of meal entry size", list_of_meal_entry.size() + "");
+		if(list_of_meal_entry.size() != 0)
 		{
+			Log.i("list of meal entry size", list_of_meal_entry.size() + "");
+			dbMealEntry = dbHandler.getMealEntry("Breakfast");
 			selectedFoodObjList = dbMealEntry.getFoodList();
-			Log.i("MEAL ENTRY ACTIVITY: ", dbMealEntry.getFoodList().get(0).getTitle());
+			foodListView.setAdapter(new MealEntryAdapter(this, selectedFoodObjList));
 		}
-			
 
 		switch (meal_type)
 		{
@@ -112,6 +105,8 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 	private void initialization()
 	{
+		dbHandler = new DatabaseHandler(this);
+		
 		add = (Button) findViewById(R.id.add_btn);
 		confirm = (Button) findViewById(R.id.confirm_btn);
 		mealEntryInfoTV = (TextView) findViewById(R.id.mealEntryInfoTV);
@@ -138,7 +133,6 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		dbHandler = new DatabaseHandler(this);
 		/* ArrayList<Food> list = (ArrayList<Food>) dbHandler.getAllFood(); for
 		 * (int i = 0; i < list.size(); i++) { Log.i("DATABASE SIZE TEST: ",
 		 * list.get(i).toString()); } */

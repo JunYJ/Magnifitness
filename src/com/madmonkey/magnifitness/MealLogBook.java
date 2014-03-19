@@ -1,5 +1,8 @@
 package com.madmonkey.magnifitness;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -138,9 +141,10 @@ public class MealLogBook extends Fragment {
 			{
 				currentCalorie = Double.parseDouble(TVcalorieValue.getText().toString());
 				currentCalorie += data.getDoubleExtra("totalCalorie", 0.0);
-				
+				NumberFormat formatter = new DecimalFormat("#0.00"); 
 				//Log.i("CURRENT CALORIE", currentCalorie + "");
-				TVcalorieValue.setText(currentCalorie + "");
+				double formatCalorie = currentCalorie;
+				TVcalorieValue.setText(formatter.format(formatCalorie) + "");
 				calorieProgressBar.setProgress((int) currentCalorie);
 			}
 		}

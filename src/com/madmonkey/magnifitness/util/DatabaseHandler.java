@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitness.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -162,22 +163,33 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		values.put(KEY_DATE, mealEntry.getDateStr());
 		values.put(KEY_TOTAL_CALORIE, mealEntry.getTotalCalorie());
 		
+		String foodTitleStr = "";
 		ArrayList<Food> foodList = mealEntry.getFoodList();
 		for(int i = 0; i < foodList.size(); i++)
 		{
-			values.put(KEY_SELECTED_FOOD, foodList.get(i).getTitle());
+			if(i == foodList.size() - 1)
+			{
+				foodTitleStr = foodTitleStr + foodList.get(i).getTitle();
+			}
+			else
+			{
+				foodTitleStr = foodTitleStr + foodList.get(i).getTitle() + ",";
+			}
+						
 			Log.i("DB (Meal Entry Food): ", foodList.get(i).getTitle());
 		}
+		values.put(KEY_SELECTED_FOOD, foodTitleStr);
+		Log.i("DB FOOD STR: ", foodTitleStr);
 		
-		Log.i("MEAL_TYPE", mealEntry.getMealType());
+		/*Log.i("MEAL_TYPE", mealEntry.getMealType());
 		Log.i("DATE", mealEntry.getDateStr());
-		Log.i("TOTAL CALORIE", mealEntry.getTotalCalorie() + "");
-
+		Log.i("TOTAL CALORIE", mealEntry.getTotalCalorie() + "");*/
+		
 		db.insert(TABLE_USER_MEAL_ENTRY, null, values);
 		db.close();
 	}
 	
-	public MealEntry getMealEntry(String mealType, String dateStr)
+	/*public MealEntry getMealEntry(String mealType, String dateStr)
 	{
 		SQLiteDatabase db = getReadableDatabase();
 		
@@ -204,5 +216,89 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		mealEntry.setFoodList(foodList);
 		
 		return mealEntry;
+	}*/
+	
+	public MealEntry getMealEntry(String mealType)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String [] {KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD }, 
+				KEY_MEAL_TYPE + "=?", new String[] { String.valueOf(mealType) }
+		, null, null, null, null);
+		
+		if(cursor != null)
+		{
+			cursor.moveToFirst();
+		}
+		
+		MealEntry mealEntry = new MealEntry();
+		mealEntry.setMealType(cursor.getString(0));
+		mealEntry.setDateStr(cursor.getString(1));
+		mealEntry.setTotalCalorie(Double.parseDouble(cursor.getString(2)));
+		
+		/*Log.i("DB (Meal Entry food list): ", cursor.getString(3));
+		ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
+		
+		//for(int i = 0; i < dbFoodList.)
+		ArrayList<Food> foodList = new ArrayList<Food>();
+		foodList.add(getFood(cursor.getString(3)));
+		mealEntry.setFoodList(foodList);*/
+		
+		String foodTitleStr = cursor.getString(3);
+		List<String> foodTitleSplitStr = Arrays.asList(foodTitleStr.split("\\s*,\\s*"));
+		ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
+		
+		ArrayList<Food> foodList = new ArrayList<Food>();
+		
+		for(int i = 0; i < foodTitleSplitStr.size(); i++)
+		{
+			for(int count = 0; count < dbFoodList.size(); count++)
+			{
+				if(dbFoodList.get(count).getTitle().equals(foodTitleSplitStr.get(i)))
+				{
+					foodList.add(dbFoodList.get(count));
+					break;
+				}
+			}
+		}
+		
+		mealEntry.setFoodList(foodList);
+		
+		for(int i = 0; i < mealEntry.getFoodList().size(); i++)
+		{
+			Log.i("TESTING: ", mealEntry.getFoodList().get(i).getTitle());
+		}
+		
+		return mealEntry;
+	}
+	
+	public List<MealEntry> getAllMealEntry()
+	{
+		List<MealEntry> mealEntryList = new ArrayList<MealEntry>();
+		String selectQuery = "SELECT * FROM " + TABLE_USER_MEAL_ENTRY;
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		
+		if(cursor.moveToFirst())
+		{
+			do
+			{
+				MealEntry mealEntry = new MealEntry();
+				mealEntry.setMealType(cursor.getString(0));
+				mealEntry.setDateStr(cursor.getString(1));
+				mealEntry.setTotalCalorie(Double.parseDouble(cursor.getString(2)));
+				
+				ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
+				
+				ArrayList<Food> foodList = new ArrayList<Food>();
+				//foodList.add(getFood(cursor.getString(3)));
+				mealEntry.setFoodList(foodList);
+				mealEntryList.add(mealEntry);
+			}
+			while(cursor.moveToNext());
+		}
+		
+		return mealEntryList;
 	}
 }
