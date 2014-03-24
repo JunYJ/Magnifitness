@@ -1,5 +1,8 @@
 package com.madmonkey.magnifitness;
 
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.AlertDialog;
@@ -27,6 +30,8 @@ import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.widget.ProfilePictureView;
+import com.madmonkey.magnifitness.util.DatabaseHandler;
+import com.madmonkey.magnifitnessClass.MealEntry;
 import com.madmonkey.magnifitnessClass.User;
 
 public class Home extends FragmentActivity
@@ -47,14 +52,18 @@ public class Home extends FragmentActivity
 	PackageManager			manager;
 	User					user;
 	SharedPreferences		userSP;
-	Fragment currentFragment;
-	TextView userInfo;
+	Fragment				currentFragment;
+	TextView				userInfo;
+	
+	DatabaseHandler 		dbHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
+		
+		dbHandler = new DatabaseHandler(this);
 		
 		userSP = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 		// Enable Home Button
@@ -162,6 +171,27 @@ public class Home extends FragmentActivity
 				Bundle bundle = new Bundle();
 				loadFromPref();
 				bundle.putInt("calorieCap", user.getTotalDailyCalorieNeeds());
+				
+				Calendar c = Calendar.getInstance();
+				DateFormatSymbols dfs = new DateFormatSymbols();
+				String[] months = dfs.getMonths();
+				String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
+						+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+				
+				ArrayList<MealEntry> mealEntryList = null;
+				mealEntryList = (ArrayList<MealEntry>) dbHandler.getTodayMealEntry(date);
+				
+				double todayCalorie = 0.0;
+				if(mealEntryList != null)
+				{
+					for(int i = 0; i < mealEntryList.size(); i++)
+					{
+						todayCalorie += mealEntryList.get(i).getTotalCalorie();
+					}
+				}
+				
+				bundle.putDouble("todayCalorie", todayCalorie);
+				
 				currentFragment.setArguments(bundle);
 			}
 
@@ -387,6 +417,7 @@ public class Home extends FragmentActivity
 	public void onBackPressed()
 	{
 		super.onBackPressed();
+		
 		finish();
 	}
 	

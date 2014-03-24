@@ -27,12 +27,6 @@
 			<Type>Carbs, Fast Food</Type>
 		</Food>
 		<Food>
-			<Title>Big Mac</Title>
-			<MeasurementUnit>Piece</MeasurementUnit>
-			<Calorie>522.3</Calorie>
-			<Type>Beef, Fast Food</Type>
-		</Food>
-		<Food>
 			<Title>Double Cheeseburger</Title>
 			<MeasurementUnit>Piece</MeasurementUnit>
 			<Calorie>440</Calorie>
