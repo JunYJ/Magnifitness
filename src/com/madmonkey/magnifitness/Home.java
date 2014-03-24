@@ -197,13 +197,13 @@ public class Home extends FragmentActivity
 
 			else if (position == 2)
 			{
-				currentFragment = new StepCount();
+				currentFragment = new ViewHistoryEntryFragment();
 				
 			}
 
 			else
 			{
-				currentFragment = new DummySectionFragment();
+				currentFragment = new ViewHistoryEntryFragment();
 				Bundle args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
 						position + 1);
