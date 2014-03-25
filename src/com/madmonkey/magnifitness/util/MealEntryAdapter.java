@@ -1,8 +1,11 @@
 package com.madmonkey.magnifitness.util;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +44,17 @@ public class MealEntryAdapter extends ArrayAdapter<Food>
 		Button remove_btn = (Button) rowView.findViewById(R.id.remove_btn);
 
 		foodTitle.setText(recordedFoodList.get(position).getTitle());
-		calValue.setText(recordedFoodList.get(position).getCalorie() + "");
 
+		NumberFormat formatter = new DecimalFormat("#0.00");
+
+		double formatCalorie = recordedFoodList.get(position).getCalorie()
+				* recordedFoodList.get(position).getNumOfEntry();
+
+		calValue.setText(formatter.format(formatCalorie) + "");
+		Log.i("ADAPTER CALORIE: ", recordedFoodList.get(position).getCalorie()
+				+ "");
+		Log.i("ADAPTER NUM OF ENTRY: ", recordedFoodList.get(position)
+				.getNumOfEntry() + "");
 		return rowView;
 	}
 

@@ -162,6 +162,8 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				// load the food list of found Meal Entry for display
 				foodList = recordedMealEntry.getFoodList();
 				foodListView.setAdapter(new MealEntryAdapter(this, foodList));
+				Log.i("TEST", foodList.get(0).getNumOfEntry() + "");
+				//Log.i("TEST", foodList.get(1).getNumOfEntry() + "");
 			}
 
 		}
@@ -190,12 +192,12 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 				// Log.i("TOTAL CALORIE: ", totalCalorie+ "");
 				
-				//if specific Meal Entry of the day is not exist
-				//just get the total calorie of the temp Meal Entry
+				//sum of total calorie of exist Meal Entry & temp Meal Entry
 				if (recordedMealEntry != null)
 					returnIntent.putExtra("totalCalorie", totalCalorie
 							+ recordedMealEntry.getTotalCalorie());
-				//else sum of total calorie of exist Meal Entry & temp Meal Entry
+				//if specific Meal Entry of the day is not exist
+				//just get the total calorie of the temp Meal Entry
 				else
 					returnIntent.putExtra("totalCalorie", totalCalorie);
 
@@ -237,10 +239,13 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				String measurementUnitIn = data.getStringExtra("measure_unit");
 				Double calorieIn = data.getDoubleExtra("calorie", 999);
 				String typeIn = data.getStringExtra("foodType");
+				int numOfEntryIn = data.getIntExtra("servingSize", 0);
+				Log.i("SERVING SIZE: ", numOfEntryIn + "");
 
 				// Create a Food object
 				Food food = new Food(titleIn, measurementUnitIn, calorieIn,
 						typeIn);
+				food.setNumOfEntry(numOfEntryIn);
 
 				// Flag for duplication Food in the
 				boolean duplicate = false;
@@ -264,9 +269,13 @@ public class MealEntryActivity extends Activity implements OnClickListener
 					{
 						if (foodList.get(i).getTitle().equals(food.getTitle()))
 						{
-							foodList.get(i).setCalorie(
+							/*foodList.get(i).setCalorie(
 									foodList.get(i).getCalorie()
-											+ food.getCalorie());
+											+ food.getCalorie());*/
+							
+							Log.i("NUM OF ENTRY BEFORE: ", foodList.get(i).getNumOfEntry() + "");
+							foodList.get(i).setNumOfEntry(foodList.get(i).getNumOfEntry() + food.getNumOfEntry());
+							Log.i("NUM OF ENTRY AFTER: ", foodList.get(i).getNumOfEntry() + "");
 							break;
 						}
 					}

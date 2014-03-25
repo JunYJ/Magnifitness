@@ -8,6 +8,7 @@ public class Food
 	double	calorie;
 	String	type;
 	int counter = 1;
+	int numOfEntry;
 	
 	public Food()
 	{
@@ -17,6 +18,7 @@ public class Food
 		type = "";
 		id = counter;
 		counter++;
+		numOfEntry = 0;
 	}
 
 	public Food(String titleIn, String measurementUnitIn, double calorieIn,
@@ -28,6 +30,7 @@ public class Food
 		type = typeIn;
 		id = counter;
 		counter++;
+		numOfEntry = 0;
 	}
 	
 	public int getId()
@@ -80,6 +83,16 @@ public class Food
 		this.type = type;
 	}
 	
+	public int getNumOfEntry()
+	{
+		return numOfEntry;
+	}
+
+	public void setNumOfEntry(int numOfEntry)
+	{
+		this.numOfEntry = numOfEntry;
+	}
+
 	public String toString()
 	{
 		return "Title: " + getTitle() + "Measurement Unit: " + getMeasurementUnit() + "Calorie: " + getCalorie() + "Type: " + getType();

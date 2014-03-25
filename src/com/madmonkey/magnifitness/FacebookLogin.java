@@ -209,6 +209,10 @@ public class FacebookLogin extends FragmentActivity
 									// Display the parsed user info
 
 									// Insert value below
+									
+									//FACEBOOK ID (used for showing profile picture)
+									userSP.edit().putString("userid", user.getId()).commit();
+									
 									//NAME
 									userSP.edit()
 											.putString("name",
@@ -301,6 +305,10 @@ public class FacebookLogin extends FragmentActivity
 									// Display the parsed user info
 
 									// Insert value below
+									
+									//FACEBOOK ID (used for showing profile picture)
+									userSP.edit().putString("userid", user.getId()).commit();
+									
 									userSP.edit()
 											.putString("name",
 													user.getName().toString())
@@ -385,8 +393,7 @@ public class FacebookLogin extends FragmentActivity
 
 		return super.onOptionsItemSelected(item);
 	}
-
-	
+		
 	public String getEmail(Context context)
 	{
 		AccountManager accountManager = AccountManager.get(context);

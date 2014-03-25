@@ -1,7 +1,10 @@
 package com.madmonkey.magnifitness;
 
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +19,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.madmonkey.magnifitness.util.DatabaseHandler;
+import com.madmonkey.magnifitnessClass.MealEntry;
 import com.madmonkey.magnifitnessClass.User;
 
 public class MealLogBook extends Fragment
@@ -25,6 +30,7 @@ public class MealLogBook extends Fragment
 	ListView			mealTypeList;
 	ProgressBar			calorieProgressBar;
 	Intent				nextActivity;
+	DatabaseHandler		dbHandler;
 
 	User				user;
 
@@ -48,6 +54,8 @@ public class MealLogBook extends Fragment
 		Bundle bundle = this.getArguments();
 		calorieCap = bundle.getInt("calorieCap");
 		currentCalorie = bundle.getDouble("todayCalorie");
+
+		dbHandler = new DatabaseHandler(getActivity());
 	}
 
 	@Override
@@ -64,15 +72,15 @@ public class MealLogBook extends Fragment
 		View rootView = inflater.inflate(R.layout.meal_logbook, container,
 				false);
 
-		//Calorie consumed
+		// Calorie consumed
 		TVcalorieValue = (TextView) rootView.findViewById(R.id.TVcalorieValue);
 		TVcalorieValue.setText(currentCalorie + "");
-		
-		//Calories required/limit
+
+		// Calories required/limit
 		TVcalorieCap = (TextView) rootView.findViewById(R.id.TVcalorieCap);
 		TVcalorieCap.setText(calorieCap + "");
 
-		//Progress bar (sync with calorie consumed)
+		// Progress bar (sync with calorie consumed)
 		calorieProgressBar = (ProgressBar) rootView
 				.findViewById(R.id.calorieBar);
 		calorieProgressBar.setMax(Integer.parseInt(TVcalorieCap.getText()
@@ -80,37 +88,38 @@ public class MealLogBook extends Fragment
 		calorieProgressBar.setProgress((int) Double.parseDouble(TVcalorieValue
 				.getText().toString()));
 
-		//List of Meal type
+		// List of Meal type
 		mealTypeList = (ListView) rootView.findViewById(R.id.mealList);
-		mealTypeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		mealTypeList
+				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int pos,
-					long id)
-			{
-				switch (pos)
-				{
-					case 0:
-						nextActivity.putExtra("meal_type", BREAKFAST);
-						break;
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int pos, long id)
+					{
+						switch (pos)
+						{
+							case 0:
+								nextActivity.putExtra("meal_type", BREAKFAST);
+								break;
 
-					case 1:
-						nextActivity.putExtra("meal_type", LUNCH);
-						break;
+							case 1:
+								nextActivity.putExtra("meal_type", LUNCH);
+								break;
 
-					case 2:
-						nextActivity.putExtra("meal_type", SNACK);
-						break;
+							case 2:
+								nextActivity.putExtra("meal_type", SNACK);
+								break;
 
-					case 3:
-						nextActivity.putExtra("meal_type", DINNER);
-						break;
+							case 3:
+								nextActivity.putExtra("meal_type", DINNER);
+								break;
 
-				}
-				
-				startActivityForResult(nextActivity, pos);
-			}
-		});
+						}
+
+						startActivityForResult(nextActivity, pos);
+					}
+				});
 
 		return rootView;
 	}
@@ -130,7 +139,7 @@ public class MealLogBook extends Fragment
 			lvOfActiveness = userSP.getInt("lvOfActiveness", 0);
 			weight = userSP.getInt("weight", 1);
 			height = userSP.getInt("height", 1);
-			//idealWeight = userSP.getInt("idealWeight", 2);
+			// idealWeight = userSP.getInt("idealWeight", 2);
 
 			user = new User(username, age, email, gender, weight, height,
 					lvOfActiveness);
@@ -148,26 +157,43 @@ public class MealLogBook extends Fragment
 		{
 			if (resultCode == Activity.RESULT_OK)
 			{
-				//if new food is added into one of the meal entry
-				//update calorie consumed of the day
+				// if new food is added into one of the meal entry
+				// update calorie consumed of the day
 				if (data.getBooleanExtra("newFoodAdded", false) == true)
 				{
-					//get calorie of view
-					currentCalorie = Double.parseDouble(TVcalorieValue
-							.getText().toString());
-					
-					//(update/accumulate) current calorie
-					currentCalorie += data.getDoubleExtra("totalCalorie", 0.0);
-					
-					//format into two decimal point
+					Calendar c = Calendar.getInstance();
+					DateFormatSymbols dfs = new DateFormatSymbols();
+					String[] months = dfs.getMonths();
+					String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
+							+ months[(c.get(Calendar.MONTH))] + " "
+							+ c.get(Calendar.YEAR);
+
+					ArrayList<MealEntry> mealEntryList = (ArrayList<MealEntry>) dbHandler
+							.getTodayMealEntry(date);
+
+					// get calorie of view
+					/*currentCalorie = Double.parseDouble(TVcalorieValue
+							.getText().toString());*/
+
+					// (update/accumulate) current calorie
+					//currentCalorie += data.getDoubleExtra("totalCalorie", 0.0);
+
+					currentCalorie = 0.0;
+					for (int i = 0; i < mealEntryList.size(); i++)
+					{
+						currentCalorie += mealEntryList.get(i)
+								.getTotalCalorie();
+					}
+
+					// format into two decimal point
 					NumberFormat formatter = new DecimalFormat("#0.00");
-		
+
 					double formatCalorie = currentCalorie;
-					
-					//display updated calorie
+
+					// display updated calorie
 					TVcalorieValue
 							.setText(formatter.format(formatCalorie) + "");
-					//update progress bar
+					// update progress bar
 					calorieProgressBar.setProgress((int) currentCalorie);
 				}
 			}

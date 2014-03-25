@@ -39,6 +39,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	private static final String KEY_DATE 				= "date";
 	private static final String KEY_TOTAL_CALORIE 		= "totalCalorie";
 	private static final String KEY_SELECTED_FOOD		= "selectedFood";
+	private static final String KEY_NUM_EACH_FOOD		= "numOfEachFood";
 	
 	String CREATE_FOOD_TABLE = "CREATE TABLE " + TABLE_FOOD + "("
 			+ KEY_TITLE + " TEXT PRIMARY KEY," + KEY_MEASUREMENT_UNIT
@@ -46,7 +47,8 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		    + KEY_TYPE + " TEXT" + ")";
 	
 	String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(" + KEY_MEAL_TYPE + " TEXT NOT NULL,"
-			+ KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE + " REAL NOT NULL," + KEY_SELECTED_FOOD + " TEXT" + ")";
+			+ KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE + " REAL NOT NULL," + KEY_SELECTED_FOOD + " TEXT," 
+			+ KEY_NUM_EACH_FOOD + " TEXT" + ")";
 	
 	/*String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(" + KEY_MEAL_TYPE + " TEXT NOT NULL,"
 			+ KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE + " REAL NOT NULL," + KEY_SELECTED_FOOD + " TEXT," + " FOREIGN KEY ("
@@ -143,21 +145,28 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		
 		//Store food using string separated by ","
 		String foodTitleStr = "";
+		//Store number of each food in meal entry
+		String numOfEachFoodStr = "";
+		
 		ArrayList<Food> foodList = mealEntry.getFoodList();
 		for(int i = 0; i < foodList.size(); i++)
 		{
 			if(i == foodList.size() - 1)
 			{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle();
+				numOfEachFoodStr = numOfEachFoodStr + foodList.get(i).getNumOfEntry();
 			}
 			else
 			{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle() + ",";
+				numOfEachFoodStr = numOfEachFoodStr + foodList.get(i).getNumOfEntry() + ",";
 			}
 						
 			Log.i("(DB) Food in current Meal Entry (FoodList): ", foodList.get(i).getTitle());
+			Log.i("(DB) Number of each food in Meal Entry: ", foodList.get(i).getNumOfEntry() + "");
 		}
 		values.put(KEY_SELECTED_FOOD, foodTitleStr);
+		values.put(KEY_NUM_EACH_FOOD, numOfEachFoodStr);
 		
 		Log.i("(DB) Food consumed for " + mealEntry.getMealType() + " at " + mealEntry.getDateStr(), foodTitleStr);
 		Log.i("New Meal Entry added: ", mealEntry.getMealType() + " at " + mealEntry.getDateStr());
@@ -171,7 +180,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	{
 		SQLiteDatabase db = getReadableDatabase();
 		
-		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String [] {KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD }, 
+		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String [] {KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD ,KEY_NUM_EACH_FOOD }, 
 				KEY_MEAL_TYPE + "=? AND " + KEY_DATE + "=?", new String[] { String.valueOf(mealType), String.valueOf(dateStr) }
 		, null, null, null, null);
 		
@@ -204,6 +213,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			String foodTitleStr = cursor.getString(3);
 			List<String> foodTitleSplitStr = Arrays.asList(foodTitleStr.split("\\s*,\\s*"));
 			
+			String numOfEachFoodStr = cursor.getString(4);
+			List<String> numOfEachFoodSplitStr = Arrays.asList(numOfEachFoodStr.split("\\s*,\\s*"));
+			
 			//All food in database
 			ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
 			
@@ -220,6 +232,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
 						break;
 					}
 				}
+			}
+			
+			for(int i = 0; i < foodList.size(); i++)
+			{
+				foodList.get(i).setNumOfEntry(Integer.parseInt(numOfEachFoodSplitStr.get(i)));
 			}
 			
 			mealEntry.setFoodList(foodList);
@@ -255,8 +272,12 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				mealEntry.setDateStr(cursor.getString(1));
 				mealEntry.setTotalCalorie(Double.parseDouble(cursor.getString(2)));
 				
-				String foodTitleStr = cursor.getString(3);
+				String foodTitleStr = cursor.getString(3); 
 				List<String> foodTitleSplitStr = Arrays.asList(foodTitleStr.split("\\s*,\\s*"));
+				
+				String numOfEachFoodStr = cursor.getString(4);
+				List<String> numOfEachFoodSplitStr = Arrays.asList(numOfEachFoodStr.split("\\s*,\\s*"));
+				
 				ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
 				
 				ArrayList<Food> foodList = new ArrayList<Food>();
@@ -271,6 +292,11 @@ public class DatabaseHandler extends SQLiteOpenHelper
 							break;
 						}
 					}
+				}
+				
+				for(int i = 0; i < foodList.size(); i++)
+				{
+					foodList.get(i).setNumOfEntry(Integer.parseInt(numOfEachFoodSplitStr.get(i)));
 				}
 				
 				mealEntry.setFoodList(foodList);
@@ -290,7 +316,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		
 		SQLiteDatabase db = this.getWritableDatabase();
 		
-		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String [] {KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD }, 
+		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String [] {KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD ,KEY_NUM_EACH_FOOD }, 
 				KEY_DATE + "=?", new String[] { String.valueOf(dateStr) }
 		, null, null, null, null);
 		
@@ -309,6 +335,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				String foodTitleStr = cursor.getString(3);
 				List<String> foodTitleSplitStr = Arrays.asList(foodTitleStr.split("\\s*,\\s*"));
 				
+				String numOfEachFoodStr = cursor.getString(4);
+				List<String> numOfEachFoodSplitStr = Arrays.asList(numOfEachFoodStr.split("\\s*,\\s*"));
+				
 				//All Food in database
 				ArrayList<Food> dbFoodList = (ArrayList<Food>) getAllFood();
 				
@@ -325,6 +354,13 @@ public class DatabaseHandler extends SQLiteOpenHelper
 							break;
 						}
 					}
+				}
+				Log.i("(DB)MEAL TYPE: ", mealEntry.getMealType());
+				Log.i("(DB)FOOD LIST SIZE: ", foodList.size() + "");
+				Log.i("(DB)NUM_OF_EACH_FOOD_SPLIT_STR: ", numOfEachFoodSplitStr + "");
+				for(int i = 0; i < foodList.size(); i++)
+				{
+					foodList.get(i).setNumOfEntry(Integer.parseInt(numOfEachFoodSplitStr.get(i)));
 				}
 				
 				mealEntry.setFoodList(foodList);
@@ -347,22 +383,27 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		values.put(KEY_TOTAL_CALORIE, mealEntry.getTotalCalorie());
 		
 		String foodTitleStr = "";
+		String numOfEachFoodStr = "";
+		
 		ArrayList<Food> foodList = mealEntry.getFoodList();
 		for(int i = 0; i < foodList.size(); i++)
 		{
 			if(i == foodList.size() - 1)
 			{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle();
+				numOfEachFoodStr = numOfEachFoodStr + foodList.get(i).getNumOfEntry();
 			}
 			else
 			{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle() + ",";
+				numOfEachFoodStr = numOfEachFoodStr + foodList.get(i).getNumOfEntry() + ",";
 			}
 						
 			Log.i("DB (Meal Entry Food): ", foodList.get(i).getTitle());
 		}
 		
 		values.put(KEY_SELECTED_FOOD, foodTitleStr);
+		values.put(KEY_NUM_EACH_FOOD, numOfEachFoodStr);
 		
 		db.update(TABLE_USER_MEAL_ENTRY, values, KEY_MEAL_TYPE + "=? AND " 
 		+ KEY_DATE + "=?", new String[] { String.valueOf(mealEntry.getMealType()), String.valueOf(mealEntry.getDateStr()) });

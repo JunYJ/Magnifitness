@@ -1,5 +1,8 @@
 package com.madmonkey.magnifitness;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -74,7 +77,13 @@ public class ServingSizeDialogFragment extends DialogFragment
 				.getString("foodTitle", "No Food Title..."));
 		foodType.setText(bundleValue.getString("foodType", "No Type..."));
 		measure_unit.setText(bundleValue.getString("measure_unit", "serving."));
-		calValue.setText(bundleValue.getDouble("calorie", 999) + calText);
+
+		NumberFormat formatter = new DecimalFormat("#0.00");
+
+		double formatCalorie = bundleValue.getDouble("calorie", 999);
+
+		calValue.setText(formatter.format(formatCalorie) + calText);
+
 		servingSize.setMaxValue(10);
 		servingSize.setMinValue(1);
 		servingSize.setValue(1);
@@ -85,9 +94,12 @@ public class ServingSizeDialogFragment extends DialogFragment
 			public void onValueChange(NumberPicker picker, int oldVal,
 					int newVal)
 			{
+				NumberFormat formatter = new DecimalFormat("#0.00");
 
-				calValue.setText((newVal * bundleValue
-						.getDouble("calorie", 999)) + calText);
+				double formatCalorie = newVal
+						* bundleValue.getDouble("calorie", 999);
+
+				calValue.setText(formatter.format(formatCalorie) + calText);
 
 			}
 		});
