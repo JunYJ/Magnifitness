@@ -39,7 +39,7 @@ public class SetupUserDetails extends Activity implements
 	RadioButton			maleRB, femaleRB;
 	Button				okBtn;
 	User				user;
-	
+
 	SharedPreferences	userSP;
 	String				gender;
 	String				ageString;
@@ -55,9 +55,7 @@ public class SetupUserDetails extends Activity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_detail_setup);
-		getView();
-		user = new User();
-		userSP = getSharedPreferences(FacebookLogin.filename, 0);
+		initialization();
 
 		loadFromPreferences();
 		weightET.requestFocus();
@@ -82,39 +80,54 @@ public class SetupUserDetails extends Activity implements
 				});
 	}
 
-	private void getView()
+	private void initialization()
 	{
+		// find View
+		
+		//TextView
 		heightTV = (TextView) findViewById(R.id.heightTV);
 		weightTV = (TextView) findViewById(R.id.weightTV);
+
+		//EditText
 		name = (EditText) findViewById(R.id.username);
 		email = (EditText) findViewById(R.id.emailET);
+		age = (EditText) findViewById(R.id.ageET);
+		weightET = (EditText) findViewById(R.id.weightET);
+		heightET = (EditText) findViewById(R.id.heightET);
+
+		//RadioGroup
 		genderRG = (RadioGroup) findViewById(R.id.genderRG);
 		maleRB = (RadioButton) findViewById(R.id.rbMale);
 		femaleRB = (RadioButton) findViewById(R.id.rbFemale);
-		age = (EditText) findViewById(R.id.ageET);
-		weightPicker = (NumberPicker) findViewById(R.id.weightPicker);
-		weightET = (EditText) findViewById(R.id.weightET);
-		weightET.setInputType(InputType.TYPE_NULL);
-		heightET = (EditText) findViewById(R.id.heightET);
-		heightET.setInputType(InputType.TYPE_NULL);
-		heightPicker = (NumberPicker) findViewById(R.id.heightPicker);
 
+		//Spinner
 		lvOfActiveness = (Spinner) findViewById(R.id.lvOfActivenssSpinner);
+		
+		//Button
 		okBtn = (Button) findViewById(R.id.okBtn);
 
+		//Weight & Height Layout
 		LayoutInflater inflater = getLayoutInflater();
 		View selectWeightLayout = inflater
 				.inflate(R.layout.select_weight, null);
+		View selectHeightLayout = inflater
+				.inflate(R.layout.select_height, null);
+		
+		//Weight & Height Picker
 		weightPicker = (NumberPicker) selectWeightLayout
 				.findViewById(R.id.weightPicker);
 
-		View selectHeightLayout = inflater
-				.inflate(R.layout.select_height, null);
 		heightPicker = (NumberPicker) selectHeightLayout
 				.findViewById(R.id.heightPicker);
+		
+		weightET.setInputType(InputType.TYPE_NULL);
+		heightET.setInputType(InputType.TYPE_NULL);
 
 		genderRG.setOnCheckedChangeListener(this);
 		genderRG.check(R.id.rbMale);
+
+		user = new User();
+		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 	}
 
 	/** This method handle the RadioGroup */
@@ -140,8 +153,10 @@ public class SetupUserDetails extends Activity implements
 	{
 		// Insert value below
 
+		//Name
 		userSP.edit().putString("name", name.getText().toString()).commit();
 
+		//Email validation
 		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
 		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(email.getText().toString());
@@ -157,26 +172,37 @@ public class SetupUserDetails extends Activity implements
 					.show();
 		}
 
+		//Gender
 		userSP.edit().putString("gender", gender).commit();
+		
+		//Age
 		userSP.edit().putInt("age", Integer.parseInt(age.getText().toString()))
 				.commit();
+		
+		//Level of Activeness
 		userSP.edit()
 				.putInt("lvOfActiveness",
 						lvOfActiveness.getSelectedItemPosition()).commit();
+		
+		//Flag for existence of user account
 		userSP.edit().putBoolean("userCreated", userCreated).commit();
 
+		//Weight
 		userSP.edit()
 				.putInt("weight",
 						Integer.parseInt(weightET.getEditableText().toString()))
 				.commit();
-		user.setCurrentWeight(Integer.parseInt(weightET.getEditableText().toString()));
-		
+		user.setCurrentWeight(Integer.parseInt(weightET.getEditableText()
+				.toString()));
+
+		//Height
 		userSP.edit()
 				.putInt("height",
 						Integer.parseInt(heightET.getEditableText().toString()))
 				.commit();
 		user.setHeight(Integer.parseInt(heightET.getEditableText().toString()));
-		
+
+		//BMI & BMR
 		DecimalFormat df = new DecimalFormat("#.##");
 		userSP.edit().putString("bmi", df.format(user.getBmi()) + "").commit();
 		userSP.edit().putString("bmr", df.format(user.getBmr()) + "").commit();
@@ -197,6 +223,7 @@ public class SetupUserDetails extends Activity implements
 		lvOfActiveness.setSelection(userSP.getInt("lvOfActiveness", 0));
 	}
 
+	//Weight picker alert dialog
 	public void selectWeight(View v)
 	{
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
@@ -241,6 +268,7 @@ public class SetupUserDetails extends Activity implements
 		helpDialog.show();
 	}
 
+	//Height picker alert dialog
 	public void selectHeight(View v)
 	{
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
@@ -284,6 +312,7 @@ public class SetupUserDetails extends Activity implements
 		helpDialog.show();
 	}
 
+	//Confirm button
 	public void confirmSetup(View v)
 	{
 		ageString = age.getText().toString();
@@ -294,6 +323,7 @@ public class SetupUserDetails extends Activity implements
 
 		int height = Integer.parseInt(heightET.getText().toString());// heightPicker.getValue();
 
+		//Weight & Height validation
 		if (weight != 0 && height != 0)
 		{
 			user.setUser(name.getText().toString(), ageInt, email.getText()
@@ -303,15 +333,18 @@ public class SetupUserDetails extends Activity implements
 			saveInformation();
 
 			nextActivity = new Intent(SetupUserDetails.this, Home.class);
-			//nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+			// nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			nextActivity.putExtra("userObject", user);
 
-			if(userSP.getBoolean("edittingProfile", false) == false)
+			//First time run (create account, not editing)
+			if (userSP.getBoolean("edittingProfile", false) == false)
 				startActivity(nextActivity);
+			
+			//Edit profile
 			else
 			{
 				Log.i("PROFILE EDITING (SETUP_USER_DETAILS)", "done editing");
-				
+
 				Intent returnIntent = new Intent();
 				returnIntent.putExtra("name", user.getName());
 				returnIntent.putExtra("gender", user.getGender());
@@ -327,9 +360,10 @@ public class SetupUserDetails extends Activity implements
 				returnIntent.putExtra("email", user.getEmail());
 				setResult(RESULT_OK, returnIntent);
 			}
-			
+
 			this.finish();
 		}
+		//Show Toast message
 		else
 		{
 			if (weight == 0)

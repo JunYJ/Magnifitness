@@ -31,15 +31,13 @@ public class FacebookLogin extends FragmentActivity
 	private static final int		LOGIN			= 0;
 	// private static final int SELECTION = 1;
 	private static final int		SETTINGS		= 1;
-
 	private static final int		FRAGMENT_COUNT	= SETTINGS + 1;
 
-	public static boolean			isResumed		= false;									// flag
-																								// to
-																								// indicate
-																								// a
-																								// visible
-																								// activity
+	// flag to indicate a visible activity
+	public static boolean			isResumed		= false;
+
+	// helps to create, auto open (if applicable), save & restore
+	// Active Session in a way that is similar to Android UI lifecycles
 	private UiLifecycleHelper		uiHelper;
 
 	// track the session & trigger a session state change listener
@@ -59,13 +57,19 @@ public class FacebookLogin extends FragmentActivity
 														}
 													};
 
+	//top right Menu
 	private MenuItem				logOut;
 
+	//Array of fragment
 	private Fragment[]				fragments		= new Fragment[FRAGMENT_COUNT];
+	
 	private static final String		TAG				= "Facebook Login";
+	
 	Button							setupUserBtn;
 	SharedPreferences				userSP;
 	public static String			filename		= "com.madmonkey.magnifitness.SharedPref";
+	
+	//flag to determine whether user account is existed
 	boolean							userCreated;
 
 	// hide fragments initially in onCreate
@@ -81,18 +85,21 @@ public class FacebookLogin extends FragmentActivity
 		// store fragments
 		FragmentManager fm = getSupportFragmentManager();
 		fragments[LOGIN] = fm.findFragmentById(R.id.loginFragment);
-		// fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
 		fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 
+		//hide all fragment
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (int i = 0; i < fragments.length; i++)
 		{
 			transaction.hide(fragments[i]);
 		}
 		transaction.commit();
+		
+		//initialize Shared Preferences
+		//check whether user account is existed
 		userSP = getSharedPreferences(FacebookLogin.filename, 0);
 		userCreated = userSP.getBoolean("userCreated", false);
-		
+
 		// final ActionBar actionBar = getActionBar();
 		// actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -183,8 +190,8 @@ public class FacebookLogin extends FragmentActivity
 				// If the session state is open --> show the authenticated
 				// fragment
 				Log.i(TAG, "Logged in...");
-				// showFragment(SELECTION, false);
 
+				//Do not store history of this activity
 				final Intent i = new Intent(this, SetupUserDetails.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
@@ -202,16 +209,19 @@ public class FacebookLogin extends FragmentActivity
 									// Display the parsed user info
 
 									// Insert value below
+									//NAME
 									userSP.edit()
 											.putString("name",
 													user.getName().toString())
 											.commit();
 
+									//EMAIL
 									userSP.edit()
 											.putString("email",
 													getEmail(getBaseContext()))
 											.commit();
 
+									//AGE
 									Calendar c = Calendar.getInstance();
 
 									userSP.edit()
@@ -225,6 +235,7 @@ public class FacebookLogin extends FragmentActivity
 																							.length() - 4)))
 											.commit();
 
+									//GENDER
 									String gender = user.asMap().get("gender")
 											.toString();
 
@@ -235,16 +246,6 @@ public class FacebookLogin extends FragmentActivity
 
 									userSP.edit().putString("gender", gender)
 											.commit();
-
-									/* SelectionFragment.userInfo
-									 * .setText(buildUserInfoDisplay(user)); */
-
-									String userSummary = buildUserInfoDisplay(user);
-
-									// Log.e("USER:", userSummary);
-									userSP.edit()
-											.putString("userSummary",
-													userSummary).commit();
 
 									if (userSP.getBoolean("userCreated", false) == false)
 										startActivity(i);
@@ -273,7 +274,7 @@ public class FacebookLogin extends FragmentActivity
 	{
 		super.onResumeFragments();
 		Session session = Session.getActiveSession();
-		// userCreated = userSP.getBoolean("userCreated", false);
+
 		if (session != null && session.isOpened())
 		{
 			// if the session is already open --> try to show the selection
@@ -281,13 +282,11 @@ public class FacebookLogin extends FragmentActivity
 
 			if (userCreated == true)
 			{
-				// userCreated = false;
 				startActivity(new Intent(this, Home.class));
 				finish();
 			}
 			else
 			{
-				// showFragment(SELECTION, false);
 				final Intent i = new Intent(this, SetupUserDetails.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 				Request meRequest = Request.newMeRequest(session,
@@ -300,8 +299,6 @@ public class FacebookLogin extends FragmentActivity
 								if (user != null)
 								{
 									// Display the parsed user info
-									/* SelectionFragment.userInfo
-									 * .setText(buildUserInfoDisplay(user)); */
 
 									// Insert value below
 									userSP.edit()
@@ -338,16 +335,6 @@ public class FacebookLogin extends FragmentActivity
 									userSP.edit().putString("gender", gender)
 											.commit();
 
-									/* SelectionFragment.userInfo
-									 * .setText(buildUserInfoDisplay(user)); */
-
-									String userSummary = buildUserInfoDisplay(user);
-
-									// Log.e("USER:", userSummary);
-									userSP.edit()
-											.putString("userSummary",
-													userSummary).commit();
-									
 									if (userSP.getBoolean("userCreated", false) == false)
 										startActivity(i);
 
@@ -399,68 +386,7 @@ public class FacebookLogin extends FragmentActivity
 		return super.onOptionsItemSelected(item);
 	}
 
-	private String buildUserInfoDisplay(GraphUser user)
-	{
-		userSP.edit().putString("userid", user.getId()).commit();
-		StringBuilder userInfo = new StringBuilder("");
-		// SelectionFragment.profilePictureView.setProfileId(user.getId());
-
-		// Task.getProfilePic().setProfileId(user.getId());
-		// USER NAME
-		// Example: typed access (name)
-		// - no special permissions required
-		// userInfo.append(String.format("Name: %s\n\n", user.getName()));
-		userInfo.append(String.format("Name: %s\n\n",
-				userSP.getString("name", user.getName())));
-		// Example: typed access (birthday)
-		// - requires user_birthday permissions
-		// userInfo.append(String.format("Birthday: %s\n\n",
-		// user.getBirthday()));
-
-		// GENDER
-		userInfo.append(String.format("Gender: %s\n\n",
-				userSP.getString("gender", "Not mention")));
-
-		// AGE
-		Calendar c = Calendar.getInstance();
-
-		userInfo.append(String.format(
-				"Age: %s\n\n",
-				c.get(Calendar.YEAR)
-						- Integer.parseInt(user.getBirthday().substring(
-								user.getBirthday().length() - 4))));
-
-		// WEIGHT
-		userInfo.append(String.format("Weight: %s kg \n\n",
-				userSP.getInt("weight", 0)));
-		// HEIGHT
-		userInfo.append(String.format("Height: %s cm \n\n",
-				userSP.getInt("height", 0)));
-		// BMI
-		userInfo.append(String.format("BMI: %s\n\n",
-				userSP.getString("bmi", "")));
-		// BMR
-		userInfo.append(String.format("BMR: %s\n\n",
-				userSP.getString("bmr", "")));
-
-		// EMAIL (sharedPreference)
-		userInfo.append(String.format("Email: %s\n\n",
-				userSP.getString("email", "")));
-		// EMAIL (through facebook sdk)
-		// String email = getEmail(this);
-		// System.out.println("Android registered Email " + email);
-
-		/* String test = user.getProperty("email").toString();
-		 * System.out.println("TESTING " + test); */
-
-		/* userInfo.append(String.format("Facebook primary Email: %s\n\n",
-		 * user.asMap() .get("email")));
-		 * userInfo.append(String.format("Android registered Email: %s\n\n",
-		 * email)); */
-
-		return userInfo.toString();
-	}
-
+	
 	public String getEmail(Context context)
 	{
 		AccountManager accountManager = AccountManager.get(context);
@@ -476,6 +402,7 @@ public class FacebookLogin extends FragmentActivity
 		}
 	}
 
+	
 	private Account getAccount(AccountManager accountManager)
 	{
 		Account[] accounts = accountManager.getAccountsByType("com.google");

@@ -22,7 +22,7 @@ public class MealLogBook extends Fragment
 {
 
 	TextView			TVcalorieValue, TVcalorieCap;
-	ListView			mealList;
+	ListView			mealTypeList;
 	ProgressBar			calorieProgressBar;
 	Intent				nextActivity;
 
@@ -44,7 +44,7 @@ public class MealLogBook extends Fragment
 		super.onCreate(savedInstanceState);
 		nextActivity = new Intent(getActivity(), MealEntryActivity.class);
 		currentCalorie = 0.0;
-		
+
 		Bundle bundle = this.getArguments();
 		calorieCap = bundle.getInt("calorieCap");
 		currentCalorie = bundle.getDouble("todayCalorie");
@@ -61,26 +61,28 @@ public class MealLogBook extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-
 		View rootView = inflater.inflate(R.layout.meal_logbook, container,
 				false);
 
+		//Calorie consumed
 		TVcalorieValue = (TextView) rootView.findViewById(R.id.TVcalorieValue);
 		TVcalorieValue.setText(currentCalorie + "");
+		
+		//Calories required/limit
 		TVcalorieCap = (TextView) rootView.findViewById(R.id.TVcalorieCap);
-		// TVcalorieCap.setText(user.getTotalDailyCalorieNeeds() + "");
 		TVcalorieCap.setText(calorieCap + "");
 
+		//Progress bar (sync with calorie consumed)
 		calorieProgressBar = (ProgressBar) rootView
 				.findViewById(R.id.calorieBar);
 		calorieProgressBar.setMax(Integer.parseInt(TVcalorieCap.getText()
 				.toString()));
-		
-		calorieProgressBar.setProgress((int)Double.parseDouble(TVcalorieValue
+		calorieProgressBar.setProgress((int) Double.parseDouble(TVcalorieValue
 				.getText().toString()));
 
-		mealList = (ListView) rootView.findViewById(R.id.mealList);
-		mealList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		//List of Meal type
+		mealTypeList = (ListView) rootView.findViewById(R.id.mealList);
+		mealTypeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos,
@@ -89,7 +91,6 @@ public class MealLogBook extends Fragment
 				switch (pos)
 				{
 					case 0:
-
 						nextActivity.putExtra("meal_type", BREAKFAST);
 						break;
 
@@ -106,8 +107,8 @@ public class MealLogBook extends Fragment
 						break;
 
 				}
+				
 				startActivityForResult(nextActivity, pos);
-
 			}
 		});
 
@@ -116,10 +117,9 @@ public class MealLogBook extends Fragment
 
 	public void loadFromPref()
 	{
-
 		userSP = getActivity().getSharedPreferences(FacebookLogin.filename, 0);
 		String username, email, gender;
-		int age, weight, height, idealWeight, lvOfActiveness;
+		int age, weight, height, lvOfActiveness;
 
 		if (userSP.getBoolean("userCreated", false))
 		{
@@ -130,13 +130,11 @@ public class MealLogBook extends Fragment
 			lvOfActiveness = userSP.getInt("lvOfActiveness", 0);
 			weight = userSP.getInt("weight", 1);
 			height = userSP.getInt("height", 1);
-			idealWeight = userSP.getInt("idealWeight", 2);
+			//idealWeight = userSP.getInt("idealWeight", 2);
 
 			user = new User(username, age, email, gender, weight, height,
 					lvOfActiveness);
-
 		}
-
 	}
 
 	@Override
@@ -150,23 +148,28 @@ public class MealLogBook extends Fragment
 		{
 			if (resultCode == Activity.RESULT_OK)
 			{
-				currentCalorie = Double.parseDouble(TVcalorieValue.getText()
-						.toString());
-				/*if(data.getBooleanExtra("newFoodAdded", false) == true)
+				//if new food is added into one of the meal entry
+				//update calorie consumed of the day
+				if (data.getBooleanExtra("newFoodAdded", false) == true)
 				{
-					currentCalorie = data.getDoubleExtra("totalCalorie", 0.0);
-				}*/
-				/*else
-				{
+					//get calorie of view
+					currentCalorie = Double.parseDouble(TVcalorieValue
+							.getText().toString());
 					
-				}*/
-				currentCalorie = data.getDoubleExtra("totalCalorie", 0.0);
-				NumberFormat formatter = new DecimalFormat("#0.00");
-				// Log.i("CURRENT CALORIE", currentCalorie + "");
-				double formatCalorie = currentCalorie;
-				TVcalorieValue.setText(formatter.format(formatCalorie) + "");
-				calorieProgressBar.setProgress((int) currentCalorie);
-				
+					//(update/accumulate) current calorie
+					currentCalorie += data.getDoubleExtra("totalCalorie", 0.0);
+					
+					//format into two decimal point
+					NumberFormat formatter = new DecimalFormat("#0.00");
+		
+					double formatCalorie = currentCalorie;
+					
+					//display updated calorie
+					TVcalorieValue
+							.setText(formatter.format(formatCalorie) + "");
+					//update progress bar
+					calorieProgressBar.setProgress((int) currentCalorie);
+				}
 			}
 		}
 	}

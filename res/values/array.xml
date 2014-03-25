@@ -4,7 +4,7 @@
     <string-array name="meal_entries_list">
         <item>Breakfast</item>
         <item>Lunch</item>
-        <item>Tea-Break</item>
+        <item>Snack</item>
         <item>Dinner</item>
     </string-array>
     

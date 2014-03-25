@@ -54,18 +54,24 @@ public class Home extends FragmentActivity
 	SharedPreferences		userSP;
 	Fragment				currentFragment;
 	TextView				userInfo;
-	
-	DatabaseHandler 		dbHandler;
+
+	DatabaseHandler			dbHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home);
-		
+
+		initialization();
+	}
+
+	private void initialization()
+	{
 		dbHandler = new DatabaseHandler(this);
-		
+
 		userSP = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
+
 		// Enable Home Button
 		/* final ActionBar actionBar = getActionBar();
 		 * actionBar.setDisplayHomeAsUpEnabled(true); */
@@ -171,34 +177,38 @@ public class Home extends FragmentActivity
 				Bundle bundle = new Bundle();
 				loadFromPref();
 				bundle.putInt("calorieCap", user.getTotalDailyCalorieNeeds());
-				
+
+				// Current date
 				Calendar c = Calendar.getInstance();
 				DateFormatSymbols dfs = new DateFormatSymbols();
 				String[] months = dfs.getMonths();
 				String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
-						+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
-				
+						+ months[(c.get(Calendar.MONTH))] + " "
+						+ c.get(Calendar.YEAR);
+
+				// Get meal entries of the day
 				ArrayList<MealEntry> mealEntryList = null;
-				mealEntryList = (ArrayList<MealEntry>) dbHandler.getTodayMealEntry(date);
-				
+				mealEntryList = (ArrayList<MealEntry>) dbHandler
+						.getTodayMealEntry(date);
+
+				// Total calorie consumed of the day
 				double todayCalorie = 0.0;
-				if(mealEntryList != null)
+				if (mealEntryList != null)
 				{
-					for(int i = 0; i < mealEntryList.size(); i++)
+					for (int i = 0; i < mealEntryList.size(); i++)
 					{
 						todayCalorie += mealEntryList.get(i).getTotalCalorie();
 					}
 				}
-				
+
 				bundle.putDouble("todayCalorie", todayCalorie);
-				
+
 				currentFragment.setArguments(bundle);
 			}
 
 			else if (position == 2)
 			{
 				currentFragment = new ViewHistoryEntryFragment();
-				
 			}
 
 			else
@@ -336,8 +346,7 @@ public class Home extends FragmentActivity
 				userSP.getString("gender", "")));
 
 		// AGE
-		userInfo.append(String.format("Age: %s\n\n",
-				userSP.getInt("age", 0)));
+		userInfo.append(String.format("Age: %s\n\n", userSP.getInt("age", 0)));
 
 		// WEIGHT
 		userInfo.append(String.format("Weight: %s kg \n\n",
@@ -355,12 +364,13 @@ public class Home extends FragmentActivity
 		// EMAIL (sharedPreference)
 		userInfo.append(String.format("Email: %s\n\n",
 				userSP.getString("email", "")));
-		
-		//IDEAL WEIGHT
+
+		// IDEAL WEIGHT
 
 		return userInfo.toString();
 	}
-	
+
+	// Show summary window
 	public void editProfile(View v)
 	{
 		AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
@@ -389,24 +399,24 @@ public class Home extends FragmentActivity
 		AlertDialog helpDialog = helpBuilder.create();
 
 		helpDialog.show();
-		
 
 	}
-	
+
+	// Edit profile (Setup User Details.java)
 	public void edit(View v)
 	{
 		userSP.edit().putBoolean("edittingProfile", true).commit();
 		Intent i = new Intent(this, SetupUserDetails.class);
-		startActivityForResult(i,1);
+		startActivityForResult(i, 1);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == 1)
+		if (requestCode == 1)
 		{
-			if(resultCode == RESULT_OK)
+			if (resultCode == RESULT_OK)
 			{
 				userInfo.setText(buildSummaryString());
 			}
@@ -417,14 +427,8 @@ public class Home extends FragmentActivity
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-		
+
 		finish();
 	}
-	
-	public int getCalorieCap()
-	{
-		loadFromPref();
-		return user.getTotalDailyCalorieNeeds();
-	}
-	
+
 }

@@ -27,18 +27,17 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 	Button					add, confirm;
 	TextView				mealEntryInfoTV;
-	// String[] foodList;
+
 	DatabaseHandler			dbHandler;
 	ListView				foodListView;
-	ArrayList<String>		selectedFood;
-	ArrayList<Food>			selectedFoodObjList;
+	ArrayList<Food>			foodList;
 	Intent					returnIntent;
 
 	double					totalCalorie;
 	MealEntry				mealEntry;
 
-	MealEntry				dbMealEntry;
-	ArrayList<MealEntry>	list_of_meal_entry;
+	MealEntry				recordedMealEntry;
+	ArrayList<MealEntry>	mealEntryList;
 	boolean					newFoodAdded;
 
 	final static int		BREAKFAST	= 1;
@@ -51,31 +50,51 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.meal_entry);
-		initialization();
-
+		
 		Intent i = getIntent();
 		int meal_type = i.getIntExtra("meal_type", 0);
-
-		Calendar c = Calendar.getInstance();
-		DateFormatSymbols dfs = new DateFormatSymbols();
-		String[] months = dfs.getMonths();
-		String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
-				+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
-
-		dbMealEntry = null;
-
-		list_of_meal_entry = (ArrayList<MealEntry>) dbHandler.getAllMealEntry();
-		Log.i("list of meal entry size", list_of_meal_entry.size() + "");
 		
-		if (list_of_meal_entry.size() != 0)
-		{
-			Log.i("list of meal entry size", list_of_meal_entry.size() + "");
-			dbMealEntry = dbHandler.getMealEntry("Breakfast", date);
-			selectedFoodObjList = dbMealEntry.getFoodList();
-			foodListView.setAdapter(new MealEntryAdapter(this,
-					selectedFoodObjList));
-		}
+		initialization(meal_type);
+		checkMealEntryExistence(meal_type);
+	}
 
+	private void initialization(int meal_type)
+	{
+		// DB
+		dbHandler = new DatabaseHandler(this);
+
+		// View
+		add = (Button) findViewById(R.id.add_btn);
+		confirm = (Button) findViewById(R.id.confirm_btn);
+
+		mealEntryInfoTV = (TextView) findViewById(R.id.mealEntryInfoTV);
+
+		foodListView = (ListView) findViewById(R.id.food_records);
+
+		// Intent for passing data to calling activity
+		returnIntent = new Intent();
+
+		// Flag for specific meal entry of the day
+		recordedMealEntry = null;
+
+		// food list of existing meal entry
+		foodList = new ArrayList<Food>();
+
+		// Total calorie of temp Meal Entry
+		// Either a new Meal Entry OR
+		// accumulated into existing Meal Entry's total calorie
+		totalCalorie = 0.0;
+
+		// temp Meal Entry
+		mealEntry = new MealEntry();
+
+		//Flag for determine whether a new Food is added into Meal Entry
+		//Meal Entry will not be created or update if no new Food is added into foodList
+		newFoodAdded = false;
+		
+		// assign data to temp mealEntry
+		// for adding into database
+		// or updating existing meal entry
 		switch (meal_type)
 		{
 			case BREAKFAST:
@@ -85,18 +104,21 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				mealEntryInfoTV.setText("Breakfast, on "
 						+ mealEntry.getDateStr());
 				break;
+
 			case LUNCH:
 				Toast.makeText(getApplication(), "Lunch", Toast.LENGTH_SHORT)
 						.show();
 				mealEntry.setMealType("Lunch");
 				mealEntryInfoTV.setText("Lunch, on " + mealEntry.getDateStr());
 				break;
+
 			case SNACK:
 				Toast.makeText(getApplication(), "Snack", Toast.LENGTH_SHORT)
 						.show();
 				mealEntry.setMealType("Snack");
 				mealEntryInfoTV.setText("Snack, on " + mealEntry.getDateStr());
 				break;
+
 			case DINNER:
 				Toast.makeText(getApplication(), "Dinner", Toast.LENGTH_SHORT)
 						.show();
@@ -104,30 +126,45 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				mealEntryInfoTV.setText("Dinner, on " + mealEntry.getDateStr());
 				break;
 		}
-
 	}
 
-	private void initialization()
+	private void checkMealEntryExistence(int meal_type)
 	{
-		dbHandler = new DatabaseHandler(this);
+		// Get current date
+		Calendar c = Calendar.getInstance();
+		DateFormatSymbols dfs = new DateFormatSymbols();
+		String[] months = dfs.getMonths();
+		String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
+				+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
 
-		add = (Button) findViewById(R.id.add_btn);
-		confirm = (Button) findViewById(R.id.confirm_btn);
-		mealEntryInfoTV = (TextView) findViewById(R.id.mealEntryInfoTV);
+		mealEntryList = (ArrayList<MealEntry>) dbHandler
+				.getTodayMealEntry(date);
+		// Log.i("Number of meal entry in DB: ", mealEntryList.size() + "");
 
-		add.setOnClickListener(this);
-		confirm.setOnClickListener(this);
+		// if there's is meal entry recorded for today
+		if (mealEntryList.size() != 0)
+		{
+			Log.i("Number of meal entry of today: ", mealEntryList.size() + "");
 
-		foodListView = (ListView) findViewById(R.id.food_records);
-		selectedFood = new ArrayList<String>();
-		selectedFoodObjList = new ArrayList<Food>();
-		totalCalorie = 0.0;
+			// find specific meal entry of the day
+			if (meal_type == 1)
+				recordedMealEntry = dbHandler.getMealEntry("Breakfast", date);
+			else if (meal_type == 2)
+				recordedMealEntry = dbHandler.getMealEntry("Lunch", date);
+			else if (meal_type == 3)
+				recordedMealEntry = dbHandler.getMealEntry("Snack", date);
+			else if (meal_type == 4)
+				recordedMealEntry = dbHandler.getMealEntry("Dinner", date);
 
-		returnIntent = new Intent();
+			// if is found
+			if (recordedMealEntry != null)
+			{
+				// load the food list of found Meal Entry for display
+				foodList = recordedMealEntry.getFoodList();
+				foodListView.setAdapter(new MealEntryAdapter(this, foodList));
+			}
 
-		mealEntry = new MealEntry();
-		
-		newFoodAdded = false;
+		}
 	}
 
 	@Override
@@ -139,41 +176,47 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		/* ArrayList<Food> list = (ArrayList<Food>) dbHandler.getAllFood(); for
-		 * (int i = 0; i < list.size(); i++) { Log.i("DATABASE SIZE TEST: ",
-		 * list.get(i).toString()); } */
-
 		switch (v.getId())
 		{
-
+			//Search food
 			case R.id.add_btn:
 				Intent i = new Intent(this, Search.class);
 				startActivityForResult(i, 1);
 
 				break;
-
+			//Add/Update Meal Entry
 			case R.id.confirm_btn:
 				Log.i("confirm_button", "Confirm button clicked");
 
 				// Log.i("TOTAL CALORIE: ", totalCalorie+ "");
-				if(dbMealEntry != null)
-					returnIntent.putExtra("totalCalorie", totalCalorie + dbMealEntry.getTotalCalorie());
+				
+				//if specific Meal Entry of the day is not exist
+				//just get the total calorie of the temp Meal Entry
+				if (recordedMealEntry != null)
+					returnIntent.putExtra("totalCalorie", totalCalorie
+							+ recordedMealEntry.getTotalCalorie());
+				//else sum of total calorie of exist Meal Entry & temp Meal Entry
 				else
 					returnIntent.putExtra("totalCalorie", totalCalorie);
-				
-				
+
+				//Flag for notifying calling activity
 				returnIntent.putExtra("newFoodAdded", newFoodAdded);
 				setResult(RESULT_OK, returnIntent);
 
-				if(dbMealEntry == null)
+				//Added Meal Entry ONLY if foodList is not EMPTY & specific Meal Entry is not exist
+				if (recordedMealEntry == null && newFoodAdded == true)
 					dbHandler.addMealEntry(mealEntry);
-				else if(dbMealEntry != null && newFoodAdded == true)
+				//Update existing Meal Entry if it is found & new Food is added
+				else if (recordedMealEntry != null && newFoodAdded == true)
 				{
-					dbMealEntry.setTotalCalorie(dbMealEntry.getTotalCalorie() + mealEntry.getTotalCalorie());
-					dbHandler.updateMealEntry(dbMealEntry);
+					recordedMealEntry.setTotalCalorie(recordedMealEntry
+							.getTotalCalorie() + mealEntry.getTotalCalorie());
+					dbHandler.updateMealEntry(recordedMealEntry);
 				}
-				// dbHandler.getMealEntry("Breakfast", "19th March 2014");
-
+				
+				//Reset flag
+				newFoodAdded = false;
+				
 				this.finish();
 				break;
 
@@ -190,53 +233,54 @@ public class MealEntryActivity extends Activity implements OnClickListener
 		{
 			if (resultCode == RESULT_OK)
 			{
-				selectedFood.add(dbHandler.getFood(
-						data.getStringExtra("foodTitle")).getTitle());
-
 				String titleIn = data.getStringExtra("foodTitle");
 				String measurementUnitIn = data.getStringExtra("measure_unit");
 				Double calorieIn = data.getDoubleExtra("calorie", 999);
 				String typeIn = data.getStringExtra("foodType");
 
-				Food f = new Food(titleIn, measurementUnitIn, calorieIn, typeIn);
+				// Create a Food object
+				Food food = new Food(titleIn, measurementUnitIn, calorieIn,
+						typeIn);
 
+				// Flag for duplication Food in the
 				boolean duplicate = false;
-				for (int i = 0; i < selectedFoodObjList.size(); i++)
+				for (int i = 0; i < foodList.size(); i++)
 				{
-					if (selectedFoodObjList.get(i).getTitle()
-							.equals(f.getTitle()))
+					if (foodList.get(i).getTitle().equals(food.getTitle()))
 					{
 						duplicate = true;
 						break;
 					}
 				}
 
+				//if not duplication of Food
 				if (duplicate == false)
-					selectedFoodObjList.add(f);
+					foodList.add(food);
+				//Duplication detected
+				//Update total calorie ONLY
 				else
 				{
-					for (int i = 0; i < selectedFoodObjList.size(); i++)
+					for (int i = 0; i < foodList.size(); i++)
 					{
-						if (selectedFoodObjList.get(i).getTitle()
-								.equals(f.getTitle()))
+						if (foodList.get(i).getTitle().equals(food.getTitle()))
 						{
-							selectedFoodObjList.get(i).setCalorie(
-									selectedFoodObjList.get(i).getCalorie()
-											+ f.getCalorie());
+							foodList.get(i).setCalorie(
+									foodList.get(i).getCalorie()
+											+ food.getCalorie());
 							break;
 						}
 					}
 				}
 
-				foodListView.setAdapter(new MealEntryAdapter(this,
-						selectedFoodObjList));
+				foodListView.setAdapter(new MealEntryAdapter(this, foodList));
 
+				//temp Meal Entry
 				double calorie = data.getDoubleExtra("calorie", 0.0);
-				// Log.i("Meal Entry (CALORIE): ", calorie + "");
 				totalCalorie += calorie;
 
 				mealEntry.setTotalCalorie(totalCalorie);
-				mealEntry.setFoodList(selectedFoodObjList);
+				mealEntry.setFoodList(foodList);
+				
 				// Log.i("Meal Entry (DATE): ", me.getDateStr());
 
 				/* ArrayAdapter<String> fa = new ArrayAdapter<String>(
@@ -246,7 +290,8 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 				/* Log.i("Meal Entry(Serving Size): ",
 				 * data.getIntExtra("servingSize", 0) + ""); */
-				
+
+				//Flag for notifying new Food is added
 				newFoodAdded = true;
 			}
 		}

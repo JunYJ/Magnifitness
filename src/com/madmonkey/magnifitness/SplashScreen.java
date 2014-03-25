@@ -22,7 +22,6 @@ import com.madmonkey.magnifitnessClass.Food;
 
 public class SplashScreen extends Activity
 {
-
 	/** The thread to process splash screen events */
 	private Thread			mSplashThread;
 	private boolean			mIsBackButtonPressed;
@@ -41,11 +40,12 @@ public class SplashScreen extends Activity
 		super.onCreate(savedInstanceState);
 
 		initDatabase();
-		
+
 		startAnimations();
 
 	}
 
+	// Animation of splash screen (Magnifitness logo)
 	private void startAnimations()
 	{
 		if (runAnimation)
@@ -128,6 +128,8 @@ public class SplashScreen extends Activity
 	 * (evt.getAction() == MotionEvent.ACTION_DOWN) { synchronized
 	 * (mSplashThread) { mSplashThread.notifyAll(); } } return true; } */
 
+	// insert data(food) into database
+	// through parsing data in foodList.xml into string
 	private void populateFoodDatabase() throws XmlPullParserException,
 			IOException
 	{
@@ -184,6 +186,7 @@ public class SplashScreen extends Activity
 		}
 	}
 
+	// read value within xml parser
 	private String readText(XmlPullParser parser) throws IOException,
 			XmlPullParserException
 	{
@@ -196,8 +199,10 @@ public class SplashScreen extends Activity
 		return result;
 	}
 
+	// initialize database
 	private void initDatabase()
 	{
+		// Create database if it does not exist
 		if (db == null)
 		{
 			db = new DatabaseHandler(this);
@@ -206,12 +211,14 @@ public class SplashScreen extends Activity
 			Log.i("DATABASE CREATED: ", "TRUE");
 		}
 
+		// file path of database
 		File database = getBaseContext().getDatabasePath(db.getDatabaseName());
 
+		// populate database if it is exist && is empty
 		if (databasePopulated == false && database.exists() == true)
 		{
 			Log.i("DATABASE EXIST: ", "TRUE");
-
+			Log.i("DATABASE EMPTY: ", "TRUE");
 			try
 			{
 				populateFoodDatabase();
@@ -229,7 +236,7 @@ public class SplashScreen extends Activity
 			databasePopulated = true;
 		}
 		else
-			Log.i("EXIST: ", "FALSE");
+			Log.i("DATABASE EXIST/EMPTY: ", "FALSE");
 
 	}
 }

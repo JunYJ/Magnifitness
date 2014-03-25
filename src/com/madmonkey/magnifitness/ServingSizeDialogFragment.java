@@ -1,18 +1,17 @@
 package com.madmonkey.magnifitness;
 
-import com.madmonkey.magnifitness.util.Search;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
+
+import com.madmonkey.magnifitness.util.Search;
 
 public class ServingSizeDialogFragment extends DialogFragment
 {
@@ -32,9 +31,8 @@ public class ServingSizeDialogFragment extends DialogFragment
 
 		v = inflater.inflate(R.layout.select_serving_size, null);
 
-		//Log.i("food title", bundleValue.getString("foodTitle", "not found"));
+		// Log.i("food title", bundleValue.getString("foodTitle", "not found"));
 		setupAllViews();
-		// setupAllViews();
 
 		builder.setView(v);
 		builder.setPositiveButton("Confirm",
