@@ -31,14 +31,16 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	DatabaseHandler			dbHandler;
 	ListView				foodListView;
 	ArrayList<Food>			foodList;
+	static ArrayList<Food>	foodToBeRemovedList;
 	Intent					returnIntent;
 
 	double					totalCalorie;
-	MealEntry				mealEntry;
+	static MealEntry		mealEntry;
 
-	MealEntry				recordedMealEntry;
+	static MealEntry		recordedMealEntry;
 	ArrayList<MealEntry>	mealEntryList;
 	boolean					newFoodAdded;
+	static boolean			foodRemoved;
 
 	final static int		BREAKFAST	= 1;
 	final static int		LUNCH		= 2;
@@ -92,6 +94,8 @@ public class MealEntryActivity extends Activity implements OnClickListener
 		//Meal Entry will not be created or update if no new Food is added into foodList
 		newFoodAdded = false;
 		
+		foodRemoved = false;
+		
 		// assign data to temp mealEntry
 		// for adding into database
 		// or updating existing meal entry
@@ -140,6 +144,8 @@ public class MealEntryActivity extends Activity implements OnClickListener
 		mealEntryList = (ArrayList<MealEntry>) dbHandler
 				.getTodayMealEntry(date);
 		// Log.i("Number of meal entry in DB: ", mealEntryList.size() + "");
+		ArrayList<MealEntry> test = (ArrayList<MealEntry>) dbHandler.getAllMealEntry();
+		Log.i("Number of recorded meal entry: ", test.size() + "");
 
 		// if there's is meal entry recorded for today
 		if (mealEntryList.size() != 0)
@@ -162,7 +168,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				// load the food list of found Meal Entry for display
 				foodList = recordedMealEntry.getFoodList();
 				foodListView.setAdapter(new MealEntryAdapter(this, foodList));
-				Log.i("TEST", foodList.get(0).getNumOfEntry() + "");
+				//Log.i("TEST", foodList.get(0).getNumOfEntry() + "");
 				//Log.i("TEST", foodList.get(1).getNumOfEntry() + "");
 			}
 
@@ -207,14 +213,30 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 				//Added Meal Entry ONLY if foodList is not EMPTY & specific Meal Entry is not exist
 				if (recordedMealEntry == null && newFoodAdded == true)
-					dbHandler.addMealEntry(mealEntry);
+				{
+					if(mealEntry.getFoodList().size() > 0)
+						dbHandler.addMealEntry(mealEntry);
+				}
 				//Update existing Meal Entry if it is found & new Food is added
 				else if (recordedMealEntry != null && newFoodAdded == true)
 				{
+					ArrayList<Food> testing2 = recordedMealEntry.getFoodList();
+					
+					Log.i("TEST4", testing2.size() + "");
+					
 					recordedMealEntry.setTotalCalorie(recordedMealEntry
 							.getTotalCalorie() + mealEntry.getTotalCalorie());
 					dbHandler.updateMealEntry(recordedMealEntry);
 				}
+				
+				if(recordedMealEntry != null && foodRemoved == true)
+				{
+					dbHandler.removeFoodFromMealEntry(recordedMealEntry, foodToBeRemovedList);
+					returnIntent.putExtra("foodRemoved", foodRemoved);
+					setResult(RESULT_OK, returnIntent);
+					foodRemoved = false;
+				}
+				else
 				
 				//Reset flag
 				newFoodAdded = false;
@@ -234,7 +256,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 		if (requestCode == 1)
 		{
 			if (resultCode == RESULT_OK)
-			{
+			{		
 				String titleIn = data.getStringExtra("foodTitle");
 				String measurementUnitIn = data.getStringExtra("measure_unit");
 				Double calorieIn = data.getDoubleExtra("calorie", 999);
@@ -260,7 +282,10 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 				//if not duplication of Food
 				if (duplicate == false)
+				{					
 					foodList.add(food);
+				}
+					
 				//Duplication detected
 				//Update total calorie ONLY
 				else
@@ -280,7 +305,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 						}
 					}
 				}
-
+				
 				foodListView.setAdapter(new MealEntryAdapter(this, foodList));
 
 				//temp Meal Entry
@@ -304,6 +329,18 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				newFoodAdded = true;
 			}
 		}
+	}
+
+	public static void remove(ArrayList<Food> fl)
+	{
+		foodToBeRemovedList = new ArrayList<Food>();
+		foodToBeRemovedList = fl;
+
+		/*for(int i = 0; i < foodToBeRemovedList.size(); i++)
+		{
+			Log.i("TO BE REMOVED: ", foodToBeRemovedList.get(i).getTitle());
+		}*/
+		foodRemoved = true;	
 	}
 
 }

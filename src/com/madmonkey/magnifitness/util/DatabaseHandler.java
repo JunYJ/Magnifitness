@@ -194,9 +194,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		//if mealEntry is found
 		if(cursor.getCount() > 0)
 		{
-			Log.i("CURSOR MOVE TO FIRST: ", cursor.moveToFirst() + "");
+			/*Log.i("CURSOR MOVE TO FIRST: ", cursor.moveToFirst() + "");
 			Log.i("CURSOR GET COUNT: ", cursor.getCount() + "");
-			Log.i("CURSOR GET COLUMN COUNT: ", cursor.getColumnCount() + "");
+			Log.i("CURSOR GET COLUMN COUNT: ", cursor.getColumnCount() + "");*/
 			/*Log.i("CURSOR: ", cursor.toString());
 			Log.i("CURSOR C(1): ", cursor.getString(0));
 			Log.i("CURSOR C(2): ", cursor.getString(1));
@@ -410,5 +410,64 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		
 		db.close();
 		Log.i("UPDATE: ", "UPDATE SUCCESS");
+	}
+	
+	public void removeFoodFromMealEntry(MealEntry mealEntry, ArrayList<Food> tempFoodList)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(KEY_MEAL_TYPE, mealEntry.getMealType());
+		values.put(KEY_DATE, mealEntry.getDateStr());
+		
+		
+		ArrayList<Food> mealEntryFoodList = mealEntry.getFoodList();
+		
+		for(int i = 0; i < tempFoodList.size(); i++)
+		{
+			for(int count = 0; count < mealEntryFoodList.size(); count++)
+			{
+				if(mealEntryFoodList.get(count).equals(tempFoodList.get(i)))
+				{
+					mealEntry.getFoodList().remove(count);
+					break;
+				}
+			}
+		}
+		double totalCalorie = 0.0;
+		
+		for(int i = 0; i < mealEntryFoodList.size(); i++)
+		{
+			totalCalorie += mealEntryFoodList.get(i).getCalorie();
+		}
+		values.put(KEY_TOTAL_CALORIE, totalCalorie);
+		
+		String foodTitleStr = "";
+		String numOfEachFoodStr = "";
+		
+		for(int i = 0; i < mealEntryFoodList.size(); i++)
+		{
+			if(i == mealEntryFoodList.size() - 1)
+			{
+				foodTitleStr = foodTitleStr + mealEntryFoodList.get(i).getTitle();
+				numOfEachFoodStr = numOfEachFoodStr + mealEntryFoodList.get(i).getNumOfEntry();
+			}
+			else
+			{
+				foodTitleStr = foodTitleStr + mealEntryFoodList.get(i).getTitle() + ",";
+				numOfEachFoodStr = numOfEachFoodStr + mealEntryFoodList.get(i).getNumOfEntry() + ",";
+			}
+						
+			Log.i("DB (Meal Entry Food): ", mealEntryFoodList.get(i).getTitle());
+		}
+		
+		values.put(KEY_SELECTED_FOOD, foodTitleStr);
+		values.put(KEY_NUM_EACH_FOOD, numOfEachFoodStr);
+		
+		db.update(TABLE_USER_MEAL_ENTRY, values, KEY_MEAL_TYPE + "=? AND " 
+		+ KEY_DATE + "=?", new String[] { String.valueOf(mealEntry.getMealType()), String.valueOf(mealEntry.getDateStr()) });
+		
+		db.close();
+		Log.i("REMOVE: ", "REMOVE SUCCESS");
 	}
 }

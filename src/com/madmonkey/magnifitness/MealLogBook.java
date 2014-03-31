@@ -74,7 +74,13 @@ public class MealLogBook extends Fragment
 
 		// Calorie consumed
 		TVcalorieValue = (TextView) rootView.findViewById(R.id.TVcalorieValue);
-		TVcalorieValue.setText(currentCalorie + "");
+		NumberFormat formatter = new DecimalFormat("#0.00");
+
+		double formatCalorie = currentCalorie;
+
+		// display updated calorie
+		TVcalorieValue
+				.setText(formatter.format(formatCalorie) + "");
 
 		// Calories required/limit
 		TVcalorieCap = (TextView) rootView.findViewById(R.id.TVcalorieCap);
@@ -159,7 +165,7 @@ public class MealLogBook extends Fragment
 			{
 				// if new food is added into one of the meal entry
 				// update calorie consumed of the day
-				if (data.getBooleanExtra("newFoodAdded", false) == true)
+				if (data.getBooleanExtra("newFoodAdded", false) == true || data.getBooleanExtra("foodRemoved", false) == true)
 				{
 					Calendar c = Calendar.getInstance();
 					DateFormatSymbols dfs = new DateFormatSymbols();

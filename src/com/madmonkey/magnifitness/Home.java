@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ public class Home extends FragmentActivity
 	/** The {@link ViewPager} that will host the section contents. */
 	ViewPager				mViewPager;
 	MenuItem				logOut;
+	MenuItem				Pedometer;
 	Session					s;
 	PackageManager			manager;
 	User					user;
@@ -94,6 +96,7 @@ public class Home extends FragmentActivity
 		// TODO Auto-generated method stub
 		logOut = menu.add(R.string.logOut)
 				.setIcon(R.drawable.com_facebook_icon);
+		Pedometer = menu.add(R.string.Pedometer);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -137,13 +140,19 @@ public class Home extends FragmentActivity
 		if (item.equals(logOut))
 		{
 			// Fragment settings = new Settings();
-			Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG)
+			Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_SHORT)
 					.show();
-			System.out.println("LOGOUT");
+			Log.i("LOGOUT", "LOGOUT");
 			finishAffinity();
 			// Fragment settings = findFragmentById(R.id.userSettingsFragment);
 			s.closeAndClearTokenInformation();
 			return true;
+		}
+		else if(item.equals(Pedometer))
+		{
+			Toast.makeText(getApplicationContext(), "Pedometer", Toast.LENGTH_SHORT).show();
+			Log.i("PEDOMETER", "PEDOMETER");
+			startActivity(new Intent(this, name.bagi.levente.pedometer.Pedometer.class));
 		}
 
 		return super.onOptionsItemSelected(item);

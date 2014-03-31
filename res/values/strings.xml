@@ -10,6 +10,7 @@
     <string name="app_id">413484095438995</string>
     <string name="get_started">To get started, log in using Facebook</string>
     <string name="logOut">Log Out</string>
+    <string name="Pedometer">Pedometer</string>
     <string name="user_name">Name</string>
     <string name="user_age">Age</string>
     <string name="user_email">Email</string>
