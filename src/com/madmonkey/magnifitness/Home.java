@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -56,6 +57,7 @@ public class Home extends FragmentActivity
 	SharedPreferences		userSP;
 	Fragment				currentFragment;
 	TextView				userInfo;
+	TextView				bmiTxt;
 
 	DatabaseHandler			dbHandler;
 
@@ -349,13 +351,17 @@ public class Home extends FragmentActivity
 		// - requires user_birthday permissions
 		// userInfo.append(String.format("Birthday: %s\n\n",
 		// user.getBirthday()));
+		
+		// AGE
+				userInfo.append(String.format("Age: %s\n\n", userSP.getInt("age", 0)));
 
 		// GENDER
 		userInfo.append(String.format("Gender: %s\n\n",
 				userSP.getString("gender", "")));
-
-		// AGE
-		userInfo.append(String.format("Age: %s\n\n", userSP.getInt("age", 0)));
+		
+		// EMAIL (sharedPreference)
+				userInfo.append(String.format("Email: %s\n\n",
+						userSP.getString("email", "")));
 
 		// WEIGHT
 		userInfo.append(String.format("Weight: %s kg \n\n",
@@ -364,18 +370,47 @@ public class Home extends FragmentActivity
 		userInfo.append(String.format("Height: %s cm \n\n",
 				userSP.getInt("height", 0)));
 		// BMI
-		userInfo.append(String.format("BMI: %s\n\n",
-				userSP.getString("bmi", "")));
+		/*userInfo.append(String.format("BMI: %s\n\n",
+				userSP.getString("bmi", "")));*/
 		// BMR
-		userInfo.append(String.format("BMR: %s\n\n",
-				userSP.getString("bmr", "")));
-
-		// EMAIL (sharedPreference)
-		userInfo.append(String.format("Email: %s\n\n",
-				userSP.getString("email", "")));
+		/*userInfo.append(String.format("BMR: %s\n\n",
+				userSP.getString("bmr", "")));*/
 
 		// IDEAL WEIGHT
-
+		userInfo.append(String.format("Ideal Weight: %s kg \n", userSP.getInt("idealWeight", 0)));
+		
+		//BMI
+		StringBuilder bmi = new StringBuilder("");
+		double bmiValue = Double.parseDouble(userSP.getString("bmi", "0.0"));
+		
+		if(bmiValue >= 30.0)
+		{
+			bmi.append(String.format("BMI: %s\n",
+					userSP.getString("bmi", "")) + " (Obese)");
+			bmiTxt.setTextColor(Color.RED);
+		}
+		else if(bmiValue < 18.5)
+		{
+			bmi.append(String.format("BMI: %s\n",
+					userSP.getString("bmi", "")) + " (Underweight)");
+			bmiTxt.setTextColor(Color.RED);
+		}
+			
+		else if(bmiValue < 30.0 && bmiValue > 24.5)
+		{
+			bmi.append(String.format("BMI: %s\n",
+					userSP.getString("bmi", "")) + " (Overweight)");
+			bmiTxt.setTextColor(Color.rgb(255, 165, 0));
+		}
+		else
+		{
+			bmi.append(String.format("BMI: %s\n",
+					userSP.getString("bmi", "")));
+			bmiTxt.setTextColor(Color.GREEN);
+		}
+		
+		bmiTxt.setText(bmi);
+		
 		return userInfo.toString();
 	}
 
@@ -389,6 +424,17 @@ public class Home extends FragmentActivity
 		helpBuilder.setView(summary);
 
 		userInfo = (TextView) summary.findViewById(R.id.txt);
+		bmiTxt = (TextView) summary.findViewById(R.id.bmiTxt);
+		bmiTxt.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v)
+			{
+				Toast.makeText(getApplicationContext(), 
+						"Obesity (>=30) \nOverweight (25-29.9) \nNormal (18.5-24.9) \nUnderweight (<18.5)"
+						, Toast.LENGTH_LONG).show();
+			}});
+		
 		userInfo.setText(buildSummaryString());
 
 		ProfilePictureView summaryProfilePictureView = (ProfilePictureView) summary

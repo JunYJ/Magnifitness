@@ -28,10 +28,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:editable="false"
                 android:text="Welcome, you are now logged in."
-                android:textColor="#333"
                 android:textIsSelectable="false"
+                android:textSize="18sp" />
+            
+            <TextView 
+                android:id="@+id/bmiTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="BMI"
                 android:textSize="18sp" />
         </LinearLayout>
 

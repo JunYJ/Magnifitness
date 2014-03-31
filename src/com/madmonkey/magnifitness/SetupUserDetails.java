@@ -206,6 +206,9 @@ public class SetupUserDetails extends Activity implements
 		DecimalFormat df = new DecimalFormat("#.##");
 		userSP.edit().putString("bmi", df.format(user.getBmi()) + "").commit();
 		userSP.edit().putString("bmr", df.format(user.getBmr()) + "").commit();
+		
+		userSP.edit().putInt("idealWeight", user.getIdealWeight()).commit();
+		userSP.edit().putInt("calorieCap", user.getTotalDailyCalorieNeeds()).commit();
 	}
 
 	private void loadFromPreferences()
