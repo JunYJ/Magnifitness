@@ -153,13 +153,13 @@ public class MealEntryActivity extends Activity implements OnClickListener
 			Log.i("Number of meal entry of today: ", mealEntryList.size() + "");
 
 			// find specific meal entry of the day
-			if (meal_type == 1)
+			if (meal_type == BREAKFAST)
 				recordedMealEntry = dbHandler.getMealEntry("Breakfast", date);
-			else if (meal_type == 2)
+			else if (meal_type == LUNCH)
 				recordedMealEntry = dbHandler.getMealEntry("Lunch", date);
-			else if (meal_type == 3)
+			else if (meal_type == SNACK)
 				recordedMealEntry = dbHandler.getMealEntry("Snack", date);
-			else if (meal_type == 4)
+			else if (meal_type == DINNER)
 				recordedMealEntry = dbHandler.getMealEntry("Dinner", date);
 
 			// if is found
