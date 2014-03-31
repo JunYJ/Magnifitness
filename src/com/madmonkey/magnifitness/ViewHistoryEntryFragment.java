@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitness;
 
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -15,8 +17,15 @@ import com.jjoe64.graphview.LineGraphView;
 
 public class ViewHistoryEntryFragment extends Fragment {
 
-	GraphViewSeries	exampleSeries;
-	LineGraphView	graphView;
+	GraphViewSeries		exampleSeries;
+	BarGraphView		graphView;
+	final static double	MON	= 1;
+	final static double	TUE	= 1.5;
+	final static double	WED	= 2;
+	final static double	THU	= 2.5;
+	final static double	FRI	= 3;
+	final static double	SAT	= 3.5;
+	final static double	SUN	= 4;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -31,49 +40,31 @@ public class ViewHistoryEntryFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.view_history_meal_entry, container, false);
 
 		// init example series data
-		exampleSeries = new GraphViewSeries(new GraphViewData[] { 
-				new GraphViewData(1, 2.0d), 
-				new GraphViewData(1.5, 1.5d), 
-				new GraphViewData(2, 2.5d),
-				new GraphViewData(2.5, 1.0d) }); // Replace with calorie value variables
+		exampleSeries = new GraphViewSeries(new GraphViewData[] {
+				new GraphViewData(MON, 500d), new GraphViewData(TUE, 600d), new GraphViewData(WED, 400d), new GraphViewData(THU, 450d),
+				new GraphViewData(FRI, 700d), new GraphViewData(SAT, 1050d), new GraphViewData(SUN, 800d) });// with
+																												// calorie
+																												// value
+																												// variables
 
-		graphView = new LineGraphView(getActivity() // context
+		graphView = new BarGraphView(getActivity() // context
 				, "Weekly Calorie Intake" // heading
 		);
 		graphView.addSeries(exampleSeries); // data
-		graphView.setDrawDataPoints(true);
-		graphView.setDataPointsRadius(15f);
-		graphView.setHorizontalLabels(new String[] { "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun" });
-		graphView.setVerticalLabels(new String[] { "high", "middle", "low" }); //Set to calorie value
+		// graphView.setDrawDataPoints(true);
+		// graphView.setDataPointsRadius(15f);
 
-		graphView.setCustomLabelFormatter(new CustomLabelFormatter()
-			{
-				@Override
-				public String formatLabel(double value, boolean isValueX)
-					{
-					if (isValueX)
-						{
-						if (value < 5)
-							{
-							return "small";
-							}
-						else if (value < 15)
-							{
-							return "middle";
-							}
-						else
-							{
-							return "big";
-							}
-						}
-					return null; // let graphview generate Y-axis label for us
-					}
-			});
+
+		graphView.setHorizontalLabels(new String[] {
+				"Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun" });
 
 		// set styles
-		graphView.getGraphViewStyle().setNumHorizontalLabels(5);
-		graphView.getGraphViewStyle().setNumVerticalLabels(4);
-//		graphView.getGraphViewStyle().setVerticalLabelsWidth(300);
+		graphView.getGraphViewStyle().setTextSize(20f);
+		graphView.getGraphViewStyle().setNumVerticalLabels(8);
+//		graphView.setDrawValuesOnTop(true);
+		graphView.getGraphViewStyle().setVerticalLabelsWidth(100);
+		graphView.getGraphViewStyle().setVerticalLabelsAlign(Align.CENTER);
+		graphView.setBackgroundColor(Color.LTGRAY);
 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 		layout.addView(graphView);

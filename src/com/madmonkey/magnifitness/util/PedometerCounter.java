@@ -1,4 +1,4 @@
-package com.madmonkey.magnifitnessClass;
+package com.madmonkey.magnifitness.util;
 
 public class PedometerCounter 
 {
