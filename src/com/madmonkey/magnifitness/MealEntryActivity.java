@@ -28,7 +28,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	Button					add, confirm;
 	TextView				mealEntryInfoTV;
 
-	DatabaseHandler			dbHandler;
+	DatabaseHandler			db;
 	ListView				foodListView;
 	ArrayList<Food>			foodList;
 	static ArrayList<Food>	foodToBeRemovedList;
@@ -63,7 +63,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 	private void initialization(int meal_type)
 	{
 		// DB
-		dbHandler = new DatabaseHandler(this);
+		db = new DatabaseHandler(this);
 
 		// View
 		add = (Button) findViewById(R.id.add_btn);
@@ -141,10 +141,10 @@ public class MealEntryActivity extends Activity implements OnClickListener
 		String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
 				+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
 
-		mealEntryList = (ArrayList<MealEntry>) dbHandler
+		mealEntryList = (ArrayList<MealEntry>) db
 				.getTodayMealEntry(date);
 		// Log.i("Number of meal entry in DB: ", mealEntryList.size() + "");
-		ArrayList<MealEntry> test = (ArrayList<MealEntry>) dbHandler.getAllMealEntry();
+		ArrayList<MealEntry> test = (ArrayList<MealEntry>) db.getAllMealEntry();
 		Log.i("Number of recorded meal entry: ", test.size() + "");
 
 		// if there's is meal entry recorded for today
@@ -154,13 +154,13 @@ public class MealEntryActivity extends Activity implements OnClickListener
 
 			// find specific meal entry of the day
 			if (meal_type == BREAKFAST)
-				recordedMealEntry = dbHandler.getMealEntry("Breakfast", date);
+				recordedMealEntry = db.getMealEntry("Breakfast", date);
 			else if (meal_type == LUNCH)
-				recordedMealEntry = dbHandler.getMealEntry("Lunch", date);
+				recordedMealEntry = db.getMealEntry("Lunch", date);
 			else if (meal_type == SNACK)
-				recordedMealEntry = dbHandler.getMealEntry("Snack", date);
+				recordedMealEntry = db.getMealEntry("Snack", date);
 			else if (meal_type == DINNER)
-				recordedMealEntry = dbHandler.getMealEntry("Dinner", date);
+				recordedMealEntry = db.getMealEntry("Dinner", date);
 
 			// if is found
 			if (recordedMealEntry != null)
@@ -215,7 +215,7 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				if (recordedMealEntry == null && newFoodAdded == true)
 				{
 					if(mealEntry.getFoodList().size() > 0)
-						dbHandler.addMealEntry(mealEntry);
+						db.addMealEntry(mealEntry);
 				}
 				//Update existing Meal Entry if it is found & new Food is added
 				else if (recordedMealEntry != null && newFoodAdded == true)
@@ -226,12 +226,11 @@ public class MealEntryActivity extends Activity implements OnClickListener
 					
 					recordedMealEntry.setTotalCalorie(recordedMealEntry
 							.getTotalCalorie() + mealEntry.getTotalCalorie());
-					dbHandler.updateMealEntry(recordedMealEntry);
+					db.updateMealEntry(recordedMealEntry);
 				}
 				
 				if(recordedMealEntry != null && foodRemoved == true)
 				{
-					dbHandler.removeFoodFromMealEntry(recordedMealEntry, foodToBeRemovedList);
 					returnIntent.putExtra("foodRemoved", foodRemoved);
 					setResult(RESULT_OK, returnIntent);
 					foodRemoved = false;

@@ -30,7 +30,7 @@ public class MealLogBook extends Fragment
 	ListView			mealTypeList;
 	ProgressBar			calorieProgressBar;
 	Intent				nextActivity;
-	DatabaseHandler		dbHandler;
+	DatabaseHandler		db;
 
 	User				user;
 
@@ -55,7 +55,7 @@ public class MealLogBook extends Fragment
 		calorieCap = bundle.getInt("calorieCap");
 		currentCalorie = bundle.getDouble("todayCalorie");
 
-		dbHandler = new DatabaseHandler(getActivity());
+		db = new DatabaseHandler(getActivity());
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class MealLogBook extends Fragment
 							+ months[(c.get(Calendar.MONTH))] + " "
 							+ c.get(Calendar.YEAR);
 
-					ArrayList<MealEntry> mealEntryList = (ArrayList<MealEntry>) dbHandler
+					ArrayList<MealEntry> mealEntryList = (ArrayList<MealEntry>) db
 							.getTodayMealEntry(date);
 
 					// get calorie of view

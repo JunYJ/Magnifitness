@@ -11,14 +11,12 @@ import com.madmonkey.magnifitnessClass.Food;
 
 public class XMLParser extends DefaultHandler
 {
-	public List<Food>				foodList				= null;
-
+	public List<Food>	foodList	= null;
 
 	// string builder acts as a buffer
-	StringBuilder					builder;
+	StringBuilder		builder;
 
-	Food							food					= null;
-
+	Food				food		= null;
 
 	@Override
 	public void startDocument() throws SAXException
@@ -40,12 +38,9 @@ public class XMLParser extends DefaultHandler
 			food = new Food();
 		}
 
-		/*else if (localName.equals("Branch"))
-		{
-			branch = new Branch();
-		}*/
+		/*
+		 * else if (localName.equals("Branch")) { branch = new Branch(); } */
 
-		
 	}
 
 	@Override
@@ -73,7 +68,6 @@ public class XMLParser extends DefaultHandler
 		{
 			food.setType(builder.toString());
 		}
-		
 
 	}
 

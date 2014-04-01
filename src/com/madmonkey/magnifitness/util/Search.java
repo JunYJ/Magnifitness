@@ -23,10 +23,10 @@ public class Search extends FragmentActivity
 	private ListView		foodListView;
 	EditText				inputSearch;
 
-	Food selectedFood;
+	Food					selectedFood;
 	ArrayAdapter<String>	adapter;
 	DatabaseHandler			db;
-	Intent returnIntent;
+	Intent					returnIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -107,13 +107,14 @@ public class Search extends FragmentActivity
 
 		});
 	}
-	
+
 	public void addSelectedFood(int servingSize)
 	{
 		returnIntent.putExtra("servingSize", servingSize);
-		returnIntent.putExtra("calorie", selectedFood.getCalorie() * servingSize);
+		returnIntent.putExtra("calorie", selectedFood.getCalorie()
+				* servingSize);
 		setResult(RESULT_OK, returnIntent);
-		//Log.i("Search.java (ServingSize): ", servingSize + "");
+		// Log.i("Search.java (ServingSize): ", servingSize + "");
 		finish();
 	}
 

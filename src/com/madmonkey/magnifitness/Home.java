@@ -50,7 +50,7 @@ public class Home extends FragmentActivity
 	/** The {@link ViewPager} that will host the section contents. */
 	ViewPager				mViewPager;
 	MenuItem				logOut;
-	MenuItem				Pedometer;
+	//MenuItem				Pedometer;
 	Session					s;
 	PackageManager			manager;
 	User					user;
@@ -59,7 +59,7 @@ public class Home extends FragmentActivity
 	TextView				userInfo;
 	TextView				bmiTxt;
 
-	DatabaseHandler			dbHandler;
+	DatabaseHandler			db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +72,7 @@ public class Home extends FragmentActivity
 
 	private void initialization()
 	{
-		dbHandler = new DatabaseHandler(this);
+		db = new DatabaseHandler(this);
 
 		userSP = getSharedPreferences(FacebookLogin.filename, MODE_PRIVATE);
 
@@ -98,7 +98,7 @@ public class Home extends FragmentActivity
 		// TODO Auto-generated method stub
 		logOut = menu.add(R.string.logOut)
 				.setIcon(R.drawable.com_facebook_icon);
-		Pedometer = menu.add(R.string.Pedometer);
+		//Pedometer = menu.add(R.string.Pedometer);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -150,12 +150,14 @@ public class Home extends FragmentActivity
 			s.closeAndClearTokenInformation();
 			return true;
 		}
-		else if(item.equals(Pedometer))
+		/*else if(item.equals(Pedometer))
 		{
 			Toast.makeText(getApplicationContext(), "Pedometer", Toast.LENGTH_SHORT).show();
 			Log.i("PEDOMETER", "PEDOMETER");
-			startActivity(new Intent(this, name.bagi.levente.pedometer.Pedometer.class));
-		}
+			//startActivity(new Intent(this, name.bagi.levente.pedometer.Pedometer.class));
+			//finish();
+			//startActivity(new Intent(this, Demo.class));
+		}*/
 
 		return super.onOptionsItemSelected(item);
 	}
@@ -199,7 +201,7 @@ public class Home extends FragmentActivity
 
 				// Get meal entries of the day
 				ArrayList<MealEntry> mealEntryList = null;
-				mealEntryList = (ArrayList<MealEntry>) dbHandler
+				mealEntryList = (ArrayList<MealEntry>) db
 						.getTodayMealEntry(date);
 
 				// Total calorie consumed of the day
@@ -221,10 +223,15 @@ public class Home extends FragmentActivity
 			{
 				currentFragment = new ViewHistoryEntryFragment();
 			}
+			
+			else if(position == 3)
+			{
+				currentFragment = new PedometerFragment();
+			}
 
 			else
 			{
-				currentFragment = new ViewHistoryEntryFragment();
+				currentFragment = new DummySectionFragment();
 				Bundle args = new Bundle();
 				args.putInt(DummySectionFragment.ARG_SECTION_NUMBER,
 						position + 1);
@@ -237,8 +244,8 @@ public class Home extends FragmentActivity
 		@Override
 		public int getCount()
 		{
-			// Show 3 total pages.
-			return 3;
+			// Show 4 total pages.
+			return 4;
 		}
 
 		@Override
@@ -254,7 +261,7 @@ public class Home extends FragmentActivity
 				case 2:
 					return getString(R.string.title_section3).toUpperCase(l);
 				case 3:
-					return getString(R.string.title_section3).toUpperCase(l);
+					return getString(R.string.title_section4).toUpperCase(l);
 			}
 			return null;
 		}

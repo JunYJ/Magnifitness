@@ -6,11 +6,14 @@
     <string name="title_section1">Task</string>
     <string name="title_section2">Meal Logbook</string>
     <string name="title_section3">History Meal Entry</string>
+    <string name="title_section4">Pedometer</string>
+    
     <string name="hello_world">Hello world!</string>
     <string name="app_id">413484095438995</string>
     <string name="get_started">To get started, log in using Facebook</string>
     <string name="logOut">Log Out</string>
     <string name="Pedometer">Pedometer</string>
+    
     <string name="user_name">Name</string>
     <string name="user_age">Age</string>
     <string name="user_email">Email</string>
@@ -22,7 +25,7 @@
 
     <string-array name="BMR">
         <item>Sedentary		(little or no exercise)</item>
-        <item>Light   	(light exercise 1–3 days/week)</item>
+        <item>Light   		(light exercise 1–3 days/week)</item>
         <item>Moderate		(moderate exercise 3–5 days/week)</item>
         <item>Heavy			(hard exercise 6–7 days a week)</item>
         <item>Intensive		(intensive physical job or 2x training)</item>
@@ -36,5 +39,12 @@
     <string name="normalweight">(Normal weight)</string>
     <string name="overweight">(Overweight)</string>
     <string name="obese">(Obese)</string>
+    
+    <string name="sensitivity">Sensitivity\n(lower = more sensitive)</string>
+    
+    <string name="sensitivity_text">"Sensitivity:"</string>
+    <string name="sensitivity_hint">"Sensitivity"</string>
+    <string name="distance_text">"Distance = 0"</string>
+    <string name="step_text">"Steps = 0"</string>
 
 </resources>

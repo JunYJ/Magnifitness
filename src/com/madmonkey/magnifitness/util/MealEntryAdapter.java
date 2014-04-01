@@ -23,7 +23,7 @@ public class MealEntryAdapter extends ArrayAdapter<Food>
 
 	private Context			context;
 	private ArrayList<Food>	recordedFoodList;
-	private ArrayList<Food> tempFoodList;
+	private ArrayList<Food>	tempFoodList;
 
 	public MealEntryAdapter(Context context, ArrayList<Food> recordedFoodList)
 	{
@@ -54,29 +54,28 @@ public class MealEntryAdapter extends ArrayAdapter<Food>
 				* recordedFoodList.get(position).getNumOfEntry();
 
 		calValue.setText(formatter.format(formatCalorie) + "");
-		
-		/*Log.i("ADAPTER CALORIE: ", recordedFoodList.get(position).getCalorie()
-				+ "");
-		Log.i("ADAPTER NUM OF ENTRY: ", recordedFoodList.get(position)
-				.getNumOfEntry() + "");*/
-		
-		
-		remove_btn.setOnClickListener(new OnClickListener(){
+
+		/* Log.i("ADAPTER CALORIE: ",
+		 * recordedFoodList.get(position).getCalorie() + "");
+		 * Log.i("ADAPTER NUM OF ENTRY: ", recordedFoodList.get(position)
+		 * .getNumOfEntry() + ""); */
+
+		remove_btn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v)
 			{
 				Toast.makeText(context, "REMOVE", Toast.LENGTH_SHORT).show();
-				
+
 				tempFoodList.add(recordedFoodList.get(position));
 				recordedFoodList.remove(position);
-				
+
 				MealEntryActivity.remove(tempFoodList);
-				
+
 				notifyDataSetChanged();
-			}});
-				
-		
+			}
+		});
+
 		return rowView;
 	}
 
