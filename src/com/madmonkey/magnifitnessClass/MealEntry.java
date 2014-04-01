@@ -24,8 +24,30 @@ public class MealEntry
 		DateFormatSymbols dfs = new DateFormatSymbols();
 		String [] months = dfs.getMonths();
 		
-		setDateStr("" + date.get(Calendar.DAY_OF_MONTH) + "th "
+		/*setDateStr("" + date.get(Calendar.DAY_OF_MONTH) + "th "
 				+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR));
+		*/
+		if(date.get(Calendar.DAY_OF_MONTH) == 1 || date.get(Calendar.DAY_OF_MONTH) == 11 
+				|| date.get(Calendar.DAY_OF_MONTH) == 21 || date.get(Calendar.DAY_OF_MONTH) == 31)
+		{
+			setDateStr("" + date.get(Calendar.DAY_OF_MONTH) + "st "
+					+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR));
+		}
+		else if(date.get(Calendar.DAY_OF_MONTH) == 2 || date.get(Calendar.DAY_OF_MONTH) == 12 || date.get(Calendar.DAY_OF_MONTH) == 22)
+		{
+			setDateStr("" + date.get(Calendar.DAY_OF_MONTH) + "nd "
+					+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR));
+		}
+		else if(date.get(Calendar.DAY_OF_MONTH) == 3 || date.get(Calendar.DAY_OF_MONTH) == 13 || date.get(Calendar.DAY_OF_MONTH) == 23)
+		{
+			setDateStr("" + date.get(Calendar.DAY_OF_MONTH) + "rd "
+					+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR));
+		}
+		else
+		{
+			setDateStr("" + date.get(Calendar.DAY_OF_MONTH) + "th "
+					+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR));
+		}
 	}
 	
 	public MealEntry(String mealType, Double totalCalorie,

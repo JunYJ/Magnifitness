@@ -195,9 +195,29 @@ public class Home extends FragmentActivity
 				Calendar c = Calendar.getInstance();
 				DateFormatSymbols dfs = new DateFormatSymbols();
 				String[] months = dfs.getMonths();
-				String date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
-						+ months[(c.get(Calendar.MONTH))] + " "
-						+ c.get(Calendar.YEAR);
+				String date = "";
+				
+				if(c.get(Calendar.DAY_OF_MONTH) == 1 || c.get(Calendar.DAY_OF_MONTH) == 11 
+						|| c.get(Calendar.DAY_OF_MONTH) == 21 || c.get(Calendar.DAY_OF_MONTH) == 31)
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "st "
+							+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+				}
+				else if(c.get(Calendar.DAY_OF_MONTH) == 2 || c.get(Calendar.DAY_OF_MONTH) == 12 || c.get(Calendar.DAY_OF_MONTH) == 22)
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "nd "
+							+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+				}
+				else if(c.get(Calendar.DAY_OF_MONTH) == 3 || c.get(Calendar.DAY_OF_MONTH) == 13 || c.get(Calendar.DAY_OF_MONTH) == 23)
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "rd "
+							+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+				}
+				else
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
+							+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+				}
 
 				// Get meal entries of the day
 				ArrayList<MealEntry> mealEntryList = null;
