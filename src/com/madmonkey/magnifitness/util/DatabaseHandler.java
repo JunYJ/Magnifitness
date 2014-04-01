@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.madmonkey.magnifitnessClass.Food;
 import com.madmonkey.magnifitnessClass.MealEntry;
+import com.madmonkey.magnifitnessClass.Pedometer;
 
 public class DatabaseHandler extends SQLiteOpenHelper
 {
@@ -25,6 +26,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	// Table Names
 	private static final String	TABLE_FOOD						= "food";
 	private static final String	TABLE_USER_MEAL_ENTRY			= "userMealEntry";
+	private static final String	TABLE_PEDOMETER					= "pedometer";
 
 	// Column Names
 
@@ -36,10 +38,15 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 	// MEAL ENTRY
 	private static final String	KEY_MEAL_TYPE					= "mealType";
-	private static final String	KEY_DATE						= "date";
+	private static final String	KEY_MEAL_ENTRY_DATE				= "mealEntryDate";
 	private static final String	KEY_TOTAL_CALORIE				= "totalCalorie";
 	private static final String	KEY_SELECTED_FOOD				= "selectedFood";
 	private static final String	KEY_NUM_EACH_FOOD				= "numOfEachFood";
+
+	// PEDOMETER
+	private static final String	KEY_PEDOMETER_DATE				= "pedometerDate";
+	private static final String	KEY_PEDOMETER_STEP				= "pedometerStep";
+	private static final String	KEY_PEDOMETER_DISTANCE			= "pedometerDistance";
 
 	String						CREATE_FOOD_TABLE				= "CREATE TABLE "
 																		+ TABLE_FOOD
@@ -59,7 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 																		+ "("
 																		+ KEY_MEAL_TYPE
 																		+ " TEXT NOT NULL,"
-																		+ KEY_DATE
+																		+ KEY_MEAL_ENTRY_DATE
 																		+ " TEXT NOT NULL,"
 																		+ KEY_TOTAL_CALORIE
 																		+ " REAL NOT NULL,"
@@ -67,6 +74,17 @@ public class DatabaseHandler extends SQLiteOpenHelper
 																		+ " TEXT,"
 																		+ KEY_NUM_EACH_FOOD
 																		+ " TEXT"
+																		+ ")";
+
+	String						CREATE_PEDOMETER_TABLE			= "CREATE TABLE "
+																		+ TABLE_PEDOMETER
+																		+ "("
+																		+ KEY_PEDOMETER_DATE
+																		+ " TEXT,"
+																		+ KEY_PEDOMETER_STEP
+																		+ " INT,"
+																		+ KEY_PEDOMETER_DISTANCE
+																		+ " REAL"
 																		+ ")";
 
 	/* String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " +
@@ -87,12 +105,16 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		Log.i("EXECSQL", CREATE_FOOD_TABLE);
 		db.execSQL(CREATE_USER_MEAL_ENTRY_TABLE);
 		Log.i("EXECSQL", CREATE_USER_MEAL_ENTRY_TABLE);
+		db.execSQL(CREATE_PEDOMETER_TABLE);
+		Log.i("EXECSQL", CREATE_PEDOMETER_TABLE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_FOOD);
+		db.execSQL("DROP TABLE IF EXISTS" + TABLE_USER_MEAL_ENTRY);
+		db.execSQL("DROP TABLE IF EXISTS" + TABLE_PEDOMETER);
 	}
 
 	public void addFood(Food food)
@@ -161,7 +183,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		ContentValues values = new ContentValues();
 		// values.put(KEY_USER_ID, user.getUserID());
 		values.put(KEY_MEAL_TYPE, mealEntry.getMealType());
-		values.put(KEY_DATE, mealEntry.getDateStr());
+		values.put(KEY_MEAL_ENTRY_DATE, mealEntry.getDateStr());
 		values.put(KEY_TOTAL_CALORIE, mealEntry.getTotalCalorie());
 
 		// Store food using string separated by ","
@@ -207,13 +229,13 @@ public class DatabaseHandler extends SQLiteOpenHelper
 	{
 		SQLiteDatabase db = getReadableDatabase();
 
-		Cursor cursor = db.query(
-				TABLE_USER_MEAL_ENTRY,
-				new String[] { KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE,
-						KEY_SELECTED_FOOD, KEY_NUM_EACH_FOOD },
-				KEY_MEAL_TYPE + "=? AND " + KEY_DATE + "=?",
-				new String[] { String.valueOf(mealType),
-						String.valueOf(dateStr) }, null, null, null, null);
+		Cursor cursor = db
+				.query(TABLE_USER_MEAL_ENTRY, new String[] { KEY_MEAL_TYPE,
+						KEY_MEAL_ENTRY_DATE, KEY_TOTAL_CALORIE,
+						KEY_SELECTED_FOOD, KEY_NUM_EACH_FOOD }, KEY_MEAL_TYPE
+						+ "=? AND " + KEY_MEAL_ENTRY_DATE + "=?", new String[] {
+						String.valueOf(mealType), String.valueOf(dateStr) },
+						null, null, null, null);
 
 		MealEntry mealEntry = null;
 
@@ -358,10 +380,10 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String[] {
-				KEY_MEAL_TYPE, KEY_DATE, KEY_TOTAL_CALORIE, KEY_SELECTED_FOOD,
-				KEY_NUM_EACH_FOOD }, KEY_DATE + "=?",
-				new String[] { String.valueOf(dateStr) }, null, null, null,
-				null);
+				KEY_MEAL_TYPE, KEY_MEAL_ENTRY_DATE, KEY_TOTAL_CALORIE,
+				KEY_SELECTED_FOOD, KEY_NUM_EACH_FOOD }, KEY_MEAL_ENTRY_DATE
+				+ "=?", new String[] { String.valueOf(dateStr) }, null, null,
+				null, null);
 
 		if (cursor.moveToFirst())
 		{
@@ -428,7 +450,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_MEAL_TYPE, mealEntry.getMealType());
-		values.put(KEY_DATE, mealEntry.getDateStr());
+		values.put(KEY_MEAL_ENTRY_DATE, mealEntry.getDateStr());
 		values.put(KEY_TOTAL_CALORIE, mealEntry.getTotalCalorie());
 
 		String foodTitleStr = "";
@@ -459,12 +481,12 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		db.update(
 				TABLE_USER_MEAL_ENTRY,
 				values,
-				KEY_MEAL_TYPE + "=? AND " + KEY_DATE + "=?",
+				KEY_MEAL_TYPE + "=? AND " + KEY_MEAL_ENTRY_DATE + "=?",
 				new String[] { String.valueOf(mealEntry.getMealType()),
 						String.valueOf(mealEntry.getDateStr()) });
 
 		db.close();
-		Log.i("UPDATE: ", "UPDATE SUCCESS");
+		Log.i("UPDATE MEAL ENTRY: ", "UPDATE SUCCESS");
 	}
 
 	public void removeFoodFromMealEntry(MealEntry mealEntry,
@@ -474,7 +496,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_MEAL_TYPE, mealEntry.getMealType());
-		values.put(KEY_DATE, mealEntry.getDateStr());
+		values.put(KEY_MEAL_ENTRY_DATE, mealEntry.getDateStr());
 
 		ArrayList<Food> mealEntryFoodList = mealEntry.getFoodList();
 
@@ -526,11 +548,71 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		db.update(
 				TABLE_USER_MEAL_ENTRY,
 				values,
-				KEY_MEAL_TYPE + "=? AND " + KEY_DATE + "=?",
+				KEY_MEAL_TYPE + "=? AND " + KEY_MEAL_ENTRY_DATE + "=?",
 				new String[] { String.valueOf(mealEntry.getMealType()),
 						String.valueOf(mealEntry.getDateStr()) });
 
 		db.close();
-		Log.i("REMOVE: ", "REMOVE SUCCESS");
+		Log.i("REMOVE FOOD(MEAL ENTRY): ", "REMOVE SUCCESS");
+	}
+	
+	public void addPedometerState(Pedometer pedo)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		// values.put(KEY_USER_ID, user.getUserID());
+		values.put(KEY_PEDOMETER_DATE, pedo.getDateStr());
+		values.put(KEY_PEDOMETER_STEP, pedo.getStep());
+		values.put(KEY_PEDOMETER_DISTANCE, pedo.getDistance());
+
+		db.insert(TABLE_PEDOMETER, null, values);
+		db.close();
+	}
+	
+	public Pedometer getPedometerState(String dateStr)
+	{
+		SQLiteDatabase db = getReadableDatabase();
+
+		Cursor cursor = db.query(TABLE_PEDOMETER, new String[] { KEY_PEDOMETER_DATE,
+				KEY_PEDOMETER_STEP, KEY_PEDOMETER_DISTANCE },
+				KEY_PEDOMETER_DATE + "=?", new String[] { String.valueOf(dateStr) }, null,
+				null, null, null);
+
+		if (cursor != null)
+		{
+			cursor.moveToFirst();
+		}
+		
+		Pedometer pedo = null;
+
+		if (cursor.getCount() > 0)
+		{
+			pedo = new Pedometer(cursor.getString(0), cursor.getInt(1),
+					cursor.getDouble(2));
+		}
+		else
+			Log.i("(DB)PEDOMETER", "NOT FOUND");
+
+		return pedo;
+	}
+	
+	public void updatePedometerState(Pedometer pedo)
+	{
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_PEDOMETER_DATE, pedo.getDateStr());
+		values.put(KEY_PEDOMETER_STEP, pedo.getStep());
+		values.put(KEY_PEDOMETER_DISTANCE, pedo.getDistance());
+
+		db.update(
+				TABLE_PEDOMETER,
+				values,
+				KEY_PEDOMETER_DATE + "=?",
+				new String[] { String.valueOf(pedo.getDateStr()) });
+
+		db.close();
+		Log.i("UPDATE PEDOMETER STATE: ", "UPDATE SUCCESS");
 	}
 }

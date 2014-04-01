@@ -1,7 +1,9 @@
 package com.madmonkey.magnifitness;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 import android.content.ComponentName;
@@ -18,6 +20,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,7 @@ import com.madmonkey.magnifitness.service.StepDetector;
 import com.madmonkey.magnifitness.service.StepService;
 import com.madmonkey.magnifitness.util.DatabaseHandler;
 import com.madmonkey.magnifitness.util.MessageUtilities;
+import com.madmonkey.magnifitnessClass.Pedometer;
 
 public class PedometerFragment extends Fragment
 {
@@ -45,7 +49,7 @@ public class PedometerFragment extends Fragment
 	private static ToggleButton					startStopButton		= null;
 	private static ArrayList<String>			sensArrayList		= null;
 	private static ArrayAdapter<CharSequence>	modesAdapter		= null;
-	private static TextView						text				= null;
+	private static TextView						stepText			= null;
 
 	private static PowerManager					powerManager		= null;
 	private static WakeLock						wakeLock			= null;
@@ -56,8 +60,11 @@ public class PedometerFragment extends Fragment
 	private static int							sensitivity			= 100;
 	
 	int idx;
+	static int lastRecordedStep;
+	static int currentStep;
 	Spinner sensSpinner;
 	DatabaseHandler db;
+	Pedometer pedo;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -86,7 +93,31 @@ public class PedometerFragment extends Fragment
             //sensSpinner.setSelection(idx);
         }        
         
+        lastRecordedStep = 0;
+        currentStep = 0;
         
+        Calendar date = Calendar.getInstance();
+        DateFormatSymbols dfs = new DateFormatSymbols();
+		String [] months = dfs.getMonths();
+		String dateStr = "" + date.get(Calendar.DAY_OF_MONTH) + "th "
+				+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR);
+		
+		pedo = null;
+		
+		db = new DatabaseHandler(getActivity());
+		pedo = db.getPedometerState(dateStr);
+		
+		if(pedo != null)
+		{
+			lastRecordedStep = pedo.getStep();
+			currentStep = pedo.getStep();
+			Log.i("CURRENT STEP", currentStep + "");		
+		}
+		/*else
+		{
+			pedo = new Pedometer();
+			Log.i("PEDOMETER", "CREATE");
+		}*/
 	}
 
 	@Override
@@ -106,7 +137,8 @@ public class PedometerFragment extends Fragment
         sensSpinner.setAdapter(modesAdapter);
         sensSpinner.setSelection(idx);
 
-        text = (TextView) view.findViewById(R.id.stepTxt);
+        stepText = (TextView) view.findViewById(R.id.stepTxt);
+        stepText.setText("Steps = " + lastRecordedStep);
 		
 		return view;
 	}
@@ -266,8 +298,23 @@ public class PedometerFragment extends Fragment
     private void stop() {
         logger.info("stop");
 
+        if(pedo == null)
+        {
+        	pedo = new Pedometer();
+        	pedo.setStep(currentStep);
+        	db.addPedometerState(pedo);
+        	Log.i("PEDOMETER", "added");
+        }
+        else
+        {
+        	pedo.setStep(currentStep + lastRecordedStep);
+            Log.i("STOP STEP", currentStep + "");
+        	db.updatePedometerState(pedo);
+        }
+        
         unbindStepService();
         stopStepService();
+        
     }
 
     private void startStepService() {
@@ -305,8 +352,8 @@ public class PedometerFragment extends Fragment
     private static final Handler handler = new Handler() {
 
         public void handleMessage(Message msg) {
-            int current = msg.arg1;
-            text.setText("Steps = " + current);
+            currentStep = msg.arg1;
+            stepText.setText("Steps = " + (currentStep + lastRecordedStep));
         }
     };
 
