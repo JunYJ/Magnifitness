@@ -50,7 +50,7 @@ public class Home extends FragmentActivity
 	/** The {@link ViewPager} that will host the section contents. */
 	ViewPager				mViewPager;
 	MenuItem				logOut;
-	//MenuItem				Pedometer;
+	MenuItem				Reminder;
 	Session					s;
 	PackageManager			manager;
 	User					user;
@@ -98,6 +98,7 @@ public class Home extends FragmentActivity
 		// TODO Auto-generated method stub
 		logOut = menu.add(R.string.logOut)
 				.setIcon(R.drawable.com_facebook_icon);
+		Reminder = menu.add(R.string.Reminder);
 		//Pedometer = menu.add(R.string.Pedometer);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -150,14 +151,11 @@ public class Home extends FragmentActivity
 			s.closeAndClearTokenInformation();
 			return true;
 		}
-		/*else if(item.equals(Pedometer))
+		else if(item.equals(Reminder))
 		{
-			Toast.makeText(getApplicationContext(), "Pedometer", Toast.LENGTH_SHORT).show();
-			Log.i("PEDOMETER", "PEDOMETER");
-			//startActivity(new Intent(this, name.bagi.levente.pedometer.Pedometer.class));
-			//finish();
-			//startActivity(new Intent(this, Demo.class));
-		}*/
+			Toast.makeText(getApplicationContext(), "Reminder", Toast.LENGTH_SHORT).show();
+			startActivity(new Intent(this, ReminderActivity.class));
+		}
 
 		return super.onOptionsItemSelected(item);
 	}

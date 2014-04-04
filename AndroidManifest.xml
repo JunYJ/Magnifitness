@@ -1,59 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.madmonkey.magnifitness"
-	android:versionCode="1"
-	android:versionName="1.0" >
+    package="com.madmonkey.magnifitness"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-	<uses-sdk
-		android:minSdkVersion="16"
-		android:targetSdkVersion="19" />
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
 
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-	<application
-		android:allowBackup="true"
-		android:icon="@drawable/magnifitness_logo_96x96"
-		android:label="@string/app_name"
-		android:theme="@style/AppTheme" >
-		<activity
-			android:name="SplashScreen"
-			android:theme="@style/Theme.Transparent" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/magnifitness_logo_96x96"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="SplashScreen"
+            android:theme="@style/Theme.Transparent" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name="com.madmonkey.magnifitness.SetupUserDetails"
-			android:label="Setup User Details" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FacebookLogin"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name="com.madmonkey.magnifitness.Home"
-			android:label="@string/app_name" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.madmonkey.magnifitness.SetupUserDetails"
+            android:label="Setup User Details"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name=".FacebookLogin"
-			android:label="@string/app_name" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.madmonkey.magnifitness.Home"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-		<!-- <activity
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MealEntryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.madmonkey.magnifitness.util.Search"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReminderActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.StepService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":StepService" >
+        </service>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
+        <activity android:name="com.facebook.LoginActivity" >
+        </activity>
+
+        <!--
+        <activity
 			android:name=".Demo"
 			android:label="@string/app_name" >
 			<intent-filter>
@@ -61,15 +111,12 @@
 
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
-		</activity> -->
-		
-		<service android:name=".service.StepService"
-          		 android:enabled="true" 
-          		 android:exported="true"
-                 android:process=":StepService">
-        </service>
-        
-		<!--  <activity
+		</activity>
+        -->
+
+
+        <!--
+        <activity
 			android:name="name.bagi.levente.pedometer.Pedometer"
 			android:label="@string/app_name" >
 			<intent-filter>
@@ -87,34 +134,8 @@
 
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
-		</activity>-->
-
-		<meta-data
-			android:name="com.facebook.sdk.ApplicationId"
-			android:value="@string/app_id" />
-
-		<activity android:name="com.facebook.LoginActivity" >
-		</activity>
-		<activity
-			android:name=".MealEntryActivity"
-			android:label="@string/app_name" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-
-		<activity
-			android:name="com.madmonkey.magnifitness.util.Search"
-			android:label="@string/app_name"
-			android:windowSoftInputMode="stateHidden" >
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-
-				<category android:name="android.intent.category.DEFAULT" />
-			</intent-filter>
-		</activity>
-	</application>
+		</activity>
+        -->
+    </application>
 
 </manifest>

@@ -84,7 +84,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 																		+ KEY_PEDOMETER_STEP
 																		+ " INT,"
 																		+ KEY_PEDOMETER_DISTANCE
-																		+ " REAL"
+																		+ " INTEGER"
 																		+ ")";
 
 	/* String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " +
@@ -589,7 +589,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		if (cursor.getCount() > 0)
 		{
 			pedo = new Pedometer(cursor.getString(0), cursor.getInt(1),
-					cursor.getDouble(2));
+					cursor.getInt(2));
 		}
 		else
 			Log.i("(DB)PEDOMETER", "NOT FOUND");

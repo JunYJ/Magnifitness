@@ -12,6 +12,7 @@
     <string name="app_id">413484095438995</string>
     <string name="get_started">To get started, log in using Facebook</string>
     <string name="logOut">Log Out</string>
+    <string name="Reminder">Reminder</string>
     <string name="Pedometer">Pedometer</string>
     
     <string name="user_name">Name</string>
@@ -46,5 +47,11 @@
     <string name="sensitivity_hint">"Sensitivity"</string>
     <string name="distance_text">"Distance = 0"</string>
     <string name="step_text">"Steps = 0"</string>
+    <string name="step_length">"Step length (cm):"</string>
+    
+    <string name="Breakfast">Breakfast</string>
+    <string name="Lunch">Lunch</string>
+    <string name="Dinner">Dinner</string>
+    <string name="Snack">Snack</string>
 
 </resources>

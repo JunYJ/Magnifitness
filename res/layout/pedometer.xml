@@ -20,7 +20,7 @@
             android:paddingRight="2dip"
             android:paddingTop="2dip"
             android:text="@string/step_text"
-            android:textSize="20dip" >
+            android:textSize="20sp" >
         </TextView>
 
         <TextView
@@ -32,15 +32,16 @@
             android:paddingRight="2dip"
             android:paddingTop="2dip"
             android:text="@string/distance_text"
-            android:textSize="20dip" >
+            android:textSize="20sp" >
         </TextView>
 
         <TextView
             android:id="@+id/input_sensitivity_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="2dip"
             android:text="@string/sensitivity_text"
-            android:textSize="20dip" >
+            android:textSize="20sp" >
         </TextView>
 
         <Spinner
@@ -50,6 +51,24 @@
             android:hint="@string/sensitivity_hint"
             android:prompt="@string/sensitivity" >
         </Spinner>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dip"
+                android:text="@string/step_length"
+                android:textSize="20sp" />
+
+            <NumberPicker
+                android:id="@+id/stepLengthPicker"
+                android:layout_width="159dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

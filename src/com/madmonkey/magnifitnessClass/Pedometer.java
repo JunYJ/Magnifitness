@@ -6,14 +6,14 @@ import java.util.Calendar;
 public class Pedometer
 {
 	private int step;
-	private double distance;
+	private int distance;
 	private Calendar date;
 	private String dateStr;
 	
 	public Pedometer()
 	{
 		step = 0;
-		distance = 0.0;
+		distance = 0;
 		date = Calendar.getInstance();
 		
 		DateFormatSymbols dfs = new DateFormatSymbols();
@@ -23,7 +23,7 @@ public class Pedometer
 				+ months[(date.get(Calendar.MONTH))] + " " + date.get(Calendar.YEAR));
 	}
 	
-	public Pedometer(String dateStrIn, int stepIn, double distanceIn)
+	public Pedometer(String dateStrIn, int stepIn, int distanceIn)
 	{
 		step = stepIn;
 		distance = distanceIn;
@@ -34,7 +34,7 @@ public class Pedometer
 	{
 		return step;
 	}
-	public double getDistance()
+	public int getDistance()
 	{
 		return distance;
 	}
@@ -50,7 +50,7 @@ public class Pedometer
 	{
 		this.step = step;
 	}
-	public void setDistance(double distance)
+	public void setDistance(int distance)
 	{
 		this.distance = distance;
 	}

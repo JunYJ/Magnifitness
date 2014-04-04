@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
+import name.bagi.levente.pedometer.Pedometer;
+
+import com.madmonkey.magnifitness.Home;
 import com.madmonkey.magnifitness.R;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -179,8 +183,9 @@ public class StepService extends Service implements StepListener {
     }
 
     private void initNotification() {
-        notification = new Notification(R.drawable.icon, "Pedometer started.", System.currentTimeMillis());
+        notification = new Notification(R.drawable.pedo, "Pedometer started.", System.currentTimeMillis());
         notification.flags = Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+        
     }
 
     private void updateNotification(int steps) {
@@ -188,6 +193,8 @@ public class StepService extends Service implements StepListener {
 
         notification.number = steps;
         notification.when = System.currentTimeMillis();
+        passedIntent.setComponent(new ComponentName(this, Home.class));
+        passedIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, passedIntent, 0);
         notification.setLatestEventInfo(this, getText(R.string.app_name), "Total steps: " + steps, contentIntent);
         notificatioManager.notify(NOTIFY, notification);
@@ -289,6 +296,6 @@ public class StepService extends Service implements StepListener {
     @Override
     public IBinder onBind(Intent intent) {
         logger.info("onBind()");
-        return mBinder;
-    }
+		return mBinder;
+	}
 }
