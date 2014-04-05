@@ -6,9 +6,11 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/linearLayout2"
         android:orientation="vertical" >
 
         <Button
@@ -46,6 +48,61 @@
             android:layout_marginBottom="10dp"
             android:onClick="chooseMeal"
             android:text="@string/Dinner" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearLayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:text="Set Reminder"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/cancelBreakFastBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:onClick="cancelReminder"
+            android:text="Reset Breakfast" />
+
+        <Button
+            android:id="@+id/cancelLunchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:onClick="cancelReminder"
+            android:text="Reset Lunch" />
+
+        <Button
+            android:id="@+id/cancelSnackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:onClick="cancelReminder"
+            android:text="Reset Snack" />
+
+        <Button
+            android:id="@+id/cancelDinnerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:onClick="cancelReminder"
+            android:text="Reset Dinner" />
     </LinearLayout>
 
 </RelativeLayout>

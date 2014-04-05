@@ -70,8 +70,8 @@ public class PedometerFragment extends Fragment
 	static int									stepLength;
 	Spinner										sensSpinner;
 	static NumberPicker							stepLengthPicker;
-	DatabaseHandler								db;
-	Pedometer									pedo;
+	static DatabaseHandler						db;
+	static Pedometer							pedo;
 	static SharedPreferences					userSP;
 
 	@Override
@@ -136,6 +136,11 @@ public class PedometerFragment extends Fragment
 			// distance = pedo.getDistance();
 			Log.i("LAST RECORDED STEP", lastRecordedStep + "");
 			Log.i("LAST RECORDED DISTANCE", lastRecordedDistance + "");
+		}
+		else
+		{
+			pedo = new Pedometer();
+			db.addPedometerState(pedo);
 		}
 	}
 
@@ -372,24 +377,14 @@ public class PedometerFragment extends Fragment
 	{
 		logger.info("stop");
 
-		if (pedo == null)
-		{
-			pedo = new Pedometer();
-			pedo.setStep(currentStep);
-			pedo.setDistance(distance);
-			db.addPedometerState(pedo);
-			Log.i("PEDOMETER", "add");
-		}
-		else
-		{
-			pedo.setStep(currentStep + lastRecordedStep);
-			lastRecordedStep += currentStep;
-			pedo.setDistance(distance + lastRecordedDistance);
-			lastRecordedDistance += distance;
-			Log.i("PEDOMETER", "update");
-			db.updatePedometerState(pedo);
-		}
-		Log.i("STOP STEP", currentStep + "");
+		/* if (pedo == null) { pedo = new Pedometer();
+		 * pedo.setStep(currentStep); pedo.setDistance(distance);
+		 * db.addPedometerState(pedo); Log.i("PEDOMETER", "add"); } */
+		/* else { pedo.setStep(currentStep + lastRecordedStep); lastRecordedStep
+		 * += currentStep; pedo.setDistance(distance + lastRecordedDistance);
+		 * lastRecordedDistance += distance; Log.i("PEDOMETER", "update");
+		 * db.updatePedometerState(pedo); } */
+		// Log.i("STOP STEP", currentStep + "");
 		unbindStepService();
 		stopStepService();
 
@@ -460,11 +455,18 @@ public class PedometerFragment extends Fragment
 																						stepLength)
 																				.commit();
 
-																		// distanceText.setText(("Distance = "
-																		// +
-																		// (distance
-																		// +
-																		// lastRecordedDistance)));
+																		if (pedo != null)
+																		{
+																			pedo.setStep(currentStep
+																					+ lastRecordedStep);
+																			lastRecordedStep += currentStep;
+																			pedo.setDistance(distance
+																					+ lastRecordedDistance);
+																			lastRecordedDistance += distance;
+																			Log.i("PEDOMETER",
+																					"update");
+																			db.updatePedometerState(pedo);
+																		}
 
 																		if ((distance + lastRecordedDistance) >= 100
 																				&& (distance + lastRecordedDistance) < 100000)

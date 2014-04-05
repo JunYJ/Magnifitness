@@ -49,9 +49,9 @@
     <string name="step_text">"Steps = 0"</string>
     <string name="step_length">"Step length (cm):"</string>
     
-    <string name="Breakfast">Breakfast</string>
-    <string name="Lunch">Lunch</string>
-    <string name="Dinner">Dinner</string>
-    <string name="Snack">Snack</string>
+    <string name="Breakfast not set">Breakfast</string>
+    <string name="Lunch not set">Lunch</string>
+    <string name="Dinner not set">Dinner</string>
+    <string name="Snack not set">Snack</string>
 
 </resources>
