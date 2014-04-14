@@ -2,13 +2,17 @@ package com.madmonkey.magnifitness;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +29,7 @@ public class Task extends Fragment
 	TextView														taskToComplete;
 	ListView														listView;
 	ArrayList<Achievement>							achievementList;
+	AchievementAdapter aa;
 
 	protected static ProfilePictureView	profilePictureView;
 
@@ -47,7 +52,39 @@ public class Task extends Fragment
 		listView = (ListView) view.findViewById(R.id.list);
 		doAchievements();
 
-		
+		listView.setOnItemClickListener(new OnItemClickListener()
+			{
+
+				@Override
+				public void onItemClick(AdapterView<?> l, View v, int pos, long id)
+					{
+					final Achievement a = (Achievement) l.getAdapter().getItem(pos);
+
+					String text = a.getDescription();
+					String statusStr = "Status: " + (a.getStatus()? "Completed" : "Not Completed");
+					String rewardStr = "Reward: " + a.getReward();
+
+					AlertDialog.Builder adb = new Builder(getActivity());
+					adb.setTitle(a.getTitle());
+					adb.setIcon((a.getStatus() == Achievement.COMPLETED) ? R.drawable.achievenment_star_icon
+							: R.drawable.achievenment_star_icon_grey); //IF completed set icon to respective color
+					
+					adb.setMessage(text + "\n" + rewardStr + "\n" + statusStr);
+					adb.setPositiveButton("Complete it now", new DialogInterface.OnClickListener()
+						{
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which)
+								{
+									a.setCompleted();
+									aa.notifyDataSetChanged();
+									dialog.dismiss();
+								}
+						});
+					adb.show();
+					}
+			});
+
 		taskToComplete = (TextView) view.findViewById(R.id.taskToComplete);
 		taskToComplete.setText("Hi " + userSP.getString("name", "")
 				+ ", task to complete today!");
@@ -112,8 +149,9 @@ public class Task extends Fragment
 		achievementList.add(ca4);
 		achievementList.add(ca5);
 
-		AchievementAdapter aa = new AchievementAdapter(getActivity().getBaseContext(), achievementList);
 		
+		aa = new AchievementAdapter(getActivity().getBaseContext(), achievementList);
+
 		listView.setAdapter(aa);
 
 		}
