@@ -1,9 +1,7 @@
 package com.madmonkey.magnifitness.util;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -426,10 +424,10 @@ public class DatabaseHandler extends SQLiteOpenHelper
 						}
 					}
 				}
-				Log.i("(DB)MEAL TYPE: ", mealEntry.getMealType());
-				Log.i("(DB)FOOD LIST SIZE: ", foodList.size() + "");
-				Log.i("(DB)NUM_OF_EACH_FOOD_SPLIT_STR: ", numOfEachFoodSplitStr
-						+ "");
+				//Log.i("(DB)MEAL TYPE: ", mealEntry.getMealType());
+				//Log.i("(DB)FOOD LIST SIZE: ", foodList.size() + "");
+				//Log.i("(DB)NUM_OF_EACH_FOOD_SPLIT_STR: ", numOfEachFoodSplitStr
+				//		+ "");
 				for (int i = 0; i < foodList.size(); i++)
 				{
 					foodList.get(i).setNumOfEntry(
@@ -615,32 +613,4 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		db.close();
 		Log.i("UPDATE PEDOMETER STATE: ", "UPDATE SUCCESS");
 	}
-
-	public void getMealEntryOn(int day_of_week)
-	{
-
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM dd yyyy");
-		int weekNum = cal.get(Calendar.WEEK_OF_YEAR);
-
-		switch (day_of_week)
-		{
-			case Calendar.SUNDAY:
-
-				cal.get(Calendar.WEEK_OF_YEAR);
-				cal.set(Calendar.WEEK_OF_YEAR, 23);
-				cal.set(Calendar.DAY_OF_WEEK, day_of_week);
-				System.out.println(sdf.format(cal.getTime()));
-
-			case Calendar.MONDAY:
-			case Calendar.TUESDAY:
-			case Calendar.WEDNESDAY:
-			case Calendar.THURSDAY:
-			case Calendar.FRIDAY:
-			case Calendar.SATURDAY:
-
-		}
-
-	}
-
 }

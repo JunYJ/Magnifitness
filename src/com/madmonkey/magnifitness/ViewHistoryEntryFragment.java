@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ public class ViewHistoryEntryFragment extends Fragment
 	List<MealEntry>				mealListData;
 	ArrayList<GraphViewData>	calorieData;
 	DatabaseHandler				db;
+	SharedPreferences			userSP;
 
 	final static double			MON				= 1;
 	final static double			TUE				= 1.5;
@@ -47,7 +49,7 @@ public class ViewHistoryEntryFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
+		userSP = getActivity().getSharedPreferences(FacebookLogin.filename, 0);
 	}
 
 	@Override
@@ -168,21 +170,88 @@ public class ViewHistoryEntryFragment extends Fragment
 	@Override
 	public void onResume()
 	{
-
 		super.onResume();
+		
+		Calendar c = Calendar.getInstance();
+		DateFormatSymbols dfs = new DateFormatSymbols();
+		String[] months = dfs.getMonths();
+		String date = "";
+		if (c.get(Calendar.DAY_OF_MONTH) == 1
+				|| c.get(Calendar.DAY_OF_MONTH) == 11
+				|| c.get(Calendar.DAY_OF_MONTH) == 21
+				|| c.get(Calendar.DAY_OF_MONTH) == 31)
+		{
+			date = "" + c.get(Calendar.DAY_OF_MONTH) + "st "
+					+ months[(c.get(Calendar.MONTH))] + " "
+					+ c.get(Calendar.YEAR);
+		}
+		else if (c.get(Calendar.DAY_OF_MONTH) == 2
+				|| c.get(Calendar.DAY_OF_MONTH) == 12
+				|| c.get(Calendar.DAY_OF_MONTH) == 22)
+		{
+			date = "" + c.get(Calendar.DAY_OF_MONTH) + "nd "
+					+ months[(c.get(Calendar.MONTH))] + " "
+					+ c.get(Calendar.YEAR);
+		}
+		else if (c.get(Calendar.DAY_OF_MONTH) == 3
+				|| c.get(Calendar.DAY_OF_MONTH) == 13
+				|| c.get(Calendar.DAY_OF_MONTH) == 23)
+		{
+			date = "" + c.get(Calendar.DAY_OF_MONTH) + "rd "
+					+ months[(c.get(Calendar.MONTH))] + " "
+					+ c.get(Calendar.YEAR);
+		}
+		else
+		{
+			date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
+					+ months[(c.get(Calendar.MONTH))] + " "
+					+ c.get(Calendar.YEAR);
+		}
+
+		Log.i("DATE_STR", "" + c.get(Calendar.DAY_OF_WEEK));
+		mealListData = db.getTodayMealEntry(date);
+		
+		if (mealListData.isEmpty() || mealListData == null)
+		{
+
+			// Dummy Data
+			calorieValueSeries = new GraphViewSeries(new GraphViewData[] {
+					new GraphViewData(MON, 1700d),
+					new GraphViewData(TUE, getTodayCalorie()),
+					new GraphViewData(WED, 1550d),
+					new GraphViewData(THU, 1690d),
+					new GraphViewData(FRI, 2321d),
+					new GraphViewData(SAT, 1590d),
+					new GraphViewData(SUN, 1790d) });
+		}
+		else
+		{
+
+			calorieValueSeries = new GraphViewSeries(new GraphViewData[] {
+					new GraphViewData(MON, DEFAULT_ZERO),
+					new GraphViewData(TUE, getTodayCalorie()),
+					new GraphViewData(WED, DEFAULT_ZERO),
+					new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO),
+					new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
+		}
+		
+		
 	}
 
 	private double getTodayCalorie()
 	{
 
-		double counter = 0.0;
+		/*double counter = 0.0;
 
 		for (MealEntry me : mealListData)
 		{
 			counter += me.getTotalCalorie();
 		}
 
-		return counter;
+		return counter;*/
+		return Double.longBitsToDouble(userSP.getLong("todayConsumedCalorie", 0));
 	}
-
+	
 }

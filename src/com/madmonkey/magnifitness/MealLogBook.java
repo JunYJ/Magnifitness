@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -232,6 +233,52 @@ public class MealLogBook extends Fragment
 					// update progress bar
 					calorieProgressBar.setProgress((int) currentCalorie);
 				}
+				
+				Calendar c = Calendar.getInstance();
+				DateFormatSymbols dfs = new DateFormatSymbols();
+				String[] months = dfs.getMonths();
+				String date = "";
+				if (c.get(Calendar.DAY_OF_MONTH) == 1
+						|| c.get(Calendar.DAY_OF_MONTH) == 11
+						|| c.get(Calendar.DAY_OF_MONTH) == 21
+						|| c.get(Calendar.DAY_OF_MONTH) == 31)
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "st "
+							+ months[(c.get(Calendar.MONTH))] + " "
+							+ c.get(Calendar.YEAR);
+				}
+				else if (c.get(Calendar.DAY_OF_MONTH) == 2
+						|| c.get(Calendar.DAY_OF_MONTH) == 12
+						|| c.get(Calendar.DAY_OF_MONTH) == 22)
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "nd "
+							+ months[(c.get(Calendar.MONTH))] + " "
+							+ c.get(Calendar.YEAR);
+				}
+				else if (c.get(Calendar.DAY_OF_MONTH) == 3
+						|| c.get(Calendar.DAY_OF_MONTH) == 13
+						|| c.get(Calendar.DAY_OF_MONTH) == 23)
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "rd "
+							+ months[(c.get(Calendar.MONTH))] + " "
+							+ c.get(Calendar.YEAR);
+				}
+				else
+				{
+					date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
+							+ months[(c.get(Calendar.MONTH))] + " "
+							+ c.get(Calendar.YEAR);
+				}
+				
+				ArrayList<MealEntry> mealEntryList = (ArrayList<MealEntry>) db
+						.getTodayMealEntry(date);
+				double cal = 0.0;
+				for(int count = 0; count < mealEntryList.size(); count++)
+				{
+					cal += mealEntryList.get(count).getTotalCalorie();
+				}
+				userSP.edit().putLong("todayConsumedCalorie", Double.doubleToLongBits(cal)).commit();
+				//Log.i("TEST FOR HISTORY", "" + Double.longBitsToDouble(userSP.getLong("todayConsumedCalorie", 0)));
 			}
 		}
 	}

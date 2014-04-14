@@ -18,9 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,12 +32,11 @@ import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.widget.ProfilePictureView;
-import com.madmonkey.magnifitness.ViewHistoryEntryFragment.OnRefreshListener;
 import com.madmonkey.magnifitness.util.DatabaseHandler;
 import com.madmonkey.magnifitnessClass.MealEntry;
 import com.madmonkey.magnifitnessClass.User;
 
-public class Home extends FragmentActivity implements OnPageChangeListener
+public class Home extends FragmentActivity
 {
 
 	/** The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -184,6 +181,7 @@ public class Home extends FragmentActivity implements OnPageChangeListener
 			if (position == 0)
 			{
 				currentFragment = new Task();
+				Log.i("TASK", "TASK");
 			}
 
 			else if (position == 1)
@@ -533,39 +531,6 @@ public class Home extends FragmentActivity implements OnPageChangeListener
 		super.onBackPressed();
 
 		finish();
-	}
-
-	@Override
-	public void onPageScrollStateChanged(int arg0)
-	{
-		if (arg0 == 2)// View
-		{
-
-			Toast.makeText(getApplicationContext(), "HEY YO! OnPageSelected",
-					Toast.LENGTH_LONG).show();
-
-		}
-
-	}
-
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2)
-	{
-		if (arg0 == 2)// View
-		{
-
-			Toast.makeText(getApplicationContext(), "HEY YO! OnPageSelected",
-					Toast.LENGTH_LONG).show();
-
-		}
-	}
-
-	@Override
-	public void onPageSelected(int pos)
-	{
-
-		((OnRefreshListener) mSectionsPagerAdapter.getItem(pos)).onRefresh();
-
 	}
 
 }

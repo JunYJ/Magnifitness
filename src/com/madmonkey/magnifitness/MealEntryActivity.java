@@ -251,12 +251,12 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				
 				if(recordedMealEntry != null && foodRemoved == true)
 				{
+					db.removeFoodFromMealEntry(recordedMealEntry, foodToBeRemovedList);
 					returnIntent.putExtra("foodRemoved", foodRemoved);
 					setResult(RESULT_OK, returnIntent);
 					foodRemoved = false;
 				}
-				else
-				
+							
 				//Reset flag
 				newFoodAdded = false;
 				

@@ -78,7 +78,7 @@ public class PedometerFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setRetainInstance(true);
+		// setRetainInstance(true);
 		userSP = getActivity().getSharedPreferences(FacebookLogin.filename, 0);
 		powerManager = (PowerManager) getActivity().getSystemService(
 				Context.POWER_SERVICE);
@@ -383,10 +383,9 @@ public class PedometerFragment extends Fragment
 	private void stop()
 	{
 		logger.info("stop");
-		
+
 		unbindStepService();
 		stopStepService();
-
 	}
 
 	private void startStepService()
