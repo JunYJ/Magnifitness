@@ -65,12 +65,11 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/task_list"
         android:paddingTop="10dp"
-        tools:listitem="@android:layout/simple_list_item_2" >
+        tools:listitem="@layout/custom_achivement_list" >
     </ListView>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.madmonkey.magnifitnessClass;
 
-public class GeneralAchievement extends Achievement{
+
+public class GeneralAchievement extends Achievement {
 
 	public GeneralAchievement(String title, int reward, String description)
 		{

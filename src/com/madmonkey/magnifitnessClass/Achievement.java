@@ -10,6 +10,9 @@ public abstract class Achievement {
 	private int			reward;
 	private String		description;
 	
+	public final static boolean COMPLETED = true;
+	public final static boolean IMCOMPLETED = false;
+	
 	
 
 	public Achievement(String title, int reward, String description)
@@ -70,4 +73,10 @@ public abstract class Achievement {
 		this.description = description;
 		}
 
+	public void setCompleted() {
+		this.status = COMPLETED;
+		this.completedDate = Calendar.getInstance();
+	
+	}
+	
 }
