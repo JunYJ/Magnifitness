@@ -79,8 +79,7 @@ public class MealLogBook extends Fragment
 		double formatCalorie = currentCalorie;
 
 		// display updated calorie
-		TVcalorieValue
-				.setText(formatter.format(formatCalorie) + "");
+		TVcalorieValue.setText(formatter.format(formatCalorie) + "");
 
 		// Calories required/limit
 		TVcalorieCap = (TextView) rootView.findViewById(R.id.TVcalorieCap);
@@ -165,43 +164,55 @@ public class MealLogBook extends Fragment
 			{
 				// if new food is added into one of the meal entry
 				// update calorie consumed of the day
-				if (data.getBooleanExtra("newFoodAdded", false) == true || data.getBooleanExtra("foodRemoved", false) == true)
+				if (data.getBooleanExtra("newFoodAdded", false) == true
+						|| data.getBooleanExtra("foodRemoved", false) == true)
 				{
 					Calendar c = Calendar.getInstance();
 					DateFormatSymbols dfs = new DateFormatSymbols();
 					String[] months = dfs.getMonths();
 					String date = "";
-					if(c.get(Calendar.DAY_OF_MONTH) == 1 || c.get(Calendar.DAY_OF_MONTH) == 11 
-							|| c.get(Calendar.DAY_OF_MONTH) == 21 || c.get(Calendar.DAY_OF_MONTH) == 31)
+					if (c.get(Calendar.DAY_OF_MONTH) == 1
+							|| c.get(Calendar.DAY_OF_MONTH) == 11
+							|| c.get(Calendar.DAY_OF_MONTH) == 21
+							|| c.get(Calendar.DAY_OF_MONTH) == 31)
 					{
 						date = "" + c.get(Calendar.DAY_OF_MONTH) + "st "
-								+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+								+ months[(c.get(Calendar.MONTH))] + " "
+								+ c.get(Calendar.YEAR);
 					}
-					else if(c.get(Calendar.DAY_OF_MONTH) == 2 || c.get(Calendar.DAY_OF_MONTH) == 12 || c.get(Calendar.DAY_OF_MONTH) == 22)
+					else if (c.get(Calendar.DAY_OF_MONTH) == 2
+							|| c.get(Calendar.DAY_OF_MONTH) == 12
+							|| c.get(Calendar.DAY_OF_MONTH) == 22)
 					{
 						date = "" + c.get(Calendar.DAY_OF_MONTH) + "nd "
-								+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+								+ months[(c.get(Calendar.MONTH))] + " "
+								+ c.get(Calendar.YEAR);
 					}
-					else if(c.get(Calendar.DAY_OF_MONTH) == 3 || c.get(Calendar.DAY_OF_MONTH) == 13 || c.get(Calendar.DAY_OF_MONTH) == 23)
+					else if (c.get(Calendar.DAY_OF_MONTH) == 3
+							|| c.get(Calendar.DAY_OF_MONTH) == 13
+							|| c.get(Calendar.DAY_OF_MONTH) == 23)
 					{
 						date = "" + c.get(Calendar.DAY_OF_MONTH) + "rd "
-								+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+								+ months[(c.get(Calendar.MONTH))] + " "
+								+ c.get(Calendar.YEAR);
 					}
 					else
 					{
 						date = "" + c.get(Calendar.DAY_OF_MONTH) + "th "
-								+ months[(c.get(Calendar.MONTH))] + " " + c.get(Calendar.YEAR);
+								+ months[(c.get(Calendar.MONTH))] + " "
+								+ c.get(Calendar.YEAR);
 					}
 
 					ArrayList<MealEntry> mealEntryList = (ArrayList<MealEntry>) db
 							.getTodayMealEntry(date);
 
 					// get calorie of view
-					/*currentCalorie = Double.parseDouble(TVcalorieValue
-							.getText().toString());*/
+					/* currentCalorie = Double.parseDouble(TVcalorieValue
+					 * .getText().toString()); */
 
 					// (update/accumulate) current calorie
-					//currentCalorie += data.getDoubleExtra("totalCalorie", 0.0);
+					// currentCalorie += data.getDoubleExtra("totalCalorie",
+					// 0.0);
 
 					currentCalorie = 0.0;
 					for (int i = 0; i < mealEntryList.size(); i++)
