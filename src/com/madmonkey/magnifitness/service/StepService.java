@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
-import name.bagi.levente.pedometer.Pedometer;
-
 import com.madmonkey.magnifitness.Home;
 import com.madmonkey.magnifitness.R;
 

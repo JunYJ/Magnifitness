@@ -368,7 +368,14 @@ public class PedometerFragment extends Fragment
 	private void start()
 	{
 		logger.info("start");
-
+		Calendar date = Calendar.getInstance();
+		DateFormatSymbols dfs = new DateFormatSymbols();
+		String[] months = dfs.getMonths();
+		String dateStr = "" + date.get(Calendar.DAY_OF_MONTH) + "th "
+				+ months[(date.get(Calendar.MONTH))] + " "
+				+ date.get(Calendar.YEAR);
+		db = new DatabaseHandler(getActivity());
+		pedo = db.getPedometerState(dateStr);
 		startStepService();
 		bindStepService();
 	}
@@ -376,15 +383,7 @@ public class PedometerFragment extends Fragment
 	private void stop()
 	{
 		logger.info("stop");
-
-		/* if (pedo == null) { pedo = new Pedometer();
-		 * pedo.setStep(currentStep); pedo.setDistance(distance);
-		 * db.addPedometerState(pedo); Log.i("PEDOMETER", "add"); } */
-		/* else { pedo.setStep(currentStep + lastRecordedStep); lastRecordedStep
-		 * += currentStep; pedo.setDistance(distance + lastRecordedDistance);
-		 * lastRecordedDistance += distance; Log.i("PEDOMETER", "update");
-		 * db.updatePedometerState(pedo); } */
-		// Log.i("STOP STEP", currentStep + "");
+		
 		unbindStepService();
 		stopStepService();
 
@@ -445,6 +444,7 @@ public class PedometerFragment extends Fragment
 																			Message msg)
 																	{
 																		currentStep = msg.arg1;
+																		currentStep = 1;
 																		stepText.setText("Steps = "
 																				+ (currentStep + lastRecordedStep));
 																		distance = currentStep
