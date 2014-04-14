@@ -41,8 +41,10 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>
 		TextView achievementTV = (TextView) rowView.findViewById(R.id.achievementText);
 		ImageView star_icon = (ImageView) rowView.findViewById(R.id.achievementStar);
 
-		if(achievementList.get(position).getStatus())
+		if(achievementList.get(position).getStatus()) {
 			star_icon.setImageResource(R.drawable.achievenment_star_icon);
+			
+		}
 		
 		achievementTV.setText(achievementList.get(position).getTitle());
 		

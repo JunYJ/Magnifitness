@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.widget.ProfilePictureView;
@@ -28,8 +30,10 @@ public class Task extends Fragment
 	SharedPreferences										userSP;
 	TextView														taskToComplete;
 	ListView														listView;
+	ProgressBar													pb;
+	ImageView														lvIcon;
 	ArrayList<Achievement>							achievementList;
-	AchievementAdapter aa;
+	AchievementAdapter									aa;
 
 	protected static ProfilePictureView	profilePictureView;
 
@@ -50,6 +54,17 @@ public class Task extends Fragment
 		View view = inflater.inflate(R.layout.task, container, false);
 
 		listView = (ListView) view.findViewById(R.id.list);
+		lvIcon = (ImageView) view.findViewById(R.id.star);
+		pb = (ProgressBar) view.findViewById(R.id.progressBar1);
+		
+		
+		// NO EFFECT HERE...COZ FRAGMENT IS LOADED ON VIEWPAGER ... NO REFRESH
+		if (pb.getProgress() == 100)
+			{
+			pb.setProgress(0);
+			lvIcon.setImageResource(R.drawable.achievenment_star_icon);
+			}
+
 		doAchievements();
 
 		listView.setOnItemClickListener(new OnItemClickListener()
@@ -61,24 +76,28 @@ public class Task extends Fragment
 					final Achievement a = (Achievement) l.getAdapter().getItem(pos);
 
 					String text = a.getDescription();
-					String statusStr = "Status: " + (a.getStatus()? "Completed" : "Not Completed");
+
+					String statusStr = "Status: " + (a.getStatus() ? "Completed" : "Not Completed");
 					String rewardStr = "Reward: " + a.getReward();
 
 					AlertDialog.Builder adb = new Builder(getActivity());
 					adb.setTitle(a.getTitle());
 					adb.setIcon((a.getStatus() == Achievement.COMPLETED) ? R.drawable.achievenment_star_icon
-							: R.drawable.achievenment_star_icon_grey); //IF completed set icon to respective color
-					
-					adb.setMessage(text + "\n" + rewardStr + "\n" + statusStr);
+							: R.drawable.achievenment_star_icon_grey); // IF completed set icon to respective
+																													// color
+
+					adb.setMessage(text + "\n\n" + rewardStr + "\n" + statusStr);
 					adb.setPositiveButton("Complete it now", new DialogInterface.OnClickListener()
 						{
-							
+
 							@Override
 							public void onClick(DialogInterface dialog, int which)
 								{
-									a.setCompleted();
-									aa.notifyDataSetChanged();
-									dialog.dismiss();
+								a.setCompleted();
+								aa.notifyDataSetChanged();
+
+								dialog.dismiss();
+								pb.incrementProgressBy(a.getReward());
 								}
 						});
 					adb.show();
@@ -149,7 +168,6 @@ public class Task extends Fragment
 		achievementList.add(ca4);
 		achievementList.add(ca5);
 
-		
 		aa = new AchievementAdapter(getActivity().getBaseContext(), achievementList);
 
 		listView.setAdapter(aa);
