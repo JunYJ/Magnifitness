@@ -73,6 +73,8 @@ public class PedometerFragment extends Fragment
 	static DatabaseHandler						db;
 	static Pedometer							pedo;
 	static SharedPreferences					userSP;
+	static int 									tempStep;
+	static int 									tempDistance;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -84,7 +86,8 @@ public class PedometerFragment extends Fragment
 				Context.POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
 				"Pedometer");
-
+		tempStep = 0;
+		tempDistance = 0;
 		if (stepServiceIntent == null)
 		{
 			Bundle extras = new Bundle();
@@ -368,16 +371,25 @@ public class PedometerFragment extends Fragment
 	private void start()
 	{
 		logger.info("start");
-		Calendar date = Calendar.getInstance();
+		/*Calendar date = Calendar.getInstance();
 		DateFormatSymbols dfs = new DateFormatSymbols();
 		String[] months = dfs.getMonths();
 		String dateStr = "" + date.get(Calendar.DAY_OF_MONTH) + "th "
 				+ months[(date.get(Calendar.MONTH))] + " "
-				+ date.get(Calendar.YEAR);
-		db = new DatabaseHandler(getActivity());
-		pedo = db.getPedometerState(dateStr);
+				+ date.get(Calendar.YEAR);*/
+		//db = new DatabaseHandler(getActivity());
+		//pedo = db.getPedometerState(dateStr);
 		startStepService();
 		bindStepService();
+		if (pedo != null)
+		{
+			lastRecordedStep = pedo.getStep();
+			// currentStep = pedo.getStep();
+			lastRecordedDistance = pedo.getDistance();
+			// distance = pedo.getDistance();
+			Log.i("LAST RECORDED STEP (Start)", lastRecordedStep + "");
+			Log.i("LAST RECORDED DISTANCE(Start)", lastRecordedDistance + "");
+		}
 	}
 
 	private void stop()
@@ -443,9 +455,34 @@ public class PedometerFragment extends Fragment
 																			Message msg)
 																	{
 																		currentStep = msg.arg1;
-																		currentStep = 1;
+																		
+																		/*tempStep = currentStep + lastRecordedStep;
 																		stepText.setText("Steps = "
-																				+ (currentStep + lastRecordedStep));
+																				+ tempStep);
+																		tempDistance = currentStep * stepLength + lastRecordedDistance;
+																		distanceText.setText("Distance = "
+																				+ currentStep * stepLength);
+																		Log.i("STEP", lastRecordedStep + "");
+																		Log.i("DISTANCE", lastRecordedDistance + "");
+																		if (pedo != null)
+																		{
+																			pedo.setStep(tempStep);
+																			
+																			pedo.setDistance(tempDistance);
+																			
+																			Log.i("PEDOMETER",
+																					"update");
+																			db.updatePedometerState(pedo);
+																			Log.i("update STEP", lastRecordedStep + "");
+																			Log.i("update DISTANCE", lastRecordedDistance + "");
+																		}*/
+																		
+																		//currentStep = 1;
+																		tempStep = currentStep + lastRecordedStep;
+																		tempDistance = currentStep * stepLength + lastRecordedDistance;
+																		
+																		stepText.setText("Steps = "
+																				+ tempStep);
 																		distance = currentStep
 																				* stepLengthPicker
 																						.getValue();
@@ -456,31 +493,29 @@ public class PedometerFragment extends Fragment
 
 																		if (pedo != null)
 																		{
-																			pedo.setStep(currentStep
-																					+ lastRecordedStep);
-																			lastRecordedStep += currentStep;
-																			pedo.setDistance(distance
-																					+ lastRecordedDistance);
-																			lastRecordedDistance += distance;
+																			pedo.setStep(tempStep);
+																			//lastRecordedStep += currentStep;
+																			pedo.setDistance(tempDistance);
+																			//lastRecordedDistance += distance;
 																			Log.i("PEDOMETER",
 																					"update");
 																			db.updatePedometerState(pedo);
 																		}
 
-																		if ((distance + lastRecordedDistance) >= 100
-																				&& (distance + lastRecordedDistance) < 100000)
+																		if ((tempDistance) >= 100
+																				&& (tempDistance) < 100000)
 																		{
 																			distanceText
 																					.setText("Distance = "
-																							+ ((distance + lastRecordedDistance) / 100)
+																							+ ((tempDistance) / 100)
 																							+ "m "
-																							+ ((distance + lastRecordedDistance) % 100)
+																							+ ((tempDistance) % 100)
 																							+ "cm");
 																		}
-																		else if ((distance + lastRecordedDistance) >= 100000)
+																		else if ((tempDistance) >= 100000)
 																		{
-																			int m = (distance + lastRecordedDistance) / 100;
-																			int cm = (distance + lastRecordedDistance) % 100;
+																			int m = (tempDistance) / 100;
+																			int cm = (tempDistance) % 100;
 																			int km = m / 1000;
 																			distanceText
 																					.setText("Distance = "
@@ -494,7 +529,7 @@ public class PedometerFragment extends Fragment
 																		else
 																			distanceText
 																					.setText("Distance = "
-																							+ (distance + lastRecordedDistance)
+																							+ (tempDistance)
 																							+ "cm");
 
 																	}

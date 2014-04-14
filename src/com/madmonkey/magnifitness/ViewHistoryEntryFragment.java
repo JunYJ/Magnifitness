@@ -108,17 +108,17 @@ public class ViewHistoryEntryFragment extends Fragment
 			calorieValueSeries = new GraphViewSeries(new GraphViewData[] {
 					new GraphViewData(MON, 1700d),
 					new GraphViewData(TUE, getTodayCalorie()),
-					new GraphViewData(WED, 1550d),
-					new GraphViewData(THU, 1690d),
-					new GraphViewData(FRI, 2321d),
-					new GraphViewData(SAT, 1590d),
-					new GraphViewData(SUN, 1790d) });
+					new GraphViewData(WED, DEFAULT_ZERO),
+					new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO),
+					new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
 		}
 		else
 		{
 
 			calorieValueSeries = new GraphViewSeries(new GraphViewData[] {
-					new GraphViewData(MON, DEFAULT_ZERO),
+					new GraphViewData(MON, 1700d),
 					new GraphViewData(TUE, getTodayCalorie()),
 					new GraphViewData(WED, DEFAULT_ZERO),
 					new GraphViewData(THU, DEFAULT_ZERO),
@@ -151,12 +151,12 @@ public class ViewHistoryEntryFragment extends Fragment
 
 		calorieValueSeries.getStyle().color = Color.RED;
 		calorieValueSeries.getStyle().thickness = 5;
-		// pedoValueSeries.getStyle().color = Color.BLUE;
-		// pedoValueSeries.getStyle().thickness = 5;
+		pedoValueSeries.getStyle().color = Color.BLUE;
+		pedoValueSeries.getStyle().thickness = 5;
 		graphView.addSeries(calorieValueSeries);
-		// graphView.addSeries(pedoValueSeries);
+		graphView.addSeries(pedoValueSeries);
 
-		// graphView.setViewPort(2, 10);
+		//graphView.setViewPort(2, 10);
 		graphView.setScalable(true);
 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
@@ -216,17 +216,17 @@ public class ViewHistoryEntryFragment extends Fragment
 			calorieValueSeries = new GraphViewSeries(new GraphViewData[] {
 					new GraphViewData(MON, 1700d),
 					new GraphViewData(TUE, getTodayCalorie()),
-					new GraphViewData(WED, 1550d),
-					new GraphViewData(THU, 1690d),
-					new GraphViewData(FRI, 2321d),
-					new GraphViewData(SAT, 1590d),
-					new GraphViewData(SUN, 1790d) });
+					new GraphViewData(WED, DEFAULT_ZERO),
+					new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO),
+					new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
 		}
 		else
 		{
 
 			calorieValueSeries = new GraphViewSeries(new GraphViewData[] {
-					new GraphViewData(MON, DEFAULT_ZERO),
+					new GraphViewData(MON, 1700d),
 					new GraphViewData(TUE, getTodayCalorie()),
 					new GraphViewData(WED, DEFAULT_ZERO),
 					new GraphViewData(THU, DEFAULT_ZERO),
