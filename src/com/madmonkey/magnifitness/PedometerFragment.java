@@ -250,8 +250,28 @@ public class PedometerFragment extends Fragment
 																	.valueOf(seq);
 															if (sensString != null)
 															{
-																sensitivity = Integer
-																		.parseInt(sensString);
+																if(sensString.equalsIgnoreCase("Lowest"))
+																{
+																	sensitivity = 50;
+																}
+																else if(sensString.equalsIgnoreCase("Low"))
+																{
+																	sensitivity = 80;
+																}
+																else if(sensString.equalsIgnoreCase("Medium"))
+																{
+																	sensitivity = 100;
+																}
+																else if(sensString.equalsIgnoreCase("High"))
+																{
+																	sensitivity = 200;
+																}
+																else if(sensString.equalsIgnoreCase("Highest"))
+																{
+																	sensitivity = 250;
+																}
+																/*sensitivity = Integer
+																		.parseInt(sensString);*/
 																StepDetector
 																		.setSensitivity(sensitivity);
 																userSP.edit()

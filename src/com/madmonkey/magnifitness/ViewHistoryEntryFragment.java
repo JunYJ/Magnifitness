@@ -20,6 +20,7 @@ import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
 import com.madmonkey.magnifitness.util.DatabaseHandler;
 import com.madmonkey.magnifitnessClass.MealEntry;
+import com.madmonkey.magnifitnessClass.Pedometer;
 
 public class ViewHistoryEntryFragment extends Fragment
 {
@@ -35,6 +36,7 @@ public class ViewHistoryEntryFragment extends Fragment
 	ArrayList<GraphViewData>	calorieData;
 	DatabaseHandler				db;
 	SharedPreferences			userSP;
+	Pedometer					pedo;
 
 	final static double			MON				= 1;
 	final static double			TUE				= 1.5;
@@ -50,6 +52,7 @@ public class ViewHistoryEntryFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 		userSP = getActivity().getSharedPreferences(FacebookLogin.filename, 0);
+		
 	}
 
 	@Override
@@ -99,7 +102,8 @@ public class ViewHistoryEntryFragment extends Fragment
 		}
 
 		mealListData = db.getTodayMealEntry(date);
-
+		pedo = db.getPedometerState(date);
+		
 		GraphViewData gvd;
 		if (mealListData.isEmpty() || mealListData == null)
 		{
@@ -127,13 +131,28 @@ public class ViewHistoryEntryFragment extends Fragment
 					new GraphViewData(SUN, DEFAULT_ZERO) });
 		}
 
-		pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
-				new GraphViewData(MON, 2700d), new GraphViewData(TUE, 4050d),
-				new GraphViewData(WED, 4000d), new GraphViewData(THU, 6000d),
-				new GraphViewData(FRI, 3000d), new GraphViewData(SAT, 1050d),
-				new GraphViewData(SUN, 5500d) });
+		if(pedo != null)
+		{
+			double step = pedo.getStep();
+			
+			pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
+					new GraphViewData(MON, 2700d), new GraphViewData(TUE, step),
+					new GraphViewData(WED, DEFAULT_ZERO), new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
+		}
+		else
+		{
+			double step = pedo.getStep();
+			pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
+					new GraphViewData(MON, 2700d), new GraphViewData(TUE, step),
+					new GraphViewData(WED, DEFAULT_ZERO), new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
+		}
+		
 
-		graphView = new LineGraphView(getActivity(), "Weekly Calorie Intake");
+		graphView = new LineGraphView(getActivity(), "Weekly Calorie Intake & Step count");
 
 		graphView.setDrawDataPoints(true);
 		graphView.setDataPointsRadius(15f);
@@ -235,7 +254,25 @@ public class ViewHistoryEntryFragment extends Fragment
 					new GraphViewData(SUN, DEFAULT_ZERO) });
 		}
 		
-		
+		if(pedo != null)
+		{
+			double step = pedo.getStep();
+			
+			pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
+					new GraphViewData(MON, 2700d), new GraphViewData(TUE, step),
+					new GraphViewData(WED, DEFAULT_ZERO), new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
+		}
+		else
+		{
+			double step = pedo.getStep();
+			pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
+					new GraphViewData(MON, 2700d), new GraphViewData(TUE, step),
+					new GraphViewData(WED, DEFAULT_ZERO), new GraphViewData(THU, DEFAULT_ZERO),
+					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
+					new GraphViewData(SUN, DEFAULT_ZERO) });
+		}
 	}
 
 	private double getTodayCalorie()
