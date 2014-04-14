@@ -78,7 +78,7 @@ public class Task extends Fragment
 					String text = a.getDescription();
 
 					String statusStr = "Status: " + (a.getStatus() ? "Completed" : "Not Completed");
-					String rewardStr = "Reward: " + a.getReward();
+					String rewardStr = "Reward: " + a.getReward() + "XP ";
 
 					AlertDialog.Builder adb = new Builder(getActivity());
 					adb.setTitle(a.getTitle());
