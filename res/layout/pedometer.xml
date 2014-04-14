@@ -41,7 +41,8 @@
             android:layout_height="wrap_content"
             android:paddingLeft="2dip"
             android:text="@string/sensitivity_text"
-            android:textSize="20sp" >
+            android:textSize="20sp"
+            android:clickable="true" >
         </TextView>
 
         <Spinner
