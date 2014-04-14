@@ -24,7 +24,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -34,7 +33,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.madmonkey.magnifitness.service.IStepService;
@@ -55,7 +53,6 @@ public class PedometerFragment extends Fragment
 	private static ArrayAdapter<CharSequence>	modesAdapter		= null;
 	private static TextView						stepText			= null;
 	private static TextView						distanceText		= null;
-	private static TextView						sensitivityText;
 
 	private static PowerManager					powerManager		= null;
 	private static WakeLock						wakeLock			= null;
@@ -197,8 +194,6 @@ public class PedometerFragment extends Fragment
 		else
 			distanceText.setText("Distance = " + lastRecordedDistance + "cm");
 
-		sensitivityText = (TextView) view.findViewById(R.id.input_sensitivity_text);
-		sensitivityText.setOnClickListener(clickListener);
 		return view;
 	}
 
@@ -309,17 +304,6 @@ public class PedometerFragment extends Fragment
 	{
 		super.onConfigurationChanged(newConfig);
 	}
-	
-	private OnClickListener clickListener = new OnClickListener()
-	{
-
-		@Override
-		public void onClick(View v)
-		{
-			Toast.makeText(getActivity(), "100 (Recommended)\nLower = More Sensitive\nHigher = Less Sensitive", Toast.LENGTH_LONG).show();
-		}
-	
-	};
 
 	private OnCheckedChangeListener							startStopListener	= new OnCheckedChangeListener() {
 
