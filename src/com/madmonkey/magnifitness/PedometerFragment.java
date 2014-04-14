@@ -33,6 +33,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.madmonkey.magnifitness.service.IStepService;
@@ -253,7 +254,10 @@ public class PedometerFragment extends Fragment
 																		.putInt("sensitivity",
 																				sensitivity)
 																		.commit();
+																Log.i("SENSITIVITY", "" + sensitivity);
+																Toast.makeText(getActivity(), "Sensitivity:\n100 (Recommended)\nLower = More Sensitive\nHigher=Less Sensitive", Toast.LENGTH_LONG).show();
 															}
+															
 														}
 
 														/** {@inheritDoc} */
@@ -478,6 +482,7 @@ public class PedometerFragment extends Fragment
 																		}*/
 																		
 																		//currentStep = 1;
+																		stepLength = stepLengthPicker.getValue();
 																		tempStep = currentStep + lastRecordedStep;
 																		tempDistance = currentStep * stepLength + lastRecordedDistance;
 																		
