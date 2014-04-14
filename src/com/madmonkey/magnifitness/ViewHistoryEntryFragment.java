@@ -98,7 +98,6 @@ public class ViewHistoryEntryFragment extends Fragment
 					+ c.get(Calendar.YEAR);
 		}
 
-		Log.i("DATE_STR", "" + c.get(Calendar.DAY_OF_WEEK));
 		mealListData = db.getTodayMealEntry(date);
 
 		GraphViewData gvd;
@@ -208,7 +207,6 @@ public class ViewHistoryEntryFragment extends Fragment
 					+ c.get(Calendar.YEAR);
 		}
 
-		Log.i("DATE_STR", "" + c.get(Calendar.DAY_OF_WEEK));
 		mealListData = db.getTodayMealEntry(date);
 		
 		if (mealListData.isEmpty() || mealListData == null)
@@ -242,15 +240,6 @@ public class ViewHistoryEntryFragment extends Fragment
 
 	private double getTodayCalorie()
 	{
-
-		/*double counter = 0.0;
-
-		for (MealEntry me : mealListData)
-		{
-			counter += me.getTotalCalorie();
-		}
-
-		return counter;*/
 		return Double.longBitsToDouble(userSP.getLong("todayConsumedCalorie", 0));
 	}
 	

@@ -396,7 +396,7 @@ public class FacebookLogin extends FragmentActivity
 	{
 		if (item.equals(logOut))
 		{
-			showFragment(SETTINGS, false);
+			showFragment(SETTINGS, true);
 
 			return true;
 		}

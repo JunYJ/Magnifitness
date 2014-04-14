@@ -178,6 +178,7 @@ public class Home extends FragmentActivity
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
 			currentFragment = new Fragment();
+			
 			if (position == 0)
 			{
 				currentFragment = new Task();
@@ -252,7 +253,6 @@ public class Home extends FragmentActivity
 			else if (position == 2)
 			{
 				currentFragment = new ViewHistoryEntryFragment();
-
 			}
 
 			else if (position == 3)
