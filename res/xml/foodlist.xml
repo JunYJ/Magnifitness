@@ -170,7 +170,7 @@
 		</Food>
 
 		<Food>
-			<Title>Chicken Rice</Title>
+			<Title>Hai Nan Chicken Rice</Title>
 			<MeasurementUnit>Plate</MeasurementUnit>
 			<Calorie>328.00</Calorie>
 			<Type>Chicken, Butter Rice</Type>
@@ -218,6 +218,39 @@
 			<Calorie>140.75</Calorie>
 			<Type>Drinks</Type>
 		</Food>
+
+		<Food>
+			<Title>Nasi Goreng</Title>
+			<MeasurementUnit>Plate</MeasurementUnit>
+			<Calorie>140.75</Calorie>
+			<Type>Rice</Type>
+		</Food>
+		<Food>
+			<Title>Nasi Goreng Ayam</Title>
+			<MeasurementUnit>Plate</MeasurementUnit>
+			<Calorie>140.75</Calorie>
+			<Type>Mamak, Fried Chicken, Rice</Type>
+		</Food>
+		<Food>
+			<Title>Nasi Ayam</Title>
+			<MeasurementUnit>Plate</MeasurementUnit>
+			<Calorie>277.2</Calorie>
+			<Type>Mamak, Roasted Chicken, Rice</Type>
+		</Food>
+		<Food>
+			<Title>Nasi Dagang</Title>
+			<MeasurementUnit>Plate</MeasurementUnit>
+			<Calorie>508.7</Calorie>
+			<Type>Rice, Coconut, Fish Curry, Eggs</Type>
+		</Food>
+
+		<Food>
+			<Title>Nasi Briyani with Mutton</Title>
+			<MeasurementUnit>Plate</MeasurementUnit>
+			<Calorie>695.4</Calorie>
+			<Type>Mamak, Rice, Lamb</Type>
+		</Food>
+
 	</item>
 
 </menu>

@@ -104,7 +104,6 @@ public class Search extends FragmentActivity
 			{
 				adapter.getFilter().filter(s);
 			}
-
 		});
 	}
 

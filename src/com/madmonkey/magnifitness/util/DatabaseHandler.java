@@ -1,7 +1,9 @@
 package com.madmonkey.magnifitness.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -18,107 +20,108 @@ import com.madmonkey.magnifitnessClass.Pedometer;
 public class DatabaseHandler extends SQLiteOpenHelper
 {
 	// Database Version
-	private static final int	DATABASE_VERSION				= 1;
+	private static final int		DATABASE_VERSION							= 1;
 
 	// Database Name
-	private static final String	DATABASE_NAME					= "MagnifitnessDB";
+	private static final String	DATABASE_NAME									= "MagnifitnessDB";
 
 	// Table Names
-	private static final String	TABLE_FOOD						= "food";
-	private static final String	TABLE_USER_MEAL_ENTRY			= "userMealEntry";
-	private static final String	TABLE_PEDOMETER					= "pedometer";
+	private static final String	TABLE_FOOD										= "food";
+	private static final String	TABLE_USER_MEAL_ENTRY					= "userMealEntry";
+	private static final String	TABLE_PEDOMETER								= "pedometer";
 
 	// Column Names
 
 	// FOOD
-	private static final String	KEY_TITLE						= "title";
-	private static final String	KEY_MEASUREMENT_UNIT			= "measurementUnit";
-	private static final String	KEY_CALORIE						= "calorie";
-	private static final String	KEY_TYPE						= "type";
+	private static final String	KEY_TITLE											= "title";
+	private static final String	KEY_MEASUREMENT_UNIT					= "measurementUnit";
+	private static final String	KEY_CALORIE										= "calorie";
+	private static final String	KEY_TYPE											= "type";
 
 	// MEAL ENTRY
-	private static final String	KEY_MEAL_TYPE					= "mealType";
-	private static final String	KEY_MEAL_ENTRY_DATE				= "mealEntryDate";
-	private static final String	KEY_TOTAL_CALORIE				= "totalCalorie";
-	private static final String	KEY_SELECTED_FOOD				= "selectedFood";
-	private static final String	KEY_NUM_EACH_FOOD				= "numOfEachFood";
+	private static final String	KEY_MEAL_TYPE									= "mealType";
+	private static final String	KEY_MEAL_ENTRY_DATE						= "mealEntryDate";
+	private static final String	KEY_TOTAL_CALORIE							= "totalCalorie";
+	private static final String	KEY_SELECTED_FOOD							= "selectedFood";
+	private static final String	KEY_NUM_EACH_FOOD							= "numOfEachFood";
 
 	// PEDOMETER
-	private static final String	KEY_PEDOMETER_DATE				= "pedometerDate";
-	private static final String	KEY_PEDOMETER_STEP				= "pedometerStep";
-	private static final String	KEY_PEDOMETER_DISTANCE			= "pedometerDistance";
+	private static final String	KEY_PEDOMETER_DATE						= "pedometerDate";
+	private static final String	KEY_PEDOMETER_STEP						= "pedometerStep";
+	private static final String	KEY_PEDOMETER_DISTANCE				= "pedometerDistance";
 
-	String						CREATE_FOOD_TABLE				= "CREATE TABLE "
-																		+ TABLE_FOOD
-																		+ "("
-																		+ KEY_TITLE
-																		+ " TEXT PRIMARY KEY,"
-																		+ KEY_MEASUREMENT_UNIT
-																		+ " TEXT NOT NULL,"
-																		+ KEY_CALORIE
-																		+ " REAL NOT NULL,"
-																		+ KEY_TYPE
-																		+ " TEXT"
-																		+ ")";
+	String											CREATE_FOOD_TABLE							= "CREATE TABLE "
+																																+ TABLE_FOOD
+																																+ "("
+																																+ KEY_TITLE
+																																+ " TEXT PRIMARY KEY,"
+																																+ KEY_MEASUREMENT_UNIT
+																																+ " TEXT NOT NULL,"
+																																+ KEY_CALORIE
+																																+ " REAL NOT NULL,"
+																																+ KEY_TYPE
+																																+ " TEXT"
+																																+ ")";
 
-	String						CREATE_USER_MEAL_ENTRY_TABLE	= "CREATE TABLE "
-																		+ TABLE_USER_MEAL_ENTRY
-																		+ "("
-																		+ KEY_MEAL_TYPE
-																		+ " TEXT NOT NULL,"
-																		+ KEY_MEAL_ENTRY_DATE
-																		+ " TEXT NOT NULL,"
-																		+ KEY_TOTAL_CALORIE
-																		+ " REAL NOT NULL,"
-																		+ KEY_SELECTED_FOOD
-																		+ " TEXT,"
-																		+ KEY_NUM_EACH_FOOD
-																		+ " TEXT"
-																		+ ")";
+	String											CREATE_USER_MEAL_ENTRY_TABLE	= "CREATE TABLE "
+																																+ TABLE_USER_MEAL_ENTRY
+																																+ "("
+																																+ KEY_MEAL_TYPE
+																																+ " TEXT NOT NULL,"
+																																+ KEY_MEAL_ENTRY_DATE
+																																+ " TEXT NOT NULL,"
+																																+ KEY_TOTAL_CALORIE
+																																+ " REAL NOT NULL,"
+																																+ KEY_SELECTED_FOOD
+																																+ " TEXT,"
+																																+ KEY_NUM_EACH_FOOD
+																																+ " TEXT"
+																																+ ")";
 
-	String						CREATE_PEDOMETER_TABLE			= "CREATE TABLE "
-																		+ TABLE_PEDOMETER
-																		+ "("
-																		+ KEY_PEDOMETER_DATE
-																		+ " TEXT,"
-																		+ KEY_PEDOMETER_STEP
-																		+ " INT,"
-																		+ KEY_PEDOMETER_DISTANCE
-																		+ " INTEGER"
-																		+ ")";
+	String											CREATE_PEDOMETER_TABLE				= "CREATE TABLE "
+																																+ TABLE_PEDOMETER
+																																+ "("
+																																+ KEY_PEDOMETER_DATE
+																																+ " TEXT,"
+																																+ KEY_PEDOMETER_STEP
+																																+ " INT,"
+																																+ KEY_PEDOMETER_DISTANCE
+																																+ " INTEGER"
+																																+ ")";
 
-	/* String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " +
-	 * TABLE_USER_MEAL_ENTRY + "(" + KEY_MEAL_TYPE + " TEXT NOT NULL," +
-	 * KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE + " REAL NOT NULL," +
-	 * KEY_SELECTED_FOOD + " TEXT," + " FOREIGN KEY (" + KEY_SELECTED_FOOD +
-	 * ") REFERENCES " + TABLE_FOOD + " (" + KEY_TITLE + "))"; */
+	/*
+	 * String CREATE_USER_MEAL_ENTRY_TABLE = "CREATE TABLE " + TABLE_USER_MEAL_ENTRY + "(" +
+	 * KEY_MEAL_TYPE + " TEXT NOT NULL," + KEY_DATE + " TEXT NOT NULL," + KEY_TOTAL_CALORIE +
+	 * " REAL NOT NULL," + KEY_SELECTED_FOOD + " TEXT," + " FOREIGN KEY (" + KEY_SELECTED_FOOD +
+	 * ") REFERENCES " + TABLE_FOOD + " (" + KEY_TITLE + "))";
+	 */
 
 	public DatabaseHandler(Context context)
-	{
+		{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-	}
+		}
 
 	@Override
 	public void onCreate(SQLiteDatabase db)
-	{
+		{
 		db.execSQL(CREATE_FOOD_TABLE);
 		Log.i("EXECSQL", CREATE_FOOD_TABLE);
 		db.execSQL(CREATE_USER_MEAL_ENTRY_TABLE);
 		Log.i("EXECSQL", CREATE_USER_MEAL_ENTRY_TABLE);
 		db.execSQL(CREATE_PEDOMETER_TABLE);
 		Log.i("EXECSQL", CREATE_PEDOMETER_TABLE);
-	}
+		}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-	{
+		{
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_FOOD);
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_USER_MEAL_ENTRY);
 		db.execSQL("DROP TABLE IF EXISTS" + TABLE_PEDOMETER);
-	}
+		}
 
 	public void addFood(Food food)
-	{
+		{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -130,30 +133,34 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		db.insert(TABLE_FOOD, null, values);
 		db.close();
-	}
+		}
 
 	public Food getFood(String title)
-	{
+		{
 		SQLiteDatabase db = getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_FOOD, new String[] { KEY_TITLE,
-				KEY_MEASUREMENT_UNIT, KEY_CALORIE, KEY_TYPE },
-				KEY_TITLE + "=?", new String[] { String.valueOf(title) }, null,
+		Cursor cursor = db.query(TABLE_FOOD, new String[] {
+						KEY_TITLE,
+						KEY_MEASUREMENT_UNIT,
+						KEY_CALORIE,
+						KEY_TYPE },
+				KEY_TITLE + "=?", new String[] {
+					String.valueOf(title) }, null,
 				null, null, null);
 
 		if (cursor != null)
-		{
+			{
 			cursor.moveToFirst();
-		}
+			}
 
 		Food food = new Food(cursor.getString(0), cursor.getString(1),
 				Double.parseDouble(cursor.getString(2)), cursor.getString(3));
 
 		return food;
-	}
+		}
 
 	public List<Food> getAllFood()
-	{
+		{
 		List<Food> foodList = new ArrayList<Food>();
 		String selectQuery = "SELECT * FROM " + TABLE_FOOD;
 
@@ -161,23 +168,22 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		if (cursor.moveToFirst())
-		{
-			do
 			{
+			do
+				{
 				Food food = new Food(cursor.getString(0), cursor.getString(1),
 						Double.parseDouble(cursor.getString(2)),
 						cursor.getString(3));
 
 				foodList.add(food);
+				} while (cursor.moveToNext());
 			}
-			while (cursor.moveToNext());
-		}
 
 		return foodList;
-	}
+		}
 
 	public void addMealEntry(MealEntry mealEntry)
-	{
+		{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -193,25 +199,25 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		ArrayList<Food> foodList = mealEntry.getFoodList();
 		for (int i = 0; i < foodList.size(); i++)
-		{
-			if (i == foodList.size() - 1)
 			{
+			if (i == foodList.size() - 1)
+				{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle();
 				numOfEachFoodStr = numOfEachFoodStr
 						+ foodList.get(i).getNumOfEntry();
-			}
+				}
 			else
-			{
+				{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle() + ",";
 				numOfEachFoodStr = numOfEachFoodStr
 						+ foodList.get(i).getNumOfEntry() + ",";
-			}
+				}
 
 			Log.i("(DB) Food in current Meal Entry (FoodList): ",
 					foodList.get(i).getTitle());
 			Log.i("(DB) Number of each food in Meal Entry: ", foodList.get(i)
 					.getNumOfEntry() + "");
-		}
+			}
 		values.put(KEY_SELECTED_FOOD, foodTitleStr);
 		values.put(KEY_NUM_EACH_FOOD, numOfEachFoodStr);
 
@@ -222,39 +228,44 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		db.insert(TABLE_USER_MEAL_ENTRY, null, values);
 		db.close();
-	}
+		}
 
 	// Get specific Meal Entry
 	public MealEntry getMealEntry(String mealType, String dateStr)
-	{
+		{
 		SQLiteDatabase db = getReadableDatabase();
 
 		Cursor cursor = db
-				.query(TABLE_USER_MEAL_ENTRY, new String[] { KEY_MEAL_TYPE,
-						KEY_MEAL_ENTRY_DATE, KEY_TOTAL_CALORIE,
-						KEY_SELECTED_FOOD, KEY_NUM_EACH_FOOD }, KEY_MEAL_TYPE
+				.query(TABLE_USER_MEAL_ENTRY, new String[] {
+								KEY_MEAL_TYPE,
+								KEY_MEAL_ENTRY_DATE,
+								KEY_TOTAL_CALORIE,
+								KEY_SELECTED_FOOD,
+								KEY_NUM_EACH_FOOD }, KEY_MEAL_TYPE
 						+ "=? AND " + KEY_MEAL_ENTRY_DATE + "=?", new String[] {
-						String.valueOf(mealType), String.valueOf(dateStr) },
+								String.valueOf(mealType),
+								String.valueOf(dateStr) },
 						null, null, null, null);
 
 		MealEntry mealEntry = null;
 
 		if (cursor != null)
-		{
+			{
 			cursor.moveToFirst();
-		}
+			}
 
 		// if mealEntry is found
 		if (cursor.getCount() > 0)
-		{
-			/* Log.i("CURSOR MOVE TO FIRST: ", cursor.moveToFirst() + "");
-			 * Log.i("CURSOR GET COUNT: ", cursor.getCount() + "");
-			 * Log.i("CURSOR GET COLUMN COUNT: ", cursor.getColumnCount() + ""); */
-			/* Log.i("CURSOR: ", cursor.toString()); Log.i("CURSOR C(1): ",
-			 * cursor.getString(0)); Log.i("CURSOR C(2): ",
-			 * cursor.getString(1)); Log.i("CURSOR C(3): ",
-			 * cursor.getString(2)); Log.i("CURSOR C(4): ",
-			 * cursor.getString(3)); */
+			{
+			/*
+			 * Log.i("CURSOR MOVE TO FIRST: ", cursor.moveToFirst() + ""); Log.i("CURSOR GET COUNT: ",
+			 * cursor.getCount() + ""); Log.i("CURSOR GET COLUMN COUNT: ", cursor.getColumnCount() + "");
+			 */
+			/*
+			 * Log.i("CURSOR: ", cursor.toString()); Log.i("CURSOR C(1): ", cursor.getString(0));
+			 * Log.i("CURSOR C(2): ", cursor.getString(1)); Log.i("CURSOR C(3): ", cursor.getString(2));
+			 * Log.i("CURSOR C(4): ", cursor.getString(3));
+			 */
 			mealEntry = new MealEntry();
 			mealEntry.setMealType(cursor.getString(0));
 			mealEntry.setDateStr(cursor.getString(1));
@@ -278,43 +289,43 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			ArrayList<Food> foodList = new ArrayList<Food>();
 
 			for (int i = 0; i < foodTitleSplitStr.size(); i++)
-			{
-				for (int count = 0; count < dbFoodList.size(); count++)
 				{
+				for (int count = 0; count < dbFoodList.size(); count++)
+					{
 					if (dbFoodList.get(count).getTitle()
 							.equals(foodTitleSplitStr.get(i)))
-					{
+						{
 						foodList.add(dbFoodList.get(count));
 						break;
+						}
 					}
 				}
-			}
 
 			for (int i = 0; i < foodList.size(); i++)
-			{
+				{
 				foodList.get(i).setNumOfEntry(
 						Integer.parseInt(numOfEachFoodSplitStr.get(i)));
-			}
+				}
 
 			mealEntry.setFoodList(foodList);
 
 			for (int i = 0; i < mealEntry.getFoodList().size(); i++)
-			{
+				{
 				Log.i("Foods of matched Meal Entry: ", mealEntry.getFoodList()
 						.get(i).getTitle());
+				}
 			}
-		}
 		else
-		{
+			{
 			Log.i("ERROR: ", "NO MEAL ENTRY IS FOUND");
-		}
+			}
 
 		return mealEntry;
-	}
+		}
 
 	// Get all Meal Entry
 	public List<MealEntry> getAllMealEntry()
-	{
+		{
 		List<MealEntry> mealEntryList = new ArrayList<MealEntry>();
 		String selectQuery = "SELECT * FROM " + TABLE_USER_MEAL_ENTRY;
 
@@ -322,9 +333,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		Cursor cursor = db.rawQuery(selectQuery, null);
 
 		if (cursor.moveToFirst())
-		{
-			do
 			{
+			do
+				{
 				MealEntry mealEntry = new MealEntry();
 				mealEntry.setMealType(cursor.getString(0));
 				mealEntry.setDateStr(cursor.getString(1));
@@ -344,51 +355,54 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				ArrayList<Food> foodList = new ArrayList<Food>();
 
 				for (int i = 0; i < foodTitleSplitStr.size(); i++)
-				{
-					for (int count = 0; count < dbFoodList.size(); count++)
 					{
+					for (int count = 0; count < dbFoodList.size(); count++)
+						{
 						if (dbFoodList.get(count).getTitle()
 								.equals(foodTitleSplitStr.get(i)))
-						{
+							{
 							foodList.add(dbFoodList.get(count));
 							break;
+							}
 						}
 					}
-				}
 
 				for (int i = 0; i < foodList.size(); i++)
-				{
+					{
 					foodList.get(i).setNumOfEntry(
 							Integer.parseInt(numOfEachFoodSplitStr.get(i)));
-				}
+					}
 
 				mealEntry.setFoodList(foodList);
 
 				mealEntryList.add(mealEntry);
+				} while (cursor.moveToNext());
 			}
-			while (cursor.moveToNext());
-		}
 
 		return mealEntryList;
-	}
+		}
 
 	// Get all Meal Entries of the day
 	public List<MealEntry> getTodayMealEntry(String dateStr)
-	{
+		{
 		List<MealEntry> mealEntryList = new ArrayList<MealEntry>();
 
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		Cursor cursor = db.query(TABLE_USER_MEAL_ENTRY, new String[] {
-				KEY_MEAL_TYPE, KEY_MEAL_ENTRY_DATE, KEY_TOTAL_CALORIE,
-				KEY_SELECTED_FOOD, KEY_NUM_EACH_FOOD }, KEY_MEAL_ENTRY_DATE
-				+ "=?", new String[] { String.valueOf(dateStr) }, null, null,
+						KEY_MEAL_TYPE,
+						KEY_MEAL_ENTRY_DATE,
+						KEY_TOTAL_CALORIE,
+						KEY_SELECTED_FOOD,
+						KEY_NUM_EACH_FOOD }, KEY_MEAL_ENTRY_DATE
+				+ "=?", new String[] {
+				String.valueOf(dateStr) }, null, null,
 				null, null);
 
 		if (cursor.moveToFirst())
-		{
-			do
 			{
+			do
+				{
 				MealEntry mealEntry = new MealEntry();
 				mealEntry.setMealType(cursor.getString(0));
 				mealEntry.setDateStr(cursor.getString(1));
@@ -413,39 +427,38 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 				// Search matched Food & store
 				for (int i = 0; i < foodTitleSplitStr.size(); i++)
-				{
-					for (int count = 0; count < dbFoodList.size(); count++)
 					{
+					for (int count = 0; count < dbFoodList.size(); count++)
+						{
 						if (dbFoodList.get(count).getTitle()
 								.equals(foodTitleSplitStr.get(i)))
-						{
+							{
 							foodList.add(dbFoodList.get(count));
 							break;
+							}
 						}
 					}
-				}
 				Log.i("(DB)MEAL TYPE: ", mealEntry.getMealType());
 				Log.i("(DB)FOOD LIST SIZE: ", foodList.size() + "");
 				Log.i("(DB)NUM_OF_EACH_FOOD_SPLIT_STR: ", numOfEachFoodSplitStr
 						+ "");
 				for (int i = 0; i < foodList.size(); i++)
-				{
+					{
 					foodList.get(i).setNumOfEntry(
 							Integer.parseInt(numOfEachFoodSplitStr.get(i)));
-				}
+					}
 
 				mealEntry.setFoodList(foodList);
 
 				mealEntryList.add(mealEntry);
+				} while (cursor.moveToNext());
 			}
-			while (cursor.moveToNext());
-		}
 		return mealEntryList;
 
-	}
+		}
 
 	public void updateMealEntry(MealEntry mealEntry)
-	{
+		{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -458,22 +471,22 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		ArrayList<Food> foodList = mealEntry.getFoodList();
 		for (int i = 0; i < foodList.size(); i++)
-		{
-			if (i == foodList.size() - 1)
 			{
+			if (i == foodList.size() - 1)
+				{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle();
 				numOfEachFoodStr = numOfEachFoodStr
 						+ foodList.get(i).getNumOfEntry();
-			}
+				}
 			else
-			{
+				{
 				foodTitleStr = foodTitleStr + foodList.get(i).getTitle() + ",";
 				numOfEachFoodStr = numOfEachFoodStr
 						+ foodList.get(i).getNumOfEntry() + ",";
-			}
+				}
 
 			Log.i("DB (Meal Entry Food): ", foodList.get(i).getTitle());
-		}
+			}
 
 		values.put(KEY_SELECTED_FOOD, foodTitleStr);
 		values.put(KEY_NUM_EACH_FOOD, numOfEachFoodStr);
@@ -482,16 +495,17 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				TABLE_USER_MEAL_ENTRY,
 				values,
 				KEY_MEAL_TYPE + "=? AND " + KEY_MEAL_ENTRY_DATE + "=?",
-				new String[] { String.valueOf(mealEntry.getMealType()),
-						String.valueOf(mealEntry.getDateStr()) });
+				new String[] {
+								String.valueOf(mealEntry.getMealType()),
+								String.valueOf(mealEntry.getDateStr()) });
 
 		db.close();
 		Log.i("UPDATE MEAL ENTRY: ", "UPDATE SUCCESS");
-	}
+		}
 
 	public void removeFoodFromMealEntry(MealEntry mealEntry,
 			ArrayList<Food> tempFoodList)
-	{
+		{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -501,46 +515,46 @@ public class DatabaseHandler extends SQLiteOpenHelper
 		ArrayList<Food> mealEntryFoodList = mealEntry.getFoodList();
 
 		for (int i = 0; i < tempFoodList.size(); i++)
-		{
-			for (int count = 0; count < mealEntryFoodList.size(); count++)
 			{
-				if (mealEntryFoodList.get(count).equals(tempFoodList.get(i)))
+			for (int count = 0; count < mealEntryFoodList.size(); count++)
 				{
+				if (mealEntryFoodList.get(count).equals(tempFoodList.get(i)))
+					{
 					mealEntry.getFoodList().remove(count);
 					break;
+					}
 				}
 			}
-		}
 		double totalCalorie = 0.0;
 
 		for (int i = 0; i < mealEntryFoodList.size(); i++)
-		{
+			{
 			totalCalorie += mealEntryFoodList.get(i).getCalorie();
-		}
+			}
 		values.put(KEY_TOTAL_CALORIE, totalCalorie);
 
 		String foodTitleStr = "";
 		String numOfEachFoodStr = "";
 
 		for (int i = 0; i < mealEntryFoodList.size(); i++)
-		{
-			if (i == mealEntryFoodList.size() - 1)
 			{
+			if (i == mealEntryFoodList.size() - 1)
+				{
 				foodTitleStr = foodTitleStr
 						+ mealEntryFoodList.get(i).getTitle();
 				numOfEachFoodStr = numOfEachFoodStr
 						+ mealEntryFoodList.get(i).getNumOfEntry();
-			}
+				}
 			else
-			{
+				{
 				foodTitleStr = foodTitleStr
 						+ mealEntryFoodList.get(i).getTitle() + ",";
 				numOfEachFoodStr = numOfEachFoodStr
 						+ mealEntryFoodList.get(i).getNumOfEntry() + ",";
-			}
+				}
 
 			Log.i("DB (Meal Entry Food): ", mealEntryFoodList.get(i).getTitle());
-		}
+			}
 
 		values.put(KEY_SELECTED_FOOD, foodTitleStr);
 		values.put(KEY_NUM_EACH_FOOD, numOfEachFoodStr);
@@ -549,15 +563,16 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				TABLE_USER_MEAL_ENTRY,
 				values,
 				KEY_MEAL_TYPE + "=? AND " + KEY_MEAL_ENTRY_DATE + "=?",
-				new String[] { String.valueOf(mealEntry.getMealType()),
-						String.valueOf(mealEntry.getDateStr()) });
+				new String[] {
+								String.valueOf(mealEntry.getMealType()),
+								String.valueOf(mealEntry.getDateStr()) });
 
 		db.close();
 		Log.i("REMOVE FOOD(MEAL ENTRY): ", "REMOVE SUCCESS");
-	}
-	
+		}
+
 	public void addPedometerState(Pedometer pedo)
-	{
+		{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -568,37 +583,40 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 		db.insert(TABLE_PEDOMETER, null, values);
 		db.close();
-	}
-	
+		}
+
 	public Pedometer getPedometerState(String dateStr)
-	{
+		{
 		SQLiteDatabase db = getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_PEDOMETER, new String[] { KEY_PEDOMETER_DATE,
-				KEY_PEDOMETER_STEP, KEY_PEDOMETER_DISTANCE },
-				KEY_PEDOMETER_DATE + "=?", new String[] { String.valueOf(dateStr) }, null,
+		Cursor cursor = db.query(TABLE_PEDOMETER, new String[] {
+						KEY_PEDOMETER_DATE,
+						KEY_PEDOMETER_STEP,
+						KEY_PEDOMETER_DISTANCE },
+				KEY_PEDOMETER_DATE + "=?", new String[] {
+					String.valueOf(dateStr) }, null,
 				null, null, null);
 
 		if (cursor != null)
-		{
+			{
 			cursor.moveToFirst();
-		}
-		
+			}
+
 		Pedometer pedo = null;
 
 		if (cursor.getCount() > 0)
-		{
+			{
 			pedo = new Pedometer(cursor.getString(0), cursor.getInt(1),
 					cursor.getInt(2));
-		}
+			}
 		else
 			Log.i("(DB)PEDOMETER", "NOT FOUND");
 
 		return pedo;
-	}
-	
+		}
+
 	public void updatePedometerState(Pedometer pedo)
-	{
+		{
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -610,9 +628,39 @@ public class DatabaseHandler extends SQLiteOpenHelper
 				TABLE_PEDOMETER,
 				values,
 				KEY_PEDOMETER_DATE + "=?",
-				new String[] { String.valueOf(pedo.getDateStr()) });
+				new String[] {
+					String.valueOf(pedo.getDateStr()) });
 
 		db.close();
 		Log.i("UPDATE PEDOMETER STATE: ", "UPDATE SUCCESS");
-	}
+		}
+
+	public void getMealEntryOn(int day_of_week)
+		{
+
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM dd yyyy");
+		int weekNum = cal.get(Calendar.WEEK_OF_YEAR);
+
+		switch (day_of_week)
+			{
+			case Calendar.SUNDAY:
+				
+
+				cal.get(Calendar.WEEK_OF_YEAR);
+				cal.set(Calendar.WEEK_OF_YEAR, 23);
+				cal.set(Calendar.DAY_OF_WEEK, day_of_week);
+				System.out.println(sdf.format(cal.getTime()));
+
+			case Calendar.MONDAY:
+			case Calendar.TUESDAY:
+			case Calendar.WEDNESDAY:
+			case Calendar.THURSDAY:
+			case Calendar.FRIDAY:
+			case Calendar.SATURDAY:
+
+			}
+
+		}
+
 }
