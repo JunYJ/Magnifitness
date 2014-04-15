@@ -14,8 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.ToggleButton;
 
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
@@ -35,7 +33,6 @@ public class ViewHistoryEntryFragment extends Fragment
 	GraphViewSeries				calorieValueSeries, pedoValueSeries;
 	LineGraphView				graphView;
 	List<MealEntry>				mealListData;
-	ToggleButton				calorieBtn, pedoBtn;
 	ArrayList<GraphViewData>	calorieData;
 	DatabaseHandler				db;
 	SharedPreferences			userSP;
@@ -68,9 +65,6 @@ public class ViewHistoryEntryFragment extends Fragment
 
 		db = new DatabaseHandler(getActivity());
 
-		calorieBtn = (ToggleButton) rootView.findViewById(R.id.calorie_toggle_btn);
-		pedoBtn = (ToggleButton) rootView.findViewById(R.id.pedometer_toggle_btn);
-		
 		Calendar c = Calendar.getInstance();
 		DateFormatSymbols dfs = new DateFormatSymbols();
 		String[] months = dfs.getMonths();
@@ -178,19 +172,14 @@ public class ViewHistoryEntryFragment extends Fragment
 		calorieValueSeries.getStyle().thickness = 5;
 		pedoValueSeries.getStyle().color = Color.BLUE;
 		pedoValueSeries.getStyle().thickness = 5;
-		
-		if(calorieBtn.isChecked() == true)
-			graphView.addSeries(calorieValueSeries);
-		
-		if(pedoBtn.isChecked() == true)
-			graphView.addSeries(pedoValueSeries);
+		graphView.addSeries(calorieValueSeries);
+		graphView.addSeries(pedoValueSeries);
 
 		//graphView.setViewPort(2, 10);
 		graphView.setScalable(true);
 
 		LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.graph1);
 		layout.addView(graphView);
-		
 		// layout.invalidate();
 
 		return rootView;
@@ -284,22 +273,6 @@ public class ViewHistoryEntryFragment extends Fragment
 					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
 					new GraphViewData(SUN, DEFAULT_ZERO) });
 		}
-		
-		graphView.removeAllSeries();
-		calorieValueSeries.getStyle().color = Color.RED;
-		calorieValueSeries.getStyle().thickness = 5;
-		pedoValueSeries.getStyle().color = Color.BLUE;
-		pedoValueSeries.getStyle().thickness = 5;
-		
-		if(calorieBtn.isChecked() == true)
-			graphView.addSeries(calorieValueSeries);
-		else
-			graphView.removeSeries(calorieValueSeries);
-		
-		if(pedoBtn.isChecked() == true)
-			graphView.addSeries(pedoValueSeries);
-		else
-			graphView.removeSeries(pedoValueSeries);
 	}
 
 	private double getTodayCalorie()
