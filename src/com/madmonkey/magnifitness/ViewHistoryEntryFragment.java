@@ -147,11 +147,11 @@ public class ViewHistoryEntryFragment extends Fragment
 					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
 					new GraphViewData(SUN, DEFAULT_ZERO) });
 		}
-		else
+		else 
 		{
-			double step = pedo.getStep();
+			//double step = pedo.getStep();
 			pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
-					new GraphViewData(MON, 2700d), new GraphViewData(TUE, step),
+					new GraphViewData(MON, 2700d), new GraphViewData(TUE, DEFAULT_ZERO),
 					new GraphViewData(WED, DEFAULT_ZERO), new GraphViewData(THU, DEFAULT_ZERO),
 					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
 					new GraphViewData(SUN, DEFAULT_ZERO) });
@@ -277,9 +277,9 @@ public class ViewHistoryEntryFragment extends Fragment
 		}
 		else
 		{
-			double step = pedo.getStep();
+			//double step = pedo.getStep();
 			pedoValueSeries = new GraphViewSeries(new GraphViewData[] {
-					new GraphViewData(MON, 2700d), new GraphViewData(TUE, step),
+					new GraphViewData(MON, 2700d), new GraphViewData(TUE, DEFAULT_ZERO),
 					new GraphViewData(WED, DEFAULT_ZERO), new GraphViewData(THU, DEFAULT_ZERO),
 					new GraphViewData(FRI, DEFAULT_ZERO), new GraphViewData(SAT, DEFAULT_ZERO),
 					new GraphViewData(SUN, DEFAULT_ZERO) });
