@@ -188,8 +188,6 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				// load the food list of found Meal Entry for display
 				foodList = recordedMealEntry.getFoodList();
 				foodListView.setAdapter(new MealEntryAdapter(this, foodList));
-				//Log.i("TEST", foodList.get(0).getNumOfEntry() + "");
-				//Log.i("TEST", foodList.get(1).getNumOfEntry() + "");
 			}
 
 		}
@@ -240,9 +238,6 @@ public class MealEntryActivity extends Activity implements OnClickListener
 				//Update existing Meal Entry if it is found & new Food is added
 				else if (recordedMealEntry != null && newFoodAdded == true)
 				{
-					ArrayList<Food> testing2 = recordedMealEntry.getFoodList();
-					
-					Log.i("TEST4", testing2.size() + "");
 					
 					recordedMealEntry.setTotalCalorie(recordedMealEntry
 							.getTotalCalorie() + mealEntry.getTotalCalorie());

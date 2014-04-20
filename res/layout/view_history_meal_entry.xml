@@ -1,10 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-   android:layout_width="fill_parent"
-   android:layout_height="wrap_content"
-   android:padding="25dp"
-   android:id="@+id/graph1" >
-	
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="1" >
+-	
+-	    
+
+    <LinearLayout
+        android:id="@+id/graph1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.95"
+        android:orientation="vertical"
+        android:padding="25dp" >
+-	    
+    </LinearLayout>
+-	
+-	    
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:orientation="horizontal"
+        android:padding="25dp" >
+-	
+-	        
+
+        <ToggleButton
+            android:id="@+id/calorie_toggle_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOff="Calorie graph Off"
+            android:textOn="Calorie graph On" />
+-	
+-	        
+
+        <ToggleButton
+            android:id="@+id/pedometer_toggle_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOff="Step graph Off"
+            android:textOn="Step graph On" />
+-	    
+    </LinearLayout>
+-	
+-	
 
 </LinearLayout>

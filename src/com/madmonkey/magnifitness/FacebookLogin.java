@@ -404,6 +404,7 @@ public class FacebookLogin extends FragmentActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	//Get gmail
 	public String getEmail(Context context)
 	{
 		AccountManager accountManager = AccountManager.get(context);
@@ -419,6 +420,7 @@ public class FacebookLogin extends FragmentActivity
 		}
 	}
 
+	//Get Google account
 	private Account getAccount(AccountManager accountManager)
 	{
 		Account[] accounts = accountManager.getAccountsByType("com.google");

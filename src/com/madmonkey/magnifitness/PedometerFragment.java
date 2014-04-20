@@ -245,11 +245,11 @@ public class PedometerFragment extends Fragment
 																	.valueOf(seq);
 															if (sensString != null)
 															{
-																if(sensString.equalsIgnoreCase("Lowest"))
+																if(sensString.equalsIgnoreCase("Highest"))
 																{
 																	sensitivity = 50;
 																}
-																else if(sensString.equalsIgnoreCase("Low"))
+																else if(sensString.equalsIgnoreCase("High"))
 																{
 																	sensitivity = 80;
 																}
@@ -257,11 +257,11 @@ public class PedometerFragment extends Fragment
 																{
 																	sensitivity = 100;
 																}
-																else if(sensString.equalsIgnoreCase("High"))
+																else if(sensString.equalsIgnoreCase("Low"))
 																{
 																	sensitivity = 200;
 																}
-																else if(sensString.equalsIgnoreCase("Highest"))
+																else if(sensString.equalsIgnoreCase("Lowest"))
 																{
 																	sensitivity = 250;
 																}
@@ -479,28 +479,6 @@ public class PedometerFragment extends Fragment
 																	{
 																		currentStep = msg.arg1;
 																		
-																		/*tempStep = currentStep + lastRecordedStep;
-																		stepText.setText("Steps = "
-																				+ tempStep);
-																		tempDistance = currentStep * stepLength + lastRecordedDistance;
-																		distanceText.setText("Distance = "
-																				+ currentStep * stepLength);
-																		Log.i("STEP", lastRecordedStep + "");
-																		Log.i("DISTANCE", lastRecordedDistance + "");
-																		if (pedo != null)
-																		{
-																			pedo.setStep(tempStep);
-																			
-																			pedo.setDistance(tempDistance);
-																			
-																			Log.i("PEDOMETER",
-																					"update");
-																			db.updatePedometerState(pedo);
-																			Log.i("update STEP", lastRecordedStep + "");
-																			Log.i("update DISTANCE", lastRecordedDistance + "");
-																		}*/
-																		
-																		//currentStep = 1;
 																		stepLength = stepLengthPicker.getValue();
 																		tempStep = currentStep + lastRecordedStep;
 																		tempDistance = currentStep * stepLength + lastRecordedDistance;
