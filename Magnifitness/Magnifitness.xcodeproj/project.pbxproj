@@ -1,0 +1,478 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		16659F191970678100FC743F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16659F181970678100FC743F /* Foundation.framework */; };
+		16659F1B1970678100FC743F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16659F1A1970678100FC743F /* CoreGraphics.framework */; };
+		16659F1D1970678100FC743F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16659F1C1970678100FC743F /* UIKit.framework */; };
+		16659F231970678100FC743F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16659F211970678100FC743F /* InfoPlist.strings */; };
+		16659F251970678100FC743F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 16659F241970678100FC743F /* main.m */; };
+		16659F291970678100FC743F /* RWAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16659F281970678100FC743F /* RWAppDelegate.m */; };
+		16659F2C1970678100FC743F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16659F2A1970678100FC743F /* Main.storyboard */; };
+		16659F2F1970678100FC743F /* RWMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16659F2E1970678100FC743F /* RWMasterViewController.m */; };
+		16659F321970678100FC743F /* RWDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16659F311970678100FC743F /* RWDetailViewController.m */; };
+		16659F341970678100FC743F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16659F331970678100FC743F /* Images.xcassets */; };
+		16659F3B1970678100FC743F /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16659F3A1970678100FC743F /* XCTest.framework */; };
+		16659F3C1970678100FC743F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16659F181970678100FC743F /* Foundation.framework */; };
+		16659F3D1970678100FC743F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16659F1C1970678100FC743F /* UIKit.framework */; };
+		16659F451970678100FC743F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16659F431970678100FC743F /* InfoPlist.strings */; };
+		16659F471970678100FC743F /* MagnifitnessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 16659F461970678100FC743F /* MagnifitnessTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		16659F3E1970678100FC743F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16659F0D1970678100FC743F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16659F141970678100FC743F;
+			remoteInfo = Magnifitness;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		16659F151970678100FC743F /* Magnifitness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Magnifitness.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		16659F181970678100FC743F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		16659F1A1970678100FC743F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		16659F1C1970678100FC743F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		16659F201970678100FC743F /* Magnifitness-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Magnifitness-Info.plist"; sourceTree = "<group>"; };
+		16659F221970678100FC743F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		16659F241970678100FC743F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		16659F261970678100FC743F /* Magnifitness-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Magnifitness-Prefix.pch"; sourceTree = "<group>"; };
+		16659F271970678100FC743F /* RWAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RWAppDelegate.h; sourceTree = "<group>"; };
+		16659F281970678100FC743F /* RWAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RWAppDelegate.m; sourceTree = "<group>"; };
+		16659F2B1970678100FC743F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		16659F2D1970678100FC743F /* RWMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RWMasterViewController.h; sourceTree = "<group>"; };
+		16659F2E1970678100FC743F /* RWMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RWMasterViewController.m; sourceTree = "<group>"; };
+		16659F301970678100FC743F /* RWDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RWDetailViewController.h; sourceTree = "<group>"; };
+		16659F311970678100FC743F /* RWDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RWDetailViewController.m; sourceTree = "<group>"; };
+		16659F331970678100FC743F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		16659F391970678100FC743F /* MagnifitnessTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MagnifitnessTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		16659F3A1970678100FC743F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		16659F421970678100FC743F /* MagnifitnessTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MagnifitnessTests-Info.plist"; sourceTree = "<group>"; };
+		16659F441970678100FC743F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		16659F461970678100FC743F /* MagnifitnessTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MagnifitnessTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		16659F121970678100FC743F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16659F1B1970678100FC743F /* CoreGraphics.framework in Frameworks */,
+				16659F1D1970678100FC743F /* UIKit.framework in Frameworks */,
+				16659F191970678100FC743F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16659F361970678100FC743F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16659F3B1970678100FC743F /* XCTest.framework in Frameworks */,
+				16659F3D1970678100FC743F /* UIKit.framework in Frameworks */,
+				16659F3C1970678100FC743F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16659F0C1970678100FC743F = {
+			isa = PBXGroup;
+			children = (
+				16659F1E1970678100FC743F /* Magnifitness */,
+				16659F401970678100FC743F /* MagnifitnessTests */,
+				16659F171970678100FC743F /* Frameworks */,
+				16659F161970678100FC743F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		16659F161970678100FC743F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16659F151970678100FC743F /* Magnifitness.app */,
+				16659F391970678100FC743F /* MagnifitnessTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16659F171970678100FC743F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16659F181970678100FC743F /* Foundation.framework */,
+				16659F1A1970678100FC743F /* CoreGraphics.framework */,
+				16659F1C1970678100FC743F /* UIKit.framework */,
+				16659F3A1970678100FC743F /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		16659F1E1970678100FC743F /* Magnifitness */ = {
+			isa = PBXGroup;
+			children = (
+				16659F271970678100FC743F /* RWAppDelegate.h */,
+				16659F281970678100FC743F /* RWAppDelegate.m */,
+				16659F2A1970678100FC743F /* Main.storyboard */,
+				16659F2D1970678100FC743F /* RWMasterViewController.h */,
+				16659F2E1970678100FC743F /* RWMasterViewController.m */,
+				16659F301970678100FC743F /* RWDetailViewController.h */,
+				16659F311970678100FC743F /* RWDetailViewController.m */,
+				16659F331970678100FC743F /* Images.xcassets */,
+				16659F1F1970678100FC743F /* Supporting Files */,
+			);
+			path = Magnifitness;
+			sourceTree = "<group>";
+		};
+		16659F1F1970678100FC743F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				16659F201970678100FC743F /* Magnifitness-Info.plist */,
+				16659F211970678100FC743F /* InfoPlist.strings */,
+				16659F241970678100FC743F /* main.m */,
+				16659F261970678100FC743F /* Magnifitness-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		16659F401970678100FC743F /* MagnifitnessTests */ = {
+			isa = PBXGroup;
+			children = (
+				16659F461970678100FC743F /* MagnifitnessTests.m */,
+				16659F411970678100FC743F /* Supporting Files */,
+			);
+			path = MagnifitnessTests;
+			sourceTree = "<group>";
+		};
+		16659F411970678100FC743F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				16659F421970678100FC743F /* MagnifitnessTests-Info.plist */,
+				16659F431970678100FC743F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		16659F141970678100FC743F /* Magnifitness */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16659F4A1970678100FC743F /* Build configuration list for PBXNativeTarget "Magnifitness" */;
+			buildPhases = (
+				16659F111970678100FC743F /* Sources */,
+				16659F121970678100FC743F /* Frameworks */,
+				16659F131970678100FC743F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Magnifitness;
+			productName = Magnifitness;
+			productReference = 16659F151970678100FC743F /* Magnifitness.app */;
+			productType = "com.apple.product-type.application";
+		};
+		16659F381970678100FC743F /* MagnifitnessTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16659F4D1970678100FC743F /* Build configuration list for PBXNativeTarget "MagnifitnessTests" */;
+			buildPhases = (
+				16659F351970678100FC743F /* Sources */,
+				16659F361970678100FC743F /* Frameworks */,
+				16659F371970678100FC743F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				16659F3F1970678100FC743F /* PBXTargetDependency */,
+			);
+			name = MagnifitnessTests;
+			productName = MagnifitnessTests;
+			productReference = 16659F391970678100FC743F /* MagnifitnessTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		16659F0D1970678100FC743F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = RW;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Rowan;
+				TargetAttributes = {
+					16659F381970678100FC743F = {
+						TestTargetID = 16659F141970678100FC743F;
+					};
+				};
+			};
+			buildConfigurationList = 16659F101970678100FC743F /* Build configuration list for PBXProject "Magnifitness" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 16659F0C1970678100FC743F;
+			productRefGroup = 16659F161970678100FC743F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				16659F141970678100FC743F /* Magnifitness */,
+				16659F381970678100FC743F /* MagnifitnessTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		16659F131970678100FC743F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16659F341970678100FC743F /* Images.xcassets in Resources */,
+				16659F231970678100FC743F /* InfoPlist.strings in Resources */,
+				16659F2C1970678100FC743F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16659F371970678100FC743F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16659F451970678100FC743F /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16659F111970678100FC743F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16659F251970678100FC743F /* main.m in Sources */,
+				16659F2F1970678100FC743F /* RWMasterViewController.m in Sources */,
+				16659F321970678100FC743F /* RWDetailViewController.m in Sources */,
+				16659F291970678100FC743F /* RWAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16659F351970678100FC743F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16659F471970678100FC743F /* MagnifitnessTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		16659F3F1970678100FC743F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16659F141970678100FC743F /* Magnifitness */;
+			targetProxy = 16659F3E1970678100FC743F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		16659F211970678100FC743F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16659F221970678100FC743F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		16659F2A1970678100FC743F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16659F2B1970678100FC743F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		16659F431970678100FC743F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16659F441970678100FC743F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		16659F481970678100FC743F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		16659F491970678100FC743F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		16659F4B1970678100FC743F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Magnifitness/Magnifitness-Prefix.pch";
+				INFOPLIST_FILE = "Magnifitness/Magnifitness-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		16659F4C1970678100FC743F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Magnifitness/Magnifitness-Prefix.pch";
+				INFOPLIST_FILE = "Magnifitness/Magnifitness-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		16659F4E1970678100FC743F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Magnifitness.app/Magnifitness";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Magnifitness/Magnifitness-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MagnifitnessTests/MagnifitnessTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		16659F4F1970678100FC743F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Magnifitness.app/Magnifitness";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Magnifitness/Magnifitness-Prefix.pch";
+				INFOPLIST_FILE = "MagnifitnessTests/MagnifitnessTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16659F101970678100FC743F /* Build configuration list for PBXProject "Magnifitness" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16659F481970678100FC743F /* Debug */,
+				16659F491970678100FC743F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16659F4A1970678100FC743F /* Build configuration list for PBXNativeTarget "Magnifitness" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16659F4B1970678100FC743F /* Debug */,
+				16659F4C1970678100FC743F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		16659F4D1970678100FC743F /* Build configuration list for PBXNativeTarget "MagnifitnessTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16659F4E1970678100FC743F /* Debug */,
+				16659F4F1970678100FC743F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 16659F0D1970678100FC743F /* Project object */;
+}
